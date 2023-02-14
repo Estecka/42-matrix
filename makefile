@@ -5,9 +5,11 @@ HDRS = \
 SRCS = \
 
 LIBS = \
-	logutil/logutil.a \
 
 OBJS = ${SRCS:.cpp=.o}
+
+TEST = \
+	ex00/ex00.out \
 
 NAME = ft_matrix.a
 CXX = clang++
@@ -19,12 +21,12 @@ all: headers_test ${NAME} ${TEST}
 ${NAME}: ${LIBS} ${HDRS} ${OBJS}
 	ar rcs ${NAME} ${OBJS}
 
-${TEST}: ${NAME} main.o
-	${CXX} main.o ${NAME} ${LIBS} -o ${TEST} ${CPPFLAGS}
-
 ${OBJS} main.o: ${LIBS} ${HDRS}
 
 %.a: lib
+	make $(@F) -C $(@D)
+
+${TEST}: ${NAME}
 	make $(@F) -C $(@D)
 
 headers_test: ${HDRS:.hpp=.hpp.o}
