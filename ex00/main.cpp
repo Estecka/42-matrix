@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:44:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/14 22:26:12 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/14 23:38:37 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,26 @@
 #define N_MAX	4
 #define M_MAX	4
 
-static ft::TesterType	GetTest(const std::string& mode, const std::string& subcmd, int n, int m){
+static ft::TesterType	GetTest(const std::string& mode, int n, int m){
 	(void)m;
 	ft::TesterMap testmap;
-	ft::TestFactory<ft::VectorTestSuit, float, N_MAX>(testmap);
+	ft::TestFactory<ft::VectorTestSuit, float, N_MAX>::CreateTests(testmap);
 	return testmap[n];
 }
 
 extern int main(int argc, char** argv){
-
-	if (argc < 5){
+	if (argc < 3){
 		std::cerr << "Not enough arguments" << std::endl;
 		return EXIT_FAILURE;
 	}
 
 	std::string mode = argv[1];
-	std::string subcmd = argv[2];
-	int n = std::atoi(argv[3]);
+	int n = std::atoi(argv[2]);
 	int m = 0;
+	argc -= 3;
+	argv += 3;
 
-	ft::TesterType	tester = GetTest(mode, subcmd, n, m);
+	ft::TesterType	tester = GetTest(mode, n, m);
 
 	if (tester == NULL){
 		std::cerr << "Test not implemented" << std::endl;
@@ -51,7 +51,7 @@ extern int main(int argc, char** argv){
 	}
 	else try
 	{
-		tester(argc, argv);
+		return tester(argc, argv);
 	}
 	catch(std::exception& e)
 	{

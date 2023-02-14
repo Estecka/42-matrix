@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/13 18:54:31 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/14 23:38:32 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../Vector.hpp"
 
 #include <iostream>
+#include <cstdlib>
 
 
 namespace ft
@@ -40,9 +41,22 @@ namespace ft
 namespace ft
 {
 	template <class K, int N>
-	int	VectorTestSuit<K,N>::main(int, char**){
-		std::cout << "Test suit: " << N << std::endl;
-		return EXIT_SUCCESS;
+	int	VectorTestSuit<K,N>::main(int argc, char** argv){
+		if (argc < 3){
+			std::cerr << "Not enough arguments" << std::endl;
+			return EXIT_FAILURE;
+		}
+
+		std::string subcmd = argv[0];
+		if (subcmd == "add")
+			return Add(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
+		if (subcmd == "sub")
+			return Sub(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
+		if (subcmd == "sub")
+			return Scl(Vector::StrToVec(argv[1]), std::atoi(argv[2]));
+
+		std::cerr << "Unsupported command: " << subcmd << std::endl;
+		return EXIT_FAILURE;
 	}
 
 	template <class K, int N>
@@ -50,18 +64,36 @@ namespace ft
 		Vector r = a;
 		r.add(b);
 
+		std::cout << "  " << a << std::endl
+		          << "+ " << b << std::endl
+		          << "= " << r << std::endl
+		          ;
 		return EXIT_SUCCESS;
 	}
 
 
 	template <class K, int N>
-	int	VectorTestSuit<K,N>::Sub(const Vector&, const Vector&){
+	int	VectorTestSuit<K,N>::Sub(const Vector& a, const Vector& b){
+		Vector r = a;
+		r.sub(b);
+
+		std::cout << "  " << a << std::endl
+		          << "- " << b << std::endl
+		          << "= " << r << std::endl
+		          ;
 		return EXIT_SUCCESS;
 	}
 
 
 	template <class K, int N>
-	int	VectorTestSuit<K,N>::Scl(const Vector&, K){
+	int	VectorTestSuit<K,N>::Scl(const Vector& a, K b){
+		Vector r = a;
+		r.scl(b);
+
+		std::cout << "  " << a << std::endl
+		          << "* " << b << std::endl
+		          << "= " << r << std::endl
+		          ;
 		return EXIT_SUCCESS;
 	}
 }

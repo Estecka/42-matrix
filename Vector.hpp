@@ -6,11 +6,15 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/11 22:17:50 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/14 23:29:23 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include <sstream>
+#include <stdexcept>
+#include <cstring>
 
 namespace ft
 {
@@ -31,6 +35,15 @@ namespace ft
 		K&	operator[](int);
 		K 	operator[](int) const;
 
+		/**
+		 * Parse a vector formatted as "x,y,z,..."
+		 * @param str	The string to Parse
+		 * @param outEnd	Outputs the character following the parsed text
+		 * @throw	The string does not contain a valid vector.
+		 */
+		static Vector	StrToVec(const char* str, char** outend = NULL);
+		std::string	ToString() const;
+
 		// Ex 00
 		Vector&	operator+=(const Vector&);
 		Vector&	operator-=(const Vector&);
@@ -41,6 +54,8 @@ namespace ft
 	};
 }
 
+template<class K, int S>
+std::ostream&	operator<<(std::ostream&, const ft::Vector<K,S>&);
 
 /******************************************************************************/
 /* # Implementations                                                          */
@@ -49,9 +64,9 @@ namespace ft
 namespace ft 
 {
 	template <class K, int S>
-	Vector<K,S>::Vector(void) 
-	: array({0}) 
-	{}
+	Vector<K,S>::Vector(void) {
+		bzero(&this->array, sizeof(this->array));
+	}
 	template <class K, int S>
 	Vector<K,S>::Vector(const Vector& other) 
 	: Vector(other.array) 
@@ -74,6 +89,43 @@ namespace ft
 
 	template <class K, int S> K&	Vector<K,S>::operator[](int i)       { return this->array[i]; };
 	template <class K, int S> K 	Vector<K,S>::operator[](int i) const { return this->array[i]; };
+
+	template <class K, int S>
+	Vector<K,S>	Vector<K,S>::StrToVec(const char* str, char** outEnd){
+		Vector result;
+
+		for (int i=0; i<S; i++){
+			if (i){
+				if(*str==',')
+					str++;
+				else
+					throw std::invalid_argument("Argment vector is invalid");
+			}
+			result[i] = std::strtof(str, (char**)&str);
+		}
+
+		if (outEnd != NULL)
+			outEnd = (char**)str;
+		return result;
+	}
+	template <class K, int S>
+	std::string	Vector<K,S>::ToString() const {
+		std::stringstream cout;
+		cout << *this;
+		return cout.str();
+	}; 
+
+}
+
+
+template<class K, int S>
+std::ostream&	operator<<(std::ostream& cout, const ft::Vector<K,S>& vec){
+	for (int i=0; i<S; i++) {
+		if (i)
+			cout << ',';
+		cout << vec[i];
+	}
+	return cout;
 }
 
 
