@@ -26,7 +26,7 @@ ${OBJS} main.o: ${LIBS} ${HDRS}
 %.a: lib
 	make $(@F) -C $(@D)
 
-${TEST}: ${NAME}
+${TEST}: lib
 	make $(@F) -C $(@D)
 
 headers_test: ${HDRS:.hpp=.hpp.o}
