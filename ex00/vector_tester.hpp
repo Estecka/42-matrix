@@ -6,13 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/14 23:38:32 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/15 16:10:28 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "../Vector.hpp"
+#include "../Format.hpp"
 
 #include <iostream>
 #include <cstdlib>
@@ -52,8 +53,8 @@ namespace ft
 			return Add(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 		if (subcmd == "sub")
 			return Sub(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
-		if (subcmd == "sub")
-			return Scl(Vector::StrToVec(argv[1]), std::atoi(argv[2]));
+		if (subcmd == "scl")
+			return Scl(Vector::StrToVec(argv[1]), std::atof(argv[2]));
 
 		std::cerr << "Unsupported command: " << subcmd << std::endl;
 		return EXIT_FAILURE;
@@ -64,10 +65,7 @@ namespace ft
 		Vector r = a;
 		r.add(b);
 
-		std::cout << "  " << a << std::endl
-		          << "+ " << b << std::endl
-		          << "= " << r << std::endl
-		          ;
+		PrintVVV("+ ", a, b, r);
 		return EXIT_SUCCESS;
 	}
 
@@ -77,10 +75,7 @@ namespace ft
 		Vector r = a;
 		r.sub(b);
 
-		std::cout << "  " << a << std::endl
-		          << "- " << b << std::endl
-		          << "= " << r << std::endl
-		          ;
+		PrintVVV("- ", a, b, r);
 		return EXIT_SUCCESS;
 	}
 
@@ -90,10 +85,7 @@ namespace ft
 		Vector r = a;
 		r.scl(b);
 
-		std::cout << "  " << a << std::endl
-		          << "* " << b << std::endl
-		          << "= " << r << std::endl
-		          ;
+		PrintVKV("* ", a, b, r);
 		return EXIT_SUCCESS;
 	}
 }

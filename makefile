@@ -1,8 +1,10 @@
 HDRS = \
+	Format.hpp \
 	Matrix.hpp \
 	Vector.hpp \
 
 SRCS = \
+	Format.cpp \
 
 LIBS = \
 

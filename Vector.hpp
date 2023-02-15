@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/14 23:29:23 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/15 15:48:28 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ namespace ft
 
 		K&	operator[](int);
 		K 	operator[](int) const;
+
+		operator const array_type&() const;
 
 		/**
 		 * Parse a vector formatted as "x,y,z,..."
@@ -89,6 +91,11 @@ namespace ft
 
 	template <class K, int S> K&	Vector<K,S>::operator[](int i)       { return this->array[i]; };
 	template <class K, int S> K 	Vector<K,S>::operator[](int i) const { return this->array[i]; };
+
+	template <class K, int S>
+	Vector<K,S>::operator const array_type&() const {
+		return this->array;
+	}
 
 	template <class K, int S>
 	Vector<K,S>	Vector<K,S>::StrToVec(const char* str, char** outEnd){
