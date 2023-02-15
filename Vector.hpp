@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/15 15:48:28 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/15 18:10:27 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ namespace ft
 				if(*str==',')
 					str++;
 				else
-					throw std::invalid_argument("Argment vector is invalid");
+					throw std::invalid_argument("Argument vector is invalid");
 			}
 			result[i] = std::strtof(str, (char**)&str);
 		}

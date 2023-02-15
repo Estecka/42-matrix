@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/15 16:10:28 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/15 19:22:34 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "../Vector.hpp"
 #include "../Format.hpp"
 
-#include <iostream>
 #include <cstdlib>
 
 
