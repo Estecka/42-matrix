@@ -6,12 +6,13 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/15 18:10:27 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/16 16:03:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+#include <vector>
 #include <sstream>
 #include <stdexcept>
 #include <cstring>
@@ -53,11 +54,20 @@ namespace ft
 		Vector&	add(const Vector&);
 		Vector&	sub(const Vector&);
 		Vector&	scl(K);
+
+		// Ex 01
+		/**
+		 * If arrays are not of equal size, extraneous data is ignored.
+		 * This is equivalent to backfilling the shorter array with zero's.
+		 */
+		static Vector	linear_combination(const std::vector<Vector&>&, const std::vector<K&>&);
 	};
 }
 
 template<class K, int S>
 std::ostream&	operator<<(std::ostream&, const ft::Vector<K,S>&);
+
+
 
 /******************************************************************************/
 /* # Implementations                                                          */
@@ -164,4 +174,24 @@ namespace ft
 	template <class K, int S> Vector<K,S>&	Vector<K,S>::add(const Vector& other) { return *this += other; };
 	template <class K, int S> Vector<K,S>&	Vector<K,S>::sub(const Vector& other) { return *this -= other; };
 	template <class K, int S> Vector<K,S>&	Vector<K,S>::scl(K scalar) { return *this *= scalar; };
+}
+
+
+/******************************************************************************/
+/* ## Exercice 01                                                             */
+/******************************************************************************/
+
+namespace ft
+{
+	template <class K, int S> 
+	Vector<K,S>	Vector<K,S>::linear_combination(const std::vector<Vector&>& u, const std::vector<K&>& coefs){
+		Vector result;
+		int nmax = (u.size() < coefs.size()) ? u.size() : coefs.size();
+
+		for (int i=0; i<S;    i++)
+		for (int n=0; n<nmax; n++)
+			result[i] += u[n][i] * coefs[n];
+
+		return result;
+	};
 }
