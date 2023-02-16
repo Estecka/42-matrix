@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 16:09:00 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/16 18:14:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace ft
 		 * @param outEnd	Outputs the character following the parsed text
 		 * @throw	The string does not contain a valid vector.
 		 */
-		static Vector	StrToVec(const char* str, char** outend = NULL);
+		static Vector	StrToVec(const char* str, const char** outend = NULL);
 		std::string	ToString() const;
 
 		// Ex 00
@@ -60,7 +60,7 @@ namespace ft
 		 * If arrays are not of equal size, extraneous data is ignored.
 		 * This is equivalent to backfilling the shorter array with zero's.
 		 */
-		static Vector	linear_combination(const std::vector<const Vector&>&, const std::vector<K>&);
+		static Vector	linear_combination(const std::vector<Vector>&, const std::vector<K>&);
 	};
 }
 
@@ -91,11 +91,11 @@ namespace ft
 
 	template <class K, int S>
 	Vector<K,S>&	Vector<K,S>::operator=(const Vector& other) {
-		new (this) Vector(other.array);
+		return *new (this) Vector(other.array);
 	};
 	template <class K, int S>
 	Vector<K,S>&	Vector<K,S>::operator=(const array_type& other) {
-		new (this) Vector(other.array);
+		return *new (this) Vector(other.array);
 	};
 
 
@@ -108,7 +108,7 @@ namespace ft
 	}
 
 	template <class K, int S>
-	Vector<K,S>	Vector<K,S>::StrToVec(const char* str, char** outEnd){
+	Vector<K,S>	Vector<K,S>::StrToVec(const char* str, const char** outEnd){
 		Vector result;
 
 		for (int i=0; i<S; i++){
@@ -122,7 +122,7 @@ namespace ft
 		}
 
 		if (outEnd != NULL)
-			outEnd = (char**)str;
+			*outEnd = str;
 		return result;
 	}
 	template <class K, int S>
@@ -184,7 +184,7 @@ namespace ft
 namespace ft
 {
 	template <class K, int S> 
-	Vector<K,S>	Vector<K,S>::linear_combination(const std::vector<const Vector&>& u, const std::vector<K>& coefs){
+	Vector<K,S>	Vector<K,S>::linear_combination(const std::vector<Vector>& u, const std::vector<K>& coefs){
 		Vector result;
 		int nmax = (u.size() < coefs.size()) ? u.size() : coefs.size();
 

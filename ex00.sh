@@ -1,7 +1,6 @@
 #!/bin/bash
 
-make \
-&& echo -e "\n\n		# EX00" \
+   echo -e "\n\n		# EX00" \
 && echo -e "\n	## Vector Addition" \
 && echo && ./ft_matrix.out vec 2 add "1,2" "3,4" \
 && echo && ./ft_matrix.out vec 2 add "4.5,6e2" "-50.6,600e-1" \

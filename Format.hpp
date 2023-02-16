@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 17:20:47 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/16 18:31:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ namespace ft
 	template<class K, int W, int H>
 	extern void	PrintMKM(const std::string& op, const Matrix<K,W,H>& a, const K& b, const Matrix<K,W,H>& r);
 	template <class K, int S>
-	extern void	PrintFMA(const std::vector<const Vector<K,S>&>& a, const std::vector<K>& b, const Vector<K,S>& r);
+	extern void	PrintFMA(const std::vector<Vector<K,S>>& a, const std::vector<K>& b, const Vector<K,S>& r);
 }
 
 
@@ -195,23 +195,26 @@ namespace ft
 /******************************************************************************/
 
 	template <class K, int S>
-	extern void	PrintFMA(const std::vector<const Vector<K,S>&>& a, const std::vector<K>& b, const Vector<K,S>& r){
-		std::vector<std::string[S]>	stra;
+	extern void	PrintFMA(const std::vector<Vector<K,S>>& a, const std::vector<K>& b, const Vector<K,S>& r){
 		std::vector<std::string>	strb;
 		std::string	strr[S];
 		int lmax = 0;
 		int nmax = ft::min(a.size(), b.size());
 
-		lmax = ft::max(lmax, Preformat<K,S>(r));
+		lmax = ft::max(lmax, Preformat<K,S>(r, strr));
 		for (int n=0; n<nmax; n++){
-			lmax = ft::max(lmax, Preformat<K,S>(a[n], stra[n]));
+			std::string	stra[S];
+			strb.push_back("");
+			lmax = ft::max(lmax, Preformat<K,S>(a[n], stra));
 			lmax = ft::max(lmax, Preformat(b[n], strb[n]));
 		}
 
 		for (int n=0; n<nmax; n++){
-			std::cout << (n ? "+ " : "  "); PrintV(stra[n], lmax); 
-			std::cout << " * " << std::setw(lmax) << strb[n] << std::endl;
+			std::string	stra[S];
+			Preformat<K,S>(a[n], stra);
+			std::cout << (n ? "+ " : "  ") << LOG_BOLD_CLEAR; PrintV(stra, lmax); 
+			std::cout << LOG_CLEAR " * " LOG_BOLD_CLEAR << strb[n] << LOG_CLEAR << std::endl;
 		}
-		std::cout << "= "; PrintV(strr, lmax); std::cout << std::endl;
+		std::cout << "= " << LOG_BOLD_CYAN; PrintV(strr, lmax); std::cout << LOG_CLEAR << std::endl;
 	}
 }
