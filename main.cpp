@@ -6,17 +6,17 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:44:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/15 19:02:52 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/16 17:21:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Vector.hpp"
-#include "../Matrix.hpp"
-#include "../TestFactory.hpp"
+#include "Vector.hpp"
+#include "Matrix.hpp"
+#include "TestFactory.hpp"
 #include "vector_tester.hpp"
 #include "matrix_tester.hpp"
 
-#include "../logutil/logutil.hpp"
+#include "logutil/logutil.hpp"
 
 #include <iostream>
 #include <cstring>

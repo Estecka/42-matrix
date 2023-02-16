@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 16:23:05 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/16 17:20:47 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ namespace ft
 		}
 
 		for (int n=0; n<nmax; n++){
-			std::cout << (n) ? "+ " : "  "; PrintV(stra[n], lmax); 
+			std::cout << (n ? "+ " : "  "); PrintV(stra[n], lmax); 
 			std::cout << " * " << std::setw(lmax) << strb[n] << std::endl;
 		}
 		std::cout << "= "; PrintV(strr, lmax); std::cout << std::endl;

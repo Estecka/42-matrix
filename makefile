@@ -6,33 +6,46 @@ HDRS = \
 SRCS = \
 	Format.cpp \
 
+TEST_HDRS = \
+	TestFactory.hpp \
+	matrix_tester.hpp \
+	vector_tester.hpp \
+
+TEST_SRCS = \
+	main.cpp \
+
 LIBS = \
+	logutil/logutil.a \
 
-OBJS = ${SRCS:.cpp=.o}
-
-TEST = \
-	ex00/ex00.out \
+OBJS      = ${SRCS:.cpp=.o}
+TEST_OBJS = ${TEST_SRCS:.cpp=.o}
 
 NAME = ft_matrix.a
+TEST = ft_matrix.out
 CXX = clang++
 CPPFLAGS = -Wall -Wextra
 
 
 all: headers_test ${NAME} ${TEST}
 
+
 ${NAME}: ${LIBS} ${HDRS} ${OBJS}
 	ar rcs ${NAME} ${OBJS}
 
-${OBJS} main.o: ${LIBS} ${HDRS}
+${TEST}: ${NAME} ${TEST_OBJS}
+	${CXX} ${TEST_OBJS} ${NAME} ${LIBS} -o ${TEST} ${CPPFLAGS}
+
+
+${OBJS}: ${LIBS} ${HDRS}
+
+${TEST_OBJS}: ${LIBS} ${HDRS} ${TEST_HDRS}
 
 %.a: lib
 	make $(@F) -C $(@D)
 
-${TEST}: lib
-	make $(@F) -C $(@D)
 
-headers_test: ${HDRS:.hpp=.hpp.o}
-%.hpp.o: ${HDRS}
+headers_test: ${HDRS:.hpp=.hpp.o} ${TEST_HDRS:.hpp=.hpp.o}
+%.hpp.o: ${HDRS} ${TEST_HDRS}
 	${CXX} ${CPPFLAGS} ${@:.o=} -c -o $@
 %.hpp:
 

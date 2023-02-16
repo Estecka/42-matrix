@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_tester.hpp                                  :+:      :+:    :+:   */
+/*   vector_tester.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/15 19:22:21 by abaur            ###   ########.fr       */
+/*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
+/*   Updated: 2023/02/16 17:20:14 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include "../Matrix.hpp"
-#include "../Format.hpp"
+#include "Vector.hpp"
+#include "Format.hpp"
 
 #include <cstdlib>
 
 
 namespace ft
 {
-	template <class K, int N, int M>
-	class	MatrixTestSuit {
+	template <class K, int N>
+	class	VectorTestSuit {
 	public:
-		typedef Matrix<K,N,M>	Matrix;
+		typedef Vector<K,N>	Vector;
 
 		static int	main(int argc, char** argv);
 
-		static int	Add(const Matrix&, const Matrix&);
-		static int	Sub(const Matrix&, const Matrix&);
-		static int	Scl(const Matrix&, K);
+		static int	Add(const Vector&, const Vector&);
+		static int	Sub(const Vector&, const Vector&);
+		static int	Scl(const Vector&, K);
 	};
 }
 
@@ -40,8 +40,8 @@ namespace ft
 
 namespace ft
 {
-	template <class K, int N, int M>
-	int	MatrixTestSuit<K,N,M>::main(int argc, char** argv){
+	template <class K, int N>
+	int	VectorTestSuit<K,N>::main(int argc, char** argv){
 		if (argc < 3){
 			std::cerr << "Not enough arguments" << std::endl;
 			return EXIT_FAILURE;
@@ -49,42 +49,42 @@ namespace ft
 
 		std::string subcmd = argv[0];
 		if (subcmd == "add")
-			return Add(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
+			return Add(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 		if (subcmd == "sub")
-			return Sub(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
+			return Sub(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 		if (subcmd == "scl")
-			return Scl(Matrix::StrToMx(argv[1]), std::atof(argv[2]));
+			return Scl(Vector::StrToVec(argv[1]), std::atof(argv[2]));
 
 		std::cerr << "Unsupported command: " << subcmd << std::endl;
 		return EXIT_FAILURE;
 	}
 
-	template <class K, int N, int M>
-	int	MatrixTestSuit<K,N,M>::Add(const Matrix& a, const Matrix& b){
-		Matrix r = a;
+	template <class K, int N>
+	int	VectorTestSuit<K,N>::Add(const Vector& a, const Vector& b){
+		Vector r = a;
 		r.add(b);
 
-		PrintMMM(" + ", a, b, r);
+		PrintVVV("+ ", a, b, r);
 		return EXIT_SUCCESS;
 	}
 
 
-	template <class K, int N, int M>
-	int	MatrixTestSuit<K,N,M>::Sub(const Matrix& a, const Matrix& b){
-		Matrix r = a;
+	template <class K, int N>
+	int	VectorTestSuit<K,N>::Sub(const Vector& a, const Vector& b){
+		Vector r = a;
 		r.sub(b);
 
-		PrintMMM(" - ", a, b, r);
+		PrintVVV("- ", a, b, r);
 		return EXIT_SUCCESS;
 	}
 
 
-	template <class K, int N, int M>
-	int	MatrixTestSuit<K,N,M>::Scl(const Matrix& a, K b){
-		Matrix r = a;
+	template <class K, int N>
+	int	VectorTestSuit<K,N>::Scl(const Vector& a, K b){
+		Vector r = a;
 		r.scl(b);
 
-		PrintMKM(" * ", a, b, r);
+		PrintVKV("* ", a, b, r);
 		return EXIT_SUCCESS;
 	}
 }
