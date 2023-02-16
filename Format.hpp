@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/15 19:19:53 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/16 16:23:05 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 namespace ft
 {
 	extern int	max(int a, int b);
+	extern int	min(int a, int b);
 
 	/**
 	 * Precomputes pretty formatting data for a Vector or Matrix
@@ -59,6 +60,8 @@ namespace ft
 	extern void	PrintMMM(const std::string& op, const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const Matrix<K,W,H>& r);
 	template<class K, int W, int H>
 	extern void	PrintMKM(const std::string& op, const Matrix<K,W,H>& a, const K& b, const Matrix<K,W,H>& r);
+	template <class K, int S>
+	extern void	PrintFMA(const std::vector<const Vector<K,S>&>& a, const std::vector<K>& b, const Vector<K,S>& r);
 }
 
 
@@ -80,7 +83,7 @@ namespace ft
 			cout.clear();
 			cout << array[x][y];
 			outFormat[x][y] = cout.str();
-			lmax = max(lmax, outFormat[x][y].size());
+			lmax = ft::max(lmax, outFormat[x][y].size());
 		}
 		return lmax;
 	}
@@ -112,15 +115,20 @@ namespace ft
 		std::cout << " ]";
 	}
 
+
+/******************************************************************************/
+/* ## Ex00                                                                    */
+/******************************************************************************/
+
 	template <class K, int S>
 	extern void	PrintVVV(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const Vector<K,S>& r){
 		std::string stra[S], strb[S], strr[S];
 		int lmax = 0;
 		int oplen = op.size();
 
-		lmax = max(lmax, Preformat<K,S>(a, stra));
-		lmax = max(lmax, Preformat<K,S>(b, strb));
-		lmax = max(lmax, Preformat<K,S>(r, strr));
+		lmax = ft::max(lmax, Preformat<K,S>(a, stra));
+		lmax = ft::max(lmax, Preformat<K,S>(b, strb));
+		lmax = ft::max(lmax, Preformat<K,S>(r, strr));
 
 		std::cout << std::setw(oplen) <<  " " << LOG_BOLD_CLEAR; PrintV(stra, lmax); std::cout << LOG_CLEAR << std::endl;
 		std::cout << std::setw(oplen) <<   op << LOG_BOLD_CLEAR; PrintV(strb, lmax); std::cout << LOG_CLEAR << std::endl;
@@ -132,9 +140,9 @@ namespace ft
 		std::string stra[S], strb, strr[S];
 		int lmax = 0;
 
-		lmax = max(lmax, Preformat<K,S>(a, stra));
-		lmax = max(lmax, Preformat(b, strb));
-		lmax = max(lmax, Preformat<K,S>(r, strr));
+		lmax = ft::max(lmax, Preformat<K,S>(a, stra));
+		lmax = ft::max(lmax, Preformat(b, strb));
+		lmax = ft::max(lmax, Preformat<K,S>(r, strr));
 
 		std::cout << "  " << LOG_BOLD_CLEAR; PrintV(stra, lmax); 
 		std::cout << ' ' << op << LOG_BOLD_CLEAR << strb << LOG_CLEAR << std::endl;
@@ -147,9 +155,9 @@ namespace ft
 		int lmax = 0;
 		int oplen = op.size();
 
-		lmax = max(lmax, Preformat<K,W,H>(a, stra));
-		lmax = max(lmax, Preformat<K,W,H>(b, strb));
-		lmax = max(lmax, Preformat<K,W,H>(r, strr));
+		lmax = ft::max(lmax, Preformat<K,W,H>(a, stra));
+		lmax = ft::max(lmax, Preformat<K,W,H>(b, strb));
+		lmax = ft::max(lmax, Preformat<K,W,H>(r, strr));
 
 		for (int x=0; x<W; x++) {
 			std::cout << LOG_BOLD_CLEAR; PrintV(stra[x], lmax);
@@ -167,9 +175,9 @@ namespace ft
 		int lmax = 0;
 		int oplen = op.size();
 
-		lmax = max(lmax, Preformat<K,W,H>(a, stra));
-		lmax = max(lmax, Preformat(b, strb));
-		lmax = max(lmax, Preformat<K,W,H>(r, strr));
+		lmax = ft::max(lmax, Preformat<K,W,H>(a, stra));
+		lmax = ft::max(lmax, Preformat(b, strb));
+		lmax = ft::max(lmax, Preformat<K,W,H>(r, strr));
 
 		for (int x=0; x<W; x++) {
 			std::cout << LOG_CLEAR << std::setw(lmax)  << ((x==W/2) ?  strb : "");
@@ -179,5 +187,31 @@ namespace ft
 			std::cout << LOG_BOLD_CYAN;  PrintV(strr[x], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
+	}
+
+
+/******************************************************************************/
+/* ## Ex01                                                                    */
+/******************************************************************************/
+
+	template <class K, int S>
+	extern void	PrintFMA(const std::vector<const Vector<K,S>&>& a, const std::vector<K>& b, const Vector<K,S>& r){
+		std::vector<std::string[S]>	stra;
+		std::vector<std::string>	strb;
+		std::string	strr[S];
+		int lmax = 0;
+		int nmax = ft::min(a.size(), b.size());
+
+		lmax = ft::max(lmax, Preformat<K,S>(r));
+		for (int n=0; n<nmax; n++){
+			lmax = ft::max(lmax, Preformat<K,S>(a[n], stra[n]));
+			lmax = ft::max(lmax, Preformat(b[n], strb[n]));
+		}
+
+		for (int n=0; n<nmax; n++){
+			std::cout << (n) ? "+ " : "  "; PrintV(stra[n], lmax); 
+			std::cout << " * " << std::setw(lmax) << strb[n] << std::endl;
+		}
+		std::cout << "= "; PrintV(strr, lmax); std::cout << std::endl;
 	}
 }

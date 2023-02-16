@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 16:03:17 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/16 16:09:00 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ namespace ft
 		 * If arrays are not of equal size, extraneous data is ignored.
 		 * This is equivalent to backfilling the shorter array with zero's.
 		 */
-		static Vector	linear_combination(const std::vector<Vector&>&, const std::vector<K&>&);
+		static Vector	linear_combination(const std::vector<const Vector&>&, const std::vector<K>&);
 	};
 }
 
@@ -184,7 +184,7 @@ namespace ft
 namespace ft
 {
 	template <class K, int S> 
-	Vector<K,S>	Vector<K,S>::linear_combination(const std::vector<Vector&>& u, const std::vector<K&>& coefs){
+	Vector<K,S>	Vector<K,S>::linear_combination(const std::vector<const Vector&>& u, const std::vector<K>& coefs){
 		Vector result;
 		int nmax = (u.size() < coefs.size()) ? u.size() : coefs.size();
 
