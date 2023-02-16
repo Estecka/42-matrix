@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:44:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 17:21:12 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/16 18:48:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,30 @@ static ft::TesterType	GetTest(std::string mode, const char* dimensions){
 	return NULL;
 }
 
+static int	UnionTest(){
+
+	size_t v  = sizeof(ft::Vector<float,3>);
+	size_t va  = sizeof(float[3]);
+	size_t m   = sizeof(ft::Matrix<float,3,4>);
+	size_t ma  = sizeof(ft::Vector<float,3>[4]);
+	size_t mva = sizeof(float[3][4]);
+
+	std::cout << "Vector<float,3>: "  << v << std::endl;
+	std::cout << "float[3]:        "  << va << std::endl;
+	std::cout << "Matrix<float,3,4>:  " << m << std::endl;
+	std::cout << "Vector<float,3>[4]: " << mva << std::endl;
+	std::cout << "float[3][4]:        " << ma << std::endl;
+
+	bool ok = (v == va) && (m == ma) && (m == mva);
+	std::cout << (ok ? "Types are unionizable" : "Types are not unionizable") << std::endl;
+	return ok ? EXIT_SUCCESS : EXIT_FAILURE;
+}
+
 extern int main(int argc, char** argv){
+	if (argc <= 1){
+		return UnionTest();
+	}
+
 	if (argc < 3){
 		std::cerr << "Not enough arguments" << std::endl;
 		return EXIT_FAILURE;
