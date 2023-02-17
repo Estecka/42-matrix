@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/17 15:34:27 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/17 18:44:28 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ namespace ft
 	extern void	PrintMKM(const std::string& op, const Matrix<K,W,H>& a, const K& b, const Matrix<K,W,H>& r);
 	template <class K, int S>
 	extern void	PrintFMA(const std::vector<Vector<K,S>>& a, const std::vector<K>& b, const Vector<K,S>& r);
+	template <class K, int W, int H>
+	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r);
 	template <class K, int S>
 	extern void	PrintVVK(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const K& r);
 }
@@ -220,6 +222,33 @@ namespace ft
 		std::cout << "= " << LOG_BOLD_CYAN; PrintV(strr, lmax); std::cout << LOG_CLEAR << std::endl;
 	}
 
+/******************************************************************************/
+/* ## Ex02                                                                    */
+/******************************************************************************/
+
+	template <class K, int W, int H>
+	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r) {
+		std::string stra[W][H], strb[W][H], strr[W][H];
+		std::string strt;
+		int lmax = 0;
+
+		lmax = ft::max(lmax, Preformat<K,W,H>(a, stra));
+		lmax = ft::max(lmax, Preformat<K,W,H>(b, strb));
+		lmax = ft::max(lmax, Preformat<K,W,H>(r, strr));
+		lmax = ft::max(lmax, Preformat<K>(t, strt));
+
+		int tpad = lmax*H + 4 + 2*(H-1) - 2;
+
+		std::cout << std::setw(tpad) << 1-t << " *   " << std::setw(tpad) << t << " *" << std::endl;
+		for (int x=0; x<W; x++) {
+			std::cout << LOG_BOLD_CLEAR; PrintV(stra[x], lmax);
+			std::cout << LOG_CLEAR << ((x==W/2) ? " + " : "   ");
+			std::cout << LOG_BOLD_CLEAR; PrintV(strb[x], lmax);
+			std::cout << LOG_CLEAR << ((x==W/2) ? " = " : "   ");
+			std::cout << LOG_BOLD_CYAN;  PrintV(strr[x], lmax);
+			std::cout << LOG_CLEAR << std::endl;
+		}
+	}
 
 /******************************************************************************/
 /* ## Ex03                                                                    */

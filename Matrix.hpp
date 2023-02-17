@@ -6,11 +6,13 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/15 18:17:37 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/17 18:39:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include "lerp.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -22,6 +24,7 @@ namespace ft
 	struct Matrix
 	{
 		typedef K	array_type[WIDTH][HEIGHT];
+		typedef K	raw_type[WIDTH*HEIGHT];
 		typedef K	column_type[HEIGHT];
 
 		Matrix(void);
@@ -36,6 +39,9 @@ namespace ft
 		const column_type& 	operator[](int) const;
 
 		operator const array_type&() const;
+		operator const raw_type&() const;
+		operator array_type&();
+		operator raw_type&();
 
 		/**
 		 * Parse a matrix formatted as "m00,m01;m10,m11;..."
@@ -53,6 +59,9 @@ namespace ft
 		Matrix&	add(const Matrix&);
 		Matrix&	sub(const Matrix&);
 		Matrix&	scl(K);
+
+		// Ex 02
+		static Matrix	lerp(const Matrix&, const Matrix&, float);
 	};
 }
 
@@ -98,10 +107,10 @@ namespace ft
 	const typename Matrix<K,W,H>::column_type&	Matrix<K,W,H>::operator[](int x) const
 	{ return this->array[x]; };
 
-	template <class K, int W, int H>
-	Matrix<K,W,H>::operator const array_type&() const {
-		return this->array;
-	}
+	template <class K, int W, int H> Matrix<K,W,H>::operator const array_type&() const { return this->array; }
+	template <class K, int W, int H> Matrix<K,W,H>::operator       array_type&()       { return this->array; }
+	template <class K, int W, int H> Matrix<K,W,H>::operator const raw_type&  () const { return (raw_type&)this->array; }
+	template <class K, int W, int H> Matrix<K,W,H>::operator       raw_type&  ()       { return (raw_type&)this->array; }
 
 	template <class K, int W, int H>
 	Matrix<K,W,H>	Matrix<K,W,H>::StrToMx(const char* str, char** outEnd){
@@ -150,15 +159,12 @@ namespace ft
 		}
 		return cout;
 	}
-}
 
 
 /******************************************************************************/
 /* ## Exercice 00                                                             */
 /******************************************************************************/
 
-namespace ft
-{
 	template <class K, int W, int H> 
 	Matrix<K,W,H>&	Matrix<K,W,H>::operator+=(const Matrix& other) {
 		for (int x=0; x<W; x++)
@@ -184,4 +190,16 @@ namespace ft
 	template <class K, int W, int H> Matrix<K,W,H>&	Matrix<K,W,H>::add(const Matrix& other) { return *this += other; };
 	template <class K, int W, int H> Matrix<K,W,H>&	Matrix<K,W,H>::sub(const Matrix& other) { return *this -= other; };
 	template <class K, int W, int H> Matrix<K,W,H>&	Matrix<K,W,H>::scl(K scalar) { return *this *= scalar; };
+
+
+/******************************************************************************/
+/* ## Exercice 02                                                             */
+/******************************************************************************/
+
+	template <class K, int W, int H> 
+	Matrix<K,W,H>	Matrix<K,W,H>::lerp(const Matrix& a, const Matrix& b, const float t){
+		Matrix result;
+		ft::lerp((Matrix::raw_type&)a, (Matrix::raw_type&)b, t, (Matrix::raw_type&)result);
+		return result;
+	}
 }

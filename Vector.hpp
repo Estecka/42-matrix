@@ -6,11 +6,13 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/17 15:33:28 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/17 17:51:59 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+#include "lerp.hpp"
 
 #include <vector>
 #include <sstream>
@@ -206,9 +208,7 @@ namespace ft
 	template <class K, int S> 
 	Vector<K,S>	Vector<K,S>::lerp(const Vector& a, const Vector& b, float t){
 		Vector result;
-		for (int i=0; i<S; i++)
-			result[i] = (a[i]*(1-t)) + (b[i]*t);
-
+		ft::lerp(a.array, b.array, t, result.array);
 		return result;
 	};
 

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 17:20:06 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/17 18:20:59 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ namespace ft
 		static int	Add(const Matrix&, const Matrix&);
 		static int	Sub(const Matrix&, const Matrix&);
 		static int	Scl(const Matrix&, K);
+		static int	lerp(const Matrix&, const Matrix&, float);
 	};
 }
 
@@ -48,16 +49,24 @@ namespace ft
 		}
 
 		std::string subcmd = argv[0];
-		if (subcmd == "add")
-			return Add(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
-		if (subcmd == "sub")
-			return Sub(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
-		if (subcmd == "scl")
-			return Scl(Matrix::StrToMx(argv[1]), std::atof(argv[2]));
+		if (subcmd == "add")	return Add(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
+		if (subcmd == "sub")	return Sub(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
+		if (subcmd == "scl")	return Scl(Matrix::StrToMx(argv[1]), std::atof(argv[2]));
+
+		if (argc < 4){
+			std::cerr << "Not enough arguments" << std::endl;
+			return EXIT_FAILURE;
+		}
+		if (subcmd == "lerp")	return lerp(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]), std::atof(argv[3]));
 
 		std::cerr << "Unsupported command: " << subcmd << std::endl;
 		return EXIT_FAILURE;
 	}
+
+
+/* ************************************************************************** */
+/* ## Ex00                                                                    */
+/* ************************************************************************** */
 
 	template <class K, int N, int M>
 	int	MatrixTestSuit<K,N,M>::Add(const Matrix& a, const Matrix& b){
@@ -85,6 +94,18 @@ namespace ft
 		r.scl(b);
 
 		PrintMKM(" * ", a, b, r);
+		return EXIT_SUCCESS;
+	}
+
+
+/* ************************************************************************** */
+/* ## Ex02                                                                    */
+/* ************************************************************************** */
+
+	template <class K, int N, int M>
+	int	MatrixTestSuit<K,N,M>::lerp(const Matrix& a, const Matrix& b, float t){
+		Matrix r = Matrix::lerp(a, b, t);
+		PrintMLerp(a, b, t, r);
 		return EXIT_SUCCESS;
 	}
 }
