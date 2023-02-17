@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/17 14:46:43 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/17 15:32:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ namespace ft
 		static int	Add(const Vector&, const Vector&);
 		static int	Sub(const Vector&, const Vector&);
 		static int	Scl(const Vector&, K);
-
 		static int	linear_combination(const char* argvU, const char* argvCoef);
-
 		static int	lerp(const Vector&, const Vector&, float);
+		static int	dot(const Vector&, const Vector&);
 	};
 }
 
@@ -60,6 +59,8 @@ namespace ft
 			return Scl(Vector::StrToVec(argv[1]), std::atof(argv[2]));
 		if (subcmd == "fma")
 			return linear_combination(argv[1], argv[2]);
+		if (subcmd == "dot")
+			return dot(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 
 		if (argc < 4){
 			std::cerr << "Not enough arguments" << std::endl;
@@ -147,6 +148,19 @@ namespace ft
 		op += t;
 
 		PrintFMA({a, b}, {1-t, t}, result);
+		return EXIT_SUCCESS;
+	};
+
+
+/* ************************************************************************** */
+/* ## Ex02                                                                    */
+/* ************************************************************************** */
+
+	template <class K, int N>
+	int	VectorTestSuit<K,N>::dot(const Vector& a, const Vector& b){
+		K result = a.dot(b);
+
+		PrintVVK("dot", a, b, result);
 		return EXIT_SUCCESS;
 	};
 }

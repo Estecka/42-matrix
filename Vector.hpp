@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/17 14:31:43 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/17 15:33:28 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ namespace ft
 		static Vector	linear_combination(const std::vector<Vector>&, const std::vector<K>&);
 
 		// Ex 02
-		static Vector	lerp(const Vector& a, const Vector& b, float t);
+		static Vector	lerp(const Vector&, const Vector&, float);
+
+		// Ex 03
+		K	dot(const Vector&) const;
 	};
 }
 
@@ -177,15 +180,12 @@ namespace ft
 	template <class K, int S> Vector<K,S>&	Vector<K,S>::add(const Vector& other) { return *this += other; };
 	template <class K, int S> Vector<K,S>&	Vector<K,S>::sub(const Vector& other) { return *this -= other; };
 	template <class K, int S> Vector<K,S>&	Vector<K,S>::scl(K scalar) { return *this *= scalar; };
-}
 
 
 /******************************************************************************/
 /* ## Exercice 01                                                             */
 /******************************************************************************/
 
-namespace ft
-{
 	template <class K, int S> 
 	Vector<K,S>	Vector<K,S>::linear_combination(const std::vector<Vector>& u, const std::vector<K>& coefs){
 		Vector result;
@@ -197,20 +197,32 @@ namespace ft
 
 		return result;
 	};
-}
 
 
 /******************************************************************************/
 /* ## Exercice 02                                                             */
 /******************************************************************************/
 
-namespace ft
-{
 	template <class K, int S> 
 	Vector<K,S>	Vector<K,S>::lerp(const Vector& a, const Vector& b, float t){
 		Vector result;
 		for (int i=0; i<S; i++)
 			result[i] = (a[i]*(1-t)) + (b[i]*t);
+
+		return result;
+	};
+
+
+/******************************************************************************/
+/* ## Exercice 03                                                             */
+/******************************************************************************/
+
+	template <class K, int S> 
+	K	Vector<K,S>::dot(const Vector& b) const {
+		K result = 0;
+
+		for (int i=0; i<S; i++)
+			result += ((*this)[i] * b[i]);
 
 		return result;
 	};
