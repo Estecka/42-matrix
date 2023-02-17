@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 18:13:46 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/17 14:46:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ namespace ft
 		static int	Scl(const Vector&, K);
 
 		static int	linear_combination(const char* argvU, const char* argvCoef);
+
+		static int	lerp(const Vector&, const Vector&, float);
 	};
 }
 
@@ -58,6 +60,14 @@ namespace ft
 			return Scl(Vector::StrToVec(argv[1]), std::atof(argv[2]));
 		if (subcmd == "fma")
 			return linear_combination(argv[1], argv[2]);
+
+		if (argc < 4){
+			std::cerr << "Not enough arguments" << std::endl;
+			return EXIT_FAILURE;
+		}
+		
+		if (subcmd == "lerp")
+			return lerp(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]), std::atof(argv[3]));
 
 		std::cerr << "Unsupported command: " << subcmd << std::endl;
 		return EXIT_FAILURE;
@@ -122,6 +132,21 @@ namespace ft
 
 		result = Vector::linear_combination(u, coefs);
 		PrintFMA(u, coefs, result);
+		return EXIT_SUCCESS;
+	};
+
+
+/* ************************************************************************** */
+/* ## Ex02                                                                    */
+/* ************************************************************************** */
+
+	template <class K, int N>
+	int	VectorTestSuit<K,N>::lerp(const Vector& a, const Vector& b, float t){
+		Vector result = Vector::lerp(a, b, t);
+		std::string op = "lerp";
+		op += t;
+
+		PrintFMA({a, b}, {1-t, t}, result);
 		return EXIT_SUCCESS;
 	};
 }

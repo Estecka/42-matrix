@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 18:14:24 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/17 14:31:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ namespace ft
 		 * This is equivalent to backfilling the shorter array with zero's.
 		 */
 		static Vector	linear_combination(const std::vector<Vector>&, const std::vector<K>&);
+
+		// Ex 02
+		static Vector	lerp(const Vector& a, const Vector& b, float t);
 	};
 }
 
@@ -191,6 +194,23 @@ namespace ft
 		for (int i=0; i<S;    i++)
 		for (int n=0; n<nmax; n++)
 			result[i] += u[n][i] * coefs[n];
+
+		return result;
+	};
+}
+
+
+/******************************************************************************/
+/* ## Exercice 02                                                             */
+/******************************************************************************/
+
+namespace ft
+{
+	template <class K, int S> 
+	Vector<K,S>	Vector<K,S>::lerp(const Vector& a, const Vector& b, float t){
+		Vector result;
+		for (int i=0; i<S; i++)
+			result[i] = (a[i]*(1-t)) + (b[i]*t);
 
 		return result;
 	};
