@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/17 18:44:28 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/18 18:20:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ namespace ft
 	extern void	PrintMKM(const std::string& op, const Matrix<K,W,H>& a, const K& b, const Matrix<K,W,H>& r);
 	template <class K, int S>
 	extern void	PrintFMA(const std::vector<Vector<K,S>>& a, const std::vector<K>& b, const Vector<K,S>& r);
+	template <class K>
+	extern void	PrintKLerp(const K& a, const K& b, const K& t, const K& r);
 	template <class K, int W, int H>
 	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r);
 	template <class K, int S>
@@ -225,6 +227,22 @@ namespace ft
 /******************************************************************************/
 /* ## Ex02                                                                    */
 /******************************************************************************/
+
+	template <class K>
+	extern void	PrintKLerp(const K& a, const K& b, const K& t, const K& r) {
+		std::string stra, strb, strr;
+		int lmax = 0;
+
+		lmax = ft::max(lmax, Preformat<K>(a, stra));
+		lmax = ft::max(lmax, Preformat<K>(b, strb));
+		lmax = ft::max(lmax, Preformat<K>(r, strr));
+
+
+		std::cout << "  " LOG_BOLD_CLEAR << std::setw(lmax) << stra << LOG_CLEAR " * " << 1-t << std::endl;
+		std::cout << "+ " LOG_BOLD_CLEAR << std::setw(lmax) << strb << LOG_CLEAR " * " << t << std::endl;
+		std::cout << "= " LOG_BOLD_CYAN  << std::setw(lmax) << strr << std::endl;
+		std::cout << LOG_CLEAR << std::endl;
+	}
 
 	template <class K, int W, int H>
 	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r) {

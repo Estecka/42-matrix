@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:44:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 18:48:45 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/18 18:10:39 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "TestFactory.hpp"
 #include "vector_tester.hpp"
 #include "matrix_tester.hpp"
+#include "number_tester.hpp"
 
 #include "logutil/logutil.hpp"
 
@@ -44,6 +45,8 @@ static ft::TesterType	GetTest(std::string mode, const char* dimensions){
 	int n, m, p;
 	GetDimensions(dimensions, n, m, p);
 
+	if (mode == "num")
+		return ft::NumberTestSuit<float>::main;
 	if (mode == "vec")
 		return ft::TestFactoryN<ft::VectorTestSuit, float, N_MAX>::GetTest(n);
 	if (mode == "mx")
