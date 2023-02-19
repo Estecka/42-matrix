@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/18 18:20:25 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/19 16:37:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ namespace ft
 	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r);
 	template <class K, int S>
 	extern void	PrintVVK(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const K& r);
+	template <class K, int S>
+	extern void	PrintVNorm(const Vector<K,S>& v, float n1, float n2, float ni);
 }
 
 
@@ -285,5 +287,19 @@ namespace ft
 		std::cout << std::setw(oplen) <<  "" << ' ' << LOG_BOLD_CLEAR; PrintV(stra, lmax); std::cout << LOG_CLEAR << std::endl;
 		std::cout << std::setw(oplen) <<  op << ' ' << LOG_BOLD_CLEAR; PrintV(strb, lmax); std::cout << LOG_CLEAR << std::endl;
 		std::cout << std::setw(oplen) << "=" << "   " << LOG_BOLD_CYAN << std::setw(lmax) << strr << LOG_CLEAR << std::endl;
+	}
+
+/******************************************************************************/
+/* ## Ex04                                                                    */
+/******************************************************************************/
+
+	template <class K, int S>
+	extern void	PrintVNorm(const Vector<K,S>& v, float n1, float n2, float ni){
+
+		std::cout << LOG_BOLD_CLEAR << "[ " << v.ToString() << " ]";
+		std::cout << LOG_CLEAR ";  Norm_1: "   LOG_BOLD_CYAN << n1;
+		std::cout << LOG_CLEAR ";  Norm_2: "   LOG_BOLD_CYAN << n2;
+		std::cout << LOG_CLEAR ";  Norm_inf: " LOG_BOLD_CYAN << ni;
+		std::cout << std::endl;
 	}
 }

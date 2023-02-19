@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/17 15:32:13 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/19 16:33:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ namespace ft
 		static int	linear_combination(const char* argvU, const char* argvCoef);
 		static int	lerp(const Vector&, const Vector&, float);
 		static int	dot(const Vector&, const Vector&);
+		static int	norm(const Vector&);
 	};
 }
 
@@ -45,12 +46,20 @@ namespace ft
 {
 	template <class K, int N>
 	int	VectorTestSuit<K,N>::main(int argc, char** argv){
-		if (argc < 3){
+		if (argc < 2){
 			std::cerr << "Not enough arguments" << std::endl;
 			return EXIT_FAILURE;
 		}
 
 		std::string subcmd = argv[0];
+		if (subcmd == "norm")
+			return norm(Vector::StrToVec(argv[1]));
+
+		if (argc < 3){
+			std::cerr << "Not enough arguments" << std::endl;
+			return EXIT_FAILURE;
+		}
+
 		if (subcmd == "add")
 			return Add(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 		if (subcmd == "sub")
@@ -161,6 +170,21 @@ namespace ft
 		K result = a.dot(b);
 
 		PrintVVK("dot", a, b, result);
+		return EXIT_SUCCESS;
+	};
+
+
+/* ************************************************************************** */
+/* ## Ex02                                                                    */
+/* ************************************************************************** */
+
+	template <class K, int N>
+	int	VectorTestSuit<K,N>::norm(const Vector& v){
+		float n1 = v.norm_1();
+		float n2 = v.norm();
+		float ni = v.norm_inf();
+
+		PrintVNorm(v, n1, n2, ni);
 		return EXIT_SUCCESS;
 	};
 }

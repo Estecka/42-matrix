@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/17 17:51:59 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/19 16:37:41 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 #include "lerp.hpp"
 
-#include <vector>
+#include <cmath>
+#include <cstring>
 #include <sstream>
 #include <stdexcept>
-#include <cstring>
+#include <vector>
 
 namespace ft
 {
@@ -69,6 +70,11 @@ namespace ft
 
 		// Ex 03
 		K	dot(const Vector&) const;
+
+		// Ex 04
+		float	norm_1() const;
+		float	norm() const;
+		float	norm_inf() const;
 	};
 }
 
@@ -147,7 +153,7 @@ template<class K, int S>
 std::ostream&	operator<<(std::ostream& cout, const ft::Vector<K,S>& vec){
 	for (int i=0; i<S; i++) {
 		if (i)
-			cout << ',';
+			cout << ", ";
 		cout << vec[i];
 	}
 	return cout;
@@ -225,5 +231,36 @@ namespace ft
 			result += ((*this)[i] * b[i]);
 
 		return result;
+	};
+
+
+/******************************************************************************/
+/* ## Exercice 04                                                             */
+/******************************************************************************/
+
+	template <class K, int S> 
+	float	Vector<K,S>::norm_1() const {
+		float r = 0;
+		for (int i=0; i<S; i++)
+			r += std::max(+(*this)[i], -(*this)[i]);
+		return r;
+	};
+
+	template <class K, int S> 
+	float	Vector<K,S>::norm() const {
+		float r = 0;
+		for (int i=0; i<S; i++)
+			r += ((*this)[i] * (*this)[i]);
+		return std::pow(r, 0.5);
+	};
+
+	template <class K, int S> 
+	float	Vector<K,S>::norm_inf() const {
+		float r = 0;
+		for (int i=0; i<S; i++){
+			r = std::max(r, +(*this)[i]);
+			r = std::max(r, -(*this)[i]);
+		}
+		return r;
 	};
 }
