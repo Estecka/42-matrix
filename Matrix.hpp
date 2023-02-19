@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/17 18:39:39 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/19 18:11:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,11 @@ namespace ft
 		// Ex 02
 		static Matrix	lerp(const Matrix&, const Matrix&, float);
 	};
+
+	template<class K, int W, int H>
+	std::ostream&	operator<<(std::ostream&, const ft::Matrix<K,W,H>&);
 }
 
-template<class K, int W, int H>
-std::ostream&	operator<<(std::ostream&, const ft::Matrix<K,W,H>&);
 
 /******************************************************************************/
 /* # Implementations                                                          */

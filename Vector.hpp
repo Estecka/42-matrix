@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/19 16:37:41 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/19 18:13:42 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,10 @@ namespace ft
 		float	norm() const;
 		float	norm_inf() const;
 	};
+
+	template<class K, int S>
+	std::ostream&	operator<<(std::ostream&, const ft::Vector<K,S>&);
 }
-
-template<class K, int S>
-std::ostream&	operator<<(std::ostream&, const ft::Vector<K,S>&);
-
 
 
 /******************************************************************************/
@@ -146,17 +145,15 @@ namespace ft
 		return cout.str();
 	}; 
 
-}
-
-
-template<class K, int S>
-std::ostream&	operator<<(std::ostream& cout, const ft::Vector<K,S>& vec){
-	for (int i=0; i<S; i++) {
-		if (i)
-			cout << ", ";
-		cout << vec[i];
+	template<class K, int S>
+	std::ostream&	operator<<(std::ostream& cout, const ft::Vector<K,S>& vec){
+		for (int i=0; i<S; i++) {
+			if (i)
+				cout << ", ";
+			cout << vec[i];
+		}
+		return cout;
 	}
-	return cout;
 }
 
 

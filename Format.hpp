@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/19 16:37:13 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/19 17:59:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ namespace ft
 	template <class K, int S>
 	extern void	PrintVNorm(const Vector<K,S>& v, float n1, float n2, float ni){
 
-		std::cout << LOG_BOLD_CLEAR << "[ " << v.ToString() << " ]";
+		std::cout << LOG_BOLD_CLEAR << "[ " << v << " ]";
 		std::cout << LOG_CLEAR ";  Norm_1: "   LOG_BOLD_CYAN << n1;
 		std::cout << LOG_CLEAR ";  Norm_2: "   LOG_BOLD_CYAN << n2;
 		std::cout << LOG_CLEAR ";  Norm_inf: " LOG_BOLD_CYAN << ni;
