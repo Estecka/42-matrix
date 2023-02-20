@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/19 17:59:46 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/20 17:54:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,17 +276,16 @@ namespace ft
 
 	template <class K, int S>
 	extern void	PrintVVK(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const K& r){
-		std::string stra[S], strb[S], strr;
+		std::string stra[S], strb[S];
 		int lmax = 0;
 		int oplen = op.size();
 
 		lmax = ft::max(lmax, Preformat<K,S>(a, stra));
 		lmax = ft::max(lmax, Preformat<K,S>(b, strb));
-		lmax = ft::max(lmax, Preformat(r, strr));
 
 		std::cout << std::setw(oplen) <<  "" << ' ' << LOG_BOLD_CLEAR; PrintV(stra, lmax); std::cout << LOG_CLEAR << std::endl;
 		std::cout << std::setw(oplen) <<  op << ' ' << LOG_BOLD_CLEAR; PrintV(strb, lmax); std::cout << LOG_CLEAR << std::endl;
-		std::cout << std::setw(oplen) << "=" << "   " << LOG_BOLD_CYAN << std::setw(lmax) << strr << LOG_CLEAR << std::endl;
+		std::cout << std::setw(oplen) << "=" << " " << LOG_BOLD_CYAN << r << LOG_CLEAR << std::endl;
 	}
 
 /******************************************************************************/
@@ -300,6 +299,6 @@ namespace ft
 		std::cout << LOG_CLEAR ";  Norm_1: "   LOG_BOLD_CYAN << n1;
 		std::cout << LOG_CLEAR ";  Norm_2: "   LOG_BOLD_CYAN << n2;
 		std::cout << LOG_CLEAR ";  Norm_inf: " LOG_BOLD_CYAN << ni;
-		std::cout << std::endl;
+		std::cout << LOG_CLEAR << std::endl;
 	}
 }

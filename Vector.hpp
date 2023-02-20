@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/19 18:13:42 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/20 17:54:59 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ namespace ft
 		float	norm_1() const;
 		float	norm() const;
 		float	norm_inf() const;
+
+		// Ex 04
+		static float	angle_cos(const Vector& a, const Vector& b);
 	};
 
 	template<class K, int S>
@@ -259,5 +262,15 @@ namespace ft
 			r = std::max(r, -(*this)[i]);
 		}
 		return r;
+	};
+
+
+/******************************************************************************/
+/* ## Exercice 05                                                             */
+/******************************************************************************/
+
+	template <class K, int S> 
+	float	Vector<K,S>::angle_cos(const Vector& a, const Vector& b){
+		return a.dot(b) / (a.norm() * b.norm());
 	};
 }

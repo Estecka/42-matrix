@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/19 16:33:44 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/20 17:50:23 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ namespace ft
 		static int	lerp(const Vector&, const Vector&, float);
 		static int	dot(const Vector&, const Vector&);
 		static int	norm(const Vector&);
+		static int	cos(const Vector&, const Vector&);
 	};
 }
 
@@ -70,6 +71,8 @@ namespace ft
 			return linear_combination(argv[1], argv[2]);
 		if (subcmd == "dot")
 			return dot(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
+		if (subcmd == "cos")
+			return cos(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 
 		if (argc < 4){
 			std::cerr << "Not enough arguments" << std::endl;
@@ -185,6 +188,19 @@ namespace ft
 		float ni = v.norm_inf();
 
 		PrintVNorm(v, n1, n2, ni);
+		return EXIT_SUCCESS;
+	};
+
+
+/* ************************************************************************** */
+/* ## Ex05                                                                    */
+/* ************************************************************************** */
+
+	template <class K, int N>
+	int	VectorTestSuit<K,N>::cos(const Vector& a, const Vector& b){
+		K result = Vector::angle_cos(a, b);
+
+		PrintVVK("cos", a, b, result);
 		return EXIT_SUCCESS;
 	};
 }
