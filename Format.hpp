@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/20 17:54:12 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/21 00:33:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,9 @@ namespace ft
 		lmax = ft::max(lmax, Preformat<K,S>(b, strb));
 		lmax = ft::max(lmax, Preformat<K,S>(r, strr));
 
-		std::cout << std::setw(oplen) <<  " " << LOG_BOLD_CLEAR; PrintV(stra, lmax); std::cout << LOG_CLEAR << std::endl;
-		std::cout << std::setw(oplen) <<   op << LOG_BOLD_CLEAR; PrintV(strb, lmax); std::cout << LOG_CLEAR << std::endl;
-		std::cout << std::setw(oplen) << "= " << LOG_BOLD_CYAN;  PrintV(strr, lmax); std::cout << LOG_CLEAR << std::endl;
+		std::cout << std::setw(oplen) <<  "" << ' ' << LOG_BOLD_CLEAR; PrintV(stra, lmax); std::cout << LOG_CLEAR << std::endl;
+		std::cout << std::setw(oplen) <<  op << ' ' << LOG_BOLD_CLEAR; PrintV(strb, lmax); std::cout << LOG_CLEAR << std::endl;
+		std::cout << std::setw(oplen) << "=" << ' ' << LOG_BOLD_CYAN;  PrintV(strr, lmax); std::cout << LOG_CLEAR << std::endl;
 	}
 
 	template <class K, int S>

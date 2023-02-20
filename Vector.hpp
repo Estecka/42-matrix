@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/20 17:54:59 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/21 00:15:32 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,11 @@ namespace ft
 		float	norm() const;
 		float	norm_inf() const;
 
-		// Ex 04
+		// Ex 05
 		static float	angle_cos(const Vector& a, const Vector& b);
+
+		// Ex 06
+		static Vector<K,3>	cross_product(const Vector<K,3>& a, const Vector<K,3>& b);
 	};
 
 	template<class K, int S>
@@ -272,5 +275,19 @@ namespace ft
 	template <class K, int S> 
 	float	Vector<K,S>::angle_cos(const Vector& a, const Vector& b){
 		return a.dot(b) / (a.norm() * b.norm());
+	};
+
+
+/******************************************************************************/
+/* ## Exercice 06                                                             */
+/******************************************************************************/
+
+	template <class K, int S> 
+	Vector<K,3>	Vector<K,S>::cross_product(const Vector<K,3>& a, const Vector<K,3>& b){
+		Vector<K,3> r;
+		r[0] = (a[1] * b[2]) - (a[2] * b[1]);
+		r[1] = (a[2] * b[0]) - (a[0] * b[2]);
+		r[2] = (a[0] * b[1]) - (a[1] * b[0]);
+		return r;
 	};
 }

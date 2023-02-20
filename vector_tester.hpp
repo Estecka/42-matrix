@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/20 17:50:23 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/21 00:31:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ namespace ft
 		static int	dot(const Vector&, const Vector&);
 		static int	norm(const Vector&);
 		static int	cos(const Vector&, const Vector&);
+		static int	cross(const ft::Vector<K,3>&, const ft::Vector<K,3>&);
 	};
 }
 
@@ -73,6 +74,8 @@ namespace ft
 			return dot(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 		if (subcmd == "cos")
 			return cos(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
+		if (subcmd == "cross")
+			return cross(ft::Vector<K,3>::StrToVec(argv[1]), ft::Vector<K,3>::StrToVec(argv[2]));
 
 		if (argc < 4){
 			std::cerr << "Not enough arguments" << std::endl;
@@ -96,7 +99,7 @@ namespace ft
 		Vector r = a;
 		r.add(b);
 
-		PrintVVV("+ ", a, b, r);
+		PrintVVV("+", a, b, r);
 		return EXIT_SUCCESS;
 	}
 
@@ -106,7 +109,7 @@ namespace ft
 		Vector r = a;
 		r.sub(b);
 
-		PrintVVV("- ", a, b, r);
+		PrintVVV("-", a, b, r);
 		return EXIT_SUCCESS;
 	}
 
@@ -201,6 +204,19 @@ namespace ft
 		K result = Vector::angle_cos(a, b);
 
 		PrintVVK("cos", a, b, result);
+		return EXIT_SUCCESS;
+	};
+
+
+/* ************************************************************************** */
+/* ## Ex06                                                                    */
+/* ************************************************************************** */
+
+	template <class K, int N>
+	int	VectorTestSuit<K,N>::cross(const ft::Vector<K,3>& a, const ft::Vector<K,3>& b){
+		ft::Vector<K,3> r = ft::Vector<K,3>::cross_product(a, b);
+
+		PrintVVV("cross", a, b, r);
 		return EXIT_SUCCESS;
 	};
 }

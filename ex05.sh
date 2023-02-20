@@ -1,6 +1,6 @@
 #!/bin/bash
 
-   echo -e "\n\n		# EX04" \
+   echo -e "\n\n		# EX05" \
 && echo -e "\n	## Vector Angle Cosine" \
 && echo && ./ft_matrix.out vec 2 cos "1,0", "1,0" \
 && echo && ./ft_matrix.out vec 2 cos "0,1", "0,1" \
