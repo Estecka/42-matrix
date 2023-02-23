@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/23 19:10:46 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 19:46:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft
 	 * @return	The length of the longest string component.
 	 */
 	template <class K, int W, int H>
-	extern int	Preformat(const K (&array)[W][H], std::string (&outFormat)[W][H]);
+	extern int	Preformat(const K (&array)[W][H], std::string (&outFormat)[H][W]);
 	template <class K, int S>
 	extern int	Preformat(const K (&array)[S], std::string (&outFormat)[S]);
 	template <class K>
@@ -88,7 +88,7 @@ namespace ft
 namespace ft 
 {
 	template <class K, int W, int H>
-	extern int	Preformat(const K (&array)[W][H], std::string (&outFormat)[W][H]){
+	extern int	Preformat(const K (&array)[W][H], std::string (&outFormat)[H][W]){
 		std::stringstream cout;
 		int	lmax = 0;
 
@@ -98,8 +98,8 @@ namespace ft
 			cout.str("");
 			cout.clear();
 			cout << array[x][y];
-			outFormat[x][y] = cout.str();
-			lmax = ft::max(lmax, outFormat[x][y].size());
+			outFormat[y][x] = cout.str();
+			lmax = ft::max(lmax, outFormat[y][x].size());
 		}
 		return lmax;
 	}
@@ -107,7 +107,7 @@ namespace ft
 	extern int	Preformat(const K (&array)[S], std::string (&outFormat)[S]){
 		return Preformat<K,1,S>(
 			(const K(&)[1][S])array,
-			(std::string(&)[1][S])outFormat
+			(std::string(&)[S][1])outFormat
 		);
 	}
 	template <class K>
@@ -167,7 +167,7 @@ namespace ft
 
 	template<class K, int W, int H>
 	extern void	PrintMMM(const std::string& op, const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const Matrix<K,W,H>& r){
-		std::string stra[W][H], strb[W][H], strr[W][H];
+		std::string stra[H][W], strb[H][W], strr[H][W];
 		int lmax = 0;
 		int oplen = op.size();
 
@@ -175,19 +175,19 @@ namespace ft
 		lmax = ft::max(lmax, Preformat<K,W,H>(b, strb));
 		lmax = ft::max(lmax, Preformat<K,W,H>(r, strr));
 
-		for (int x=0; x<W; x++) {
-			std::cout << LOG_BOLD_CLEAR; PrintV(stra[x], lmax);
-			std::cout << LOG_CLEAR << std::setw(oplen) << ((x==W/2) ?   op : "");
-			std::cout << LOG_BOLD_CLEAR; PrintV(strb[x], lmax);
-			std::cout << LOG_CLEAR << std::setw(oplen) << ((x==W/2) ? " = " : "");
-			std::cout << LOG_BOLD_CYAN;  PrintV(strr[x], lmax);
+		for (int y=0; y<H; y++) {
+			std::cout << LOG_BOLD_CLEAR; PrintV(stra[y], lmax);
+			std::cout << LOG_CLEAR << std::setw(oplen) << ((y==H/2) ?   op : "");
+			std::cout << LOG_BOLD_CLEAR; PrintV(strb[y], lmax);
+			std::cout << LOG_CLEAR << std::setw(oplen) << ((y==H/2) ? " = " : "");
+			std::cout << LOG_BOLD_CYAN;  PrintV(strr[y], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
 	}
 
 	template<class K, int W, int H>
 	extern void	PrintMKM(const std::string& op, const Matrix<K,W,H>& a, const K& b, const Matrix<K,W,H>& r){
-		std::string stra[W][H], strb, strr[W][H];
+		std::string stra[H][W], strb, strr[H][W];
 		int lmax = 0;
 		int oplen = op.size();
 
@@ -195,12 +195,12 @@ namespace ft
 		lmax = ft::max(lmax, Preformat(b, strb));
 		lmax = ft::max(lmax, Preformat<K,W,H>(r, strr));
 
-		for (int x=0; x<W; x++) {
-			std::cout << LOG_CLEAR << std::setw(lmax)  << ((x==W/2) ?  strb : "");
-			std::cout << LOG_CLEAR << std::setw(oplen) << ((x==W/2) ?    op : "");
-			std::cout << LOG_BOLD_CLEAR; PrintV(stra[x], lmax);
-			std::cout << LOG_CLEAR << std::setw(oplen) << ((x==W/2) ? " = " : "");
-			std::cout << LOG_BOLD_CYAN;  PrintV(strr[x], lmax);
+		for (int y=0; y<H; y++) {
+			std::cout << LOG_CLEAR << std::setw(lmax)  << ((y==H/2) ?  strb : "");
+			std::cout << LOG_CLEAR << std::setw(oplen) << ((y==H/2) ?    op : "");
+			std::cout << LOG_BOLD_CLEAR; PrintV(stra[y], lmax);
+			std::cout << LOG_CLEAR << std::setw(oplen) << ((y==H/2) ? " = " : "");
+			std::cout << LOG_BOLD_CYAN;  PrintV(strr[y], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
 	}
@@ -256,7 +256,7 @@ namespace ft
 
 	template <class K, int W, int H>
 	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r) {
-		std::string stra[W][H], strb[W][H], strr[W][H];
+		std::string stra[H][W], strb[H][W], strr[H][W];
 		std::string strt;
 		int lmax = 0;
 
@@ -265,15 +265,15 @@ namespace ft
 		lmax = ft::max(lmax, Preformat<K,W,H>(r, strr));
 		lmax = ft::max(lmax, Preformat<K>(t, strt));
 
-		int tpad = lmax*H + 4 + 2*(H-1) - 2;
+		int tpad = VLen(W, lmax) - 2;
 
 		std::cout << std::setw(tpad) << 1-t << " *   " << std::setw(tpad) << t << " *" << std::endl;
-		for (int x=0; x<W; x++) {
-			std::cout << LOG_BOLD_CLEAR; PrintV(stra[x], lmax);
-			std::cout << LOG_CLEAR << ((x==W/2) ? " + " : "   ");
-			std::cout << LOG_BOLD_CLEAR; PrintV(strb[x], lmax);
-			std::cout << LOG_CLEAR << ((x==W/2) ? " = " : "   ");
-			std::cout << LOG_BOLD_CYAN;  PrintV(strr[x], lmax);
+		for (int y=0; y<H; y++) {
+			std::cout << LOG_BOLD_CLEAR; PrintV(stra[y], lmax);
+			std::cout << LOG_CLEAR << ((y==H/2) ? " + " : "   ");
+			std::cout << LOG_BOLD_CLEAR; PrintV(strb[y], lmax);
+			std::cout << LOG_CLEAR << ((y==H/2) ? " = " : "   ");
+			std::cout << LOG_BOLD_CYAN;  PrintV(strr[y], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
 	}
@@ -316,41 +316,43 @@ namespace ft
 
 	template<class K, int IN, int OUT, int P>
 	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Matrix<K,P,IN>& i, const Matrix<K,P,OUT>& o){
-		std::string strf[IN][OUT];
-		std::string stri[P][IN];
-		std::string stro[P][OUT];
+		std::string strf[OUT][IN];
+		std::string stri[IN] [P] ;
+		std::string stro[OUT][P] ;
 
 		int lmax = 0;
 		lmax = ft::max(lmax, Preformat<K,IN,OUT>(f, strf));
 		lmax = ft::max(lmax, Preformat<K,P,IN>  (i, stri));
 		lmax = ft::max(lmax, Preformat<K,P,OUT> (o, stro));
 
-		for (int x=0; x<P; x++){
+		for (int y=0; y<IN; y++){
 			std::cout << LOG_BOLD_YELLOW;
-			PrintV(stri[x], lmax);
+			PrintV(stri[y], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
 
 		std::cout << " * " << std::endl;
 
-		for (int x=0; x<IN; x++){
+		for (int y=0; y<OUT; y++){
 			std::cout << LOG_BOLD_CLEAR;
-			PrintV(strf[x], lmax);
+			PrintV(strf[y], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
 
 		std::cout << " = " << std::endl;
 
-		for (int x=0; x<P; x++){
+		for (int y=0; y<OUT; y++){
 			std::cout << LOG_BOLD_CYAN;
-			PrintV(stro[x], lmax);
+			PrintV(stro[y], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
 	}
 
 	template<class K, int IN, int OUT>
 	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o){
-		std::string strf[IN][OUT];
+		std::cout << "Not Implemented" << std::endl;
+		return;
+		std::string strf[OUT][IN];
 		std::string stri[IN];
 		std::string stro[OUT];
 
@@ -376,27 +378,27 @@ namespace ft
 
 	template<class K, int W, int H>
 	extern void	PrintTrans(const Matrix<K,W,H>& m, const Matrix<K,H,W>& t){
-		std::string strm[W][H], strt[H][W];
+		std::string strm[H][W], strt[W][H];
 		int lmax = 0;
 
 		lmax = ft::max(lmax, Preformat<K,W,H>(m, strm));
 		lmax = ft::max(lmax, Preformat<K,H,W>(t, strt));
 
-		int mlen = VLen(H, lmax);
-		int tlen = VLen(W, lmax);
+		int mlen = VLen(W, lmax);
+		int tlen = VLen(H, lmax);
 
-		for(int x=0; x<ft::max(W,H); x++)
+		for(int y=0; y<ft::max(W,H); y++)
 		{
-			if (x<W){
+			if (y<H){
 				std::cout << LOG_BOLD_CLEAR;
-				PrintV(strm[x], lmax); 
+				PrintV(strm[y], lmax); 
 			} else
 				std::cout << std::setw(mlen) << "";
 
-			if (x<H){
+			if (y<W){
 				std::cout << LOG_BOLD_CYAN;
-				PrintV(strt[x], lmax); 
-			}else
+				PrintV(strt[y], lmax); 
+			} else
 				std::cout << std::setw(tlen) << "";
 			std::cout << std::endl;
 		}

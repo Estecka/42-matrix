@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/23 18:43:19 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 19:38:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,21 +126,21 @@ namespace ft
 	Matrix<K,W,H>	Matrix<K,W,H>::StrToMx(const char* str, char** outEnd){
 		Matrix result;
 
-		for (int x=0; x<W; x++){
-			if (x){
+		for (int y=0; y<H; y++){
+			if (y){
 				if(*str==';')
 					str++;
 				else
 					throw std::invalid_argument("Argument matrix is invalid");
 			}
-			for (int y=0; y<H; y++){
-				if (y){
+			for (int x=0; x<W; x++){
+				if (x){
 					if(*str==',')
 						str++;
 					else
 						throw std::invalid_argument("Argument matrix is invalid");
 				}
-				result[x][y] = std::strtof(str, (char**)&str);
+				result[y][x] = std::strtof(str, (char**)&str);
 			}
 		}
 
