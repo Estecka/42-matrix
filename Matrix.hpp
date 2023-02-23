@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/21 18:58:43 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 18:43:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ namespace ft
 		template <int P>
 		Matrix<K,P,HEIGHT>	mul_mat(const Matrix<K,P,WIDTH>&) const;
 		Vector<K,HEIGHT>  	mul_vec(const Vector<K,WIDTH>&) const;
+
+		// Ex09
+		Matrix<K,HEIGHT,WIDTH>	transpose() const;
 	};
 
 	template<class K, int W, int H>
@@ -233,5 +236,20 @@ namespace ft
 	Vector<K,H>  	Matrix<K,W,H>::mul_vec(const Vector<K,W>& vector) const {
 		Matrix<K,1,H> result = this->mul_mat((const Matrix<K,1,W>&)vector);
 		return (Vector<K,H>&)result;
+	}
+
+/******************************************************************************/
+/* ## Exercice 09                                                             */
+/******************************************************************************/
+
+	template <class K, int W, int H> 
+	Matrix<K,H,W>	Matrix<K,W,H>::transpose() const {
+		Matrix<K,H,W> result;
+
+		for (int x=0; x<W; x++)
+		for (int y=0; y<H; y++)
+			result[y][x] = (*this)[x][y];
+
+		return result;
 	}
 }

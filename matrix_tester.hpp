@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/21 18:52:59 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 18:47:09 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ namespace ft
 		static int	Scl(const Matrix&, K);
 		static int	lerp(const Matrix&, const Matrix&, float);
 		static int	vec_mul(const Matrix&, const Vector<K,N>&);
+		static int	transpose(const Matrix&);
 	};
 }
 
@@ -45,12 +46,19 @@ namespace ft
 {
 	template <class K, int N, int M>
 	int	MatrixTestSuit<K,N,M>::main(int argc, char** argv){
-		if (argc < 3){
+		if (argc < 2){
 			std::cerr << "Not enough arguments" << std::endl;
 			return EXIT_FAILURE;
 		}
 
 		std::string subcmd = argv[0];
+		if (subcmd == "trans")	return transpose(Matrix::StrToMx(argv[1]));
+
+		if (argc < 3){
+			std::cerr << "Not enough arguments" << std::endl;
+			return EXIT_FAILURE;
+		}
+
 		if (subcmd == "add")	return Add(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
 		if (subcmd == "sub")	return Sub(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
 		if (subcmd == "scl")	return Scl(Matrix::StrToMx(argv[1]), std::atof(argv[2]));
@@ -120,6 +128,16 @@ namespace ft
 	int	MatrixTestSuit<K,N,M>::vec_mul(const Matrix& m, const Vector<K,N>& v){
 		Vector<K,M> r = m.mul_vec(v);
 		PrintNMP(m, v, r);
+		return EXIT_SUCCESS;
+	}
+
+
+/* ************************************************************************** */
+/* ## Ex09                                                                    */
+/* ************************************************************************** */
+	template <class K, int N, int M>
+	int	MatrixTestSuit<K,N,M>::transpose(const Matrix& m){
+		PrintTrans(m, m.transpose());
 		return EXIT_SUCCESS;
 	}
 }

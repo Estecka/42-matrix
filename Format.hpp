@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/23 16:38:14 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 19:10:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ namespace ft
 {
 	extern int	max(int a, int b);
 	extern int	min(int a, int b);
+	extern int	VLen(int width, int lmax);
 
 	/**
 	 * Precomputes pretty formatting data for a Vector or Matrix
@@ -39,6 +40,7 @@ namespace ft
 	extern int	Preformat(const K &, std::string&);
 
 
+
 	/**
 	 * Prints a single vector with no newline into stdout.
 	 * Can also be used to print rows of a Matrix.
@@ -46,7 +48,7 @@ namespace ft
 	 * @param padWith	Padding to be applied to each component.
 	 */
 	template <int S>
-	extern void	PrintV(const std::string (&v)[S], int padwidth);
+	extern void	PrintV(const std::string (&v)[S], int padwidth = 0);
 
 	/**
 	 * Specialized formatting methods, based on an operation's input and output types.
@@ -74,6 +76,8 @@ namespace ft
 	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Matrix<K,P,IN>& i, const Matrix<K,P,OUT>& o);
 	template<class K, int IN, int OUT>
 	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o);
+	template<class K, int W, int H>
+	extern void	PrintTrans(const Matrix<K,W,H>& m, const Matrix<K,H,W>& t);
 }
 
 
@@ -364,5 +368,38 @@ namespace ft
 
 		std::cout << LOG_CLEAR << " = " << std::endl;
 		std::cout << LOG_BOLD_CYAN; PrintV(stro, lmax); std::cout << LOG_CLEAR << std::endl;
+	}
+
+/******************************************************************************/
+/* ## Ex09                                                                    */
+/******************************************************************************/
+
+	template<class K, int W, int H>
+	extern void	PrintTrans(const Matrix<K,W,H>& m, const Matrix<K,H,W>& t){
+		std::string strm[W][H], strt[H][W];
+		int lmax = 0;
+
+		lmax = ft::max(lmax, Preformat<K,W,H>(m, strm));
+		lmax = ft::max(lmax, Preformat<K,H,W>(t, strt));
+
+		int mlen = VLen(H, lmax);
+		int tlen = VLen(W, lmax);
+
+		for(int x=0; x<ft::max(W,H); x++)
+		{
+			if (x<W){
+				std::cout << LOG_BOLD_CLEAR;
+				PrintV(strm[x], lmax); 
+			} else
+				std::cout << std::setw(mlen) << "";
+
+			if (x<H){
+				std::cout << LOG_BOLD_CYAN;
+				PrintV(strt[x], lmax); 
+			}else
+				std::cout << std::setw(tlen) << "";
+			std::cout << std::endl;
+		}
+		std::cout << LOG_CLEAR;
 	}
 }

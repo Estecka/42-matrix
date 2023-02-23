@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:56:31 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/16 16:13:47 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 19:10:35 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,9 @@ namespace ft
 	}
 	extern int	min(int a, int b){
 		return (a<b) ? a : b;
+	}
+
+	extern int	VLen(int width, int lmax){
+		return 2 + lmax*width + 2*(width-1) + 2;
 	}
 }
