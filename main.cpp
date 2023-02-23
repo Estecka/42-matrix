@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:44:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/21 17:51:24 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 16:20:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static ft::TesterType	GetTest(std::string mode, const char* dimensions){
 	if (mode == "mx")
 		return ft::TestFactoryNM<ft::MatrixTestSuit, float, N_MAX, M_MAX>::GetTest(n, m);
 	if (mode == "nmp")
-		return ft::TestFactoryNMP<ft::NMPTestSuit, float, N_MAX, M_MAX, P_MAX>::GetTest(n, m);
+		return ft::TestFactoryNMP<ft::NMPTestSuit, float, N_MAX, M_MAX, P_MAX>::GetTest(n, m, p);
 
 	return NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/23 16:00:26 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 16:38:14 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,19 +321,25 @@ namespace ft
 		lmax = ft::max(lmax, Preformat<K,P,IN>  (i, stri));
 		lmax = ft::max(lmax, Preformat<K,P,OUT> (o, stro));
 
-		for (int x=0; x<IN; x++){
-			std::cout << LOG_BOLD_CLEAR;
+		for (int x=0; x<P; x++){
+			std::cout << LOG_BOLD_YELLOW;
 			PrintV(stri[x], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
 
-		int mlen = 4 + (lmax*P) + 2*(P-1);
-		std::cout << std::setw(mlen/2) << '*' << std::endl;
+		std::cout << " * " << std::endl;
 
-		for (int x=0; x<OUT; x++) {
-			std::cout << LOG_BOLD_CLEAR; PrintV(strf[x], lmax);
-			std::cout << LOG_CLEAR << ((x==OUT/2) ? " = " : "   ");
-			std::cout << LOG_BOLD_CYAN; PrintV(stro[x], lmax);
+		for (int x=0; x<IN; x++){
+			std::cout << LOG_BOLD_CLEAR;
+			PrintV(strf[x], lmax);
+			std::cout << LOG_CLEAR << std::endl;
+		}
+
+		std::cout << " = " << std::endl;
+
+		for (int x=0; x<P; x++){
+			std::cout << LOG_BOLD_CYAN;
+			PrintV(stro[x], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
 	}

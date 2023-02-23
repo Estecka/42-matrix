@@ -16,6 +16,6 @@
 && echo && ./ft_matrix.out nmp 2,2,2 mxm "3,-5;6,8" "2,1;4,2" \
 && echo && ./ft_matrix.out nmp 2,2,2 mxm "2,1;4,2" "3,-5;6,8" \
 && echo && ./ft_matrix.out nmp 2,2,2 mxm "1,1;-1,1" "1,-1;1,1" \
-&& echo && ./ft_matrix.out nmp 2,2,2 mxm "1,-1;1,1" "1,1;-1,1" \
+&& echo && ./ft_matrix.out nmp 4,3,2 mxm "1,0,0;0,2,0;0,0,3;1,1,1" "0,1,2,3;4,5,6,7" \
 || echo "Test Failed" \
 ;

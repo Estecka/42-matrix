@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 23:52:44 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/21 17:47:53 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 16:21:25 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,13 @@ namespace ft
 	template <template <class,int,int,int> class T, class K, int N, int M, int P>
 	class TestFactoryNMP {
 	public:
-		static TesterType	GetTest(int n, int m){
+		static TesterType	GetTest(int n, int m, int p){
 			if (n != N)
-				return TestFactoryNMP<T,K,N-1,M,P>::GetTest(n,m);
+				return TestFactoryNMP<T,K,N-1,M,P>::GetTest(n,m,p);
 			if (m != M)
-				return TestFactoryNMP<T,K,N,M-1,P>::GetTest(n,m);
-			if (m != M)
-				return TestFactoryNMP<T,K,N,M-1,P>::GetTest(n,m);
+				return TestFactoryNMP<T,K,N,M-1,P>::GetTest(n,m,p);
+			if (p != P)
+				return TestFactoryNMP<T,K,N,M,P-1>::GetTest(n,m,p);
 			else
 				return T<K,N,M,P>::main;
 		}
@@ -86,16 +86,16 @@ namespace ft
 	template <template <class,int,int,int> class T, class K, int N, int P>
 	class TestFactoryNMP<T, K,N,0,P> {
 	public:
-		static TesterType	GetTest(int, int){ return NULL; };
+		static TesterType	GetTest(int, int, int){ return NULL; };
 	};
 	template <template <class,int,int,int> class T, class K, int M, int P>
 	class TestFactoryNMP<T, K,0,M,P> {
 	public:
-		static TesterType	GetTest(int, int){ return NULL; };
+		static TesterType	GetTest(int, int, int){ return NULL; };
 	};
 	template <template <class,int,int,int> class T, class K, int N, int M>
 	class TestFactoryNMP<T, K,N,M,0> {
 	public:
-		static TesterType	GetTest(int, int){ return NULL; };
+		static TesterType	GetTest(int, int, int){ return NULL; };
 	};
 }
