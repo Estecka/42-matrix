@@ -6,13 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/19 18:11:46 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/21 18:58:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "lerp.hpp"
+#include "Vector.hpp"
 
 #include <sstream>
 #include <stdexcept>
@@ -62,6 +63,11 @@ namespace ft
 
 		// Ex 02
 		static Matrix	lerp(const Matrix&, const Matrix&, float);
+
+		// Ex07
+		template <int P>
+		Matrix<K,P,HEIGHT>	mul_mat(const Matrix<K,P,WIDTH>&) const;
+		Vector<K,HEIGHT>  	mul_vec(const Vector<K,WIDTH>&) const;
 	};
 
 	template<class K, int W, int H>
@@ -202,5 +208,30 @@ namespace ft
 		Matrix result;
 		ft::lerp((Matrix::raw_type&)a, (Matrix::raw_type&)b, t, (Matrix::raw_type&)result);
 		return result;
+	}
+
+/******************************************************************************/
+/* ## Exercice 07                                                             */
+/******************************************************************************/
+
+	template <class K, int W, int H> 
+	template <int P>
+	Matrix<K,P,H>	Matrix<K,W,H>::mul_mat(const Matrix<K,P,W>& input) const {
+		Matrix<K,P,H> result;
+
+		for (int  x=0;  x<P;  x++) // Iterates over  Input-X and Output-X
+		for (int oy=0; oy<H; oy++) // Iterates over Output-Y and Factor-Y
+		for (int iy=0; iy<W; iy++) // Iterates over  Input-Y and Factor-X
+		{
+			result[x][oy] += input[x][iy] * (*this)[iy][oy];
+		}
+
+		return result;
+	}
+
+	template <class K, int W, int H> 
+	Vector<K,H>  	Matrix<K,W,H>::mul_vec(const Vector<K,W>& vector) const {
+		Matrix<K,1,H> result = this->mul_mat((const Matrix<K,1,W>&)vector);
+		return (Vector<K,H>&)result;
 	}
 }

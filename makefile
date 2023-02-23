@@ -9,6 +9,7 @@ SRCS = \
 TEST_HDRS = \
 	TestFactory.hpp \
 	matrix_tester.hpp \
+	nmp_tester.hpp \
 	number_tester.hpp \
 	vector_tester.hpp \
 

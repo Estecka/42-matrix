@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/21 00:33:43 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/23 16:00:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,10 @@ namespace ft
 	extern void	PrintVVK(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const K& r);
 	template <class K, int S>
 	extern void	PrintVNorm(const Vector<K,S>& v, float n1, float n2, float ni);
+	template<class K, int IN, int OUT, int P>
+	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Matrix<K,P,IN>& i, const Matrix<K,P,OUT>& o);
+	template<class K, int IN, int OUT>
+	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o);
 }
 
 
@@ -300,5 +304,59 @@ namespace ft
 		std::cout << LOG_CLEAR ";  Norm_2: "   LOG_BOLD_CYAN << n2;
 		std::cout << LOG_CLEAR ";  Norm_inf: " LOG_BOLD_CYAN << ni;
 		std::cout << LOG_CLEAR << std::endl;
+	}
+
+/******************************************************************************/
+/* ## Ex07                                                                    */
+/******************************************************************************/
+
+	template<class K, int IN, int OUT, int P>
+	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Matrix<K,P,IN>& i, const Matrix<K,P,OUT>& o){
+		std::string strf[IN][OUT];
+		std::string stri[P][IN];
+		std::string stro[P][OUT];
+
+		int lmax = 0;
+		lmax = ft::max(lmax, Preformat<K,IN,OUT>(f, strf));
+		lmax = ft::max(lmax, Preformat<K,P,IN>  (i, stri));
+		lmax = ft::max(lmax, Preformat<K,P,OUT> (o, stro));
+
+		for (int x=0; x<IN; x++){
+			std::cout << LOG_BOLD_CLEAR;
+			PrintV(stri[x], lmax);
+			std::cout << LOG_CLEAR << std::endl;
+		}
+
+		int mlen = 4 + (lmax*P) + 2*(P-1);
+		std::cout << std::setw(mlen/2) << '*' << std::endl;
+
+		for (int x=0; x<OUT; x++) {
+			std::cout << LOG_BOLD_CLEAR; PrintV(strf[x], lmax);
+			std::cout << LOG_CLEAR << ((x==OUT/2) ? " = " : "   ");
+			std::cout << LOG_BOLD_CYAN; PrintV(stro[x], lmax);
+			std::cout << LOG_CLEAR << std::endl;
+		}
+	}
+
+	template<class K, int IN, int OUT>
+	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o){
+		std::string strf[IN][OUT];
+		std::string stri[IN];
+		std::string stro[OUT];
+
+		int lmax = 0;
+		lmax = ft::max(lmax, Preformat<K,IN,OUT>(f, strf));
+		lmax = ft::max(lmax, Preformat<K,IN>  (i, stri));
+		lmax = ft::max(lmax, Preformat<K,OUT> (o, stro));
+
+		for (int x=0; x<IN; x++){
+			std::cout << LOG_BOLD_CLEAR; PrintV(strf[x], lmax);
+			std::cout << LOG_CLEAR << ((x==OUT/2) ? " * " : "   ");
+			std::cout << LOG_BOLD_CLEAR << "[ " << std::setw(lmax) << stri[x] << " ]";
+			std::cout << LOG_CLEAR << std::endl;
+		}
+
+		std::cout << LOG_CLEAR << " = " << std::endl;
+		std::cout << LOG_BOLD_CYAN; PrintV(stro, lmax); std::cout << LOG_CLEAR << std::endl;
 	}
 }

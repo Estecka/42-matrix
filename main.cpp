@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:44:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/18 18:10:39 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/21 17:51:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "TestFactory.hpp"
 #include "vector_tester.hpp"
 #include "matrix_tester.hpp"
+#include "nmp_tester.hpp"
 #include "number_tester.hpp"
 
 #include "logutil/logutil.hpp"
@@ -25,6 +26,7 @@
 
 #define N_MAX	4
 #define M_MAX	4
+#define P_MAX	4
 
 static void	GetDimensions(const char* str, int& outn, int& outm, int& outp){
 	char* endptr;
@@ -51,6 +53,8 @@ static ft::TesterType	GetTest(std::string mode, const char* dimensions){
 		return ft::TestFactoryN<ft::VectorTestSuit, float, N_MAX>::GetTest(n);
 	if (mode == "mx")
 		return ft::TestFactoryNM<ft::MatrixTestSuit, float, N_MAX, M_MAX>::GetTest(n, m);
+	if (mode == "nmp")
+		return ft::TestFactoryNMP<ft::NMPTestSuit, float, N_MAX, M_MAX, P_MAX>::GetTest(n, m);
 
 	return NULL;
 }
