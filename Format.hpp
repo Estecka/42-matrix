@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/24 17:34:10 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/24 17:55:35 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ namespace ft
 	template <class K, int S>	extern void	PrintVNorm(const Vector<K,S>& v, float n1, float n2, float ni);
 	template <class K, int IN, int OUT, int P>	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Matrix<K,P,IN>& i, const Matrix<K,P,OUT>& o);
 	template <class K, int IN, int OUT>	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o);
-	template <class K, int W, int H>	extern void	PrintTrans(const Matrix<K,W,H>& m, const Matrix<K,H,W>& t);
+	template <class K, int W, int H, int w, int h>	extern void	PrintMM(const Matrix<K,W,H>& m, const Matrix<K,w,h>& t);
 	template <class K, int W, int H>	extern void	PrintMK(const Matrix<K,W,H>& m, const K& k);
 }
 
@@ -376,18 +376,18 @@ namespace ft
 /* ## Ex09                                                                    */
 /******************************************************************************/
 
-	template<class K, int W, int H>
-	extern void	PrintTrans(const Matrix<K,W,H>& m, const Matrix<K,H,W>& t){
-		std::string strm[H][W], strt[W][H];
+	template<class K, int W, int H, int w, int h>
+	extern void	PrintMM(const Matrix<K,W,H>& m, const Matrix<K,w,h>& t){
+		std::string strm[H][W], strt[h][w];
 		int lmax = 0;
 
 		lmax = ft::max(lmax, Preformat<K,W,H>(m, strm));
-		lmax = ft::max(lmax, Preformat<K,H,W>(t, strt));
+		lmax = ft::max(lmax, Preformat<K,w,h>(t, strt));
 
 		int mlen = VLen(W, lmax);
-		int tlen = VLen(H, lmax);
+		int tlen = VLen(w, lmax);
 
-		for(int y=0; y<ft::max(W,H); y++)
+		for(int y=0; y<ft::max(H,h); y++)
 		{
 			if (y<H){
 				std::cout << LOG_BOLD_CLEAR;
@@ -395,7 +395,7 @@ namespace ft
 			} else
 				std::cout << std::setw(mlen) << "";
 
-			if (y<W){
+			if (y<h){
 				std::cout << LOG_BOLD_CYAN;
 				PrintV(strt[y], lmax); 
 			} else

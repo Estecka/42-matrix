@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:44:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/23 16:20:20 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/24 17:57:35 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 #include <cstring>
 #include <exception>
 
-#define N_MAX	4
-#define M_MAX	4
-#define P_MAX	4
+#define N_MAX	5
+#define M_MAX	5
+#define P_MAX	5
 
 static void	GetDimensions(const char* str, int& outn, int& outm, int& outp){
 	char* endptr;

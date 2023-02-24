@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/24 17:38:53 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/24 17:52:48 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ namespace ft
 
 		// Ex09
 		Matrix<K,HEIGHT,WIDTH>	transpose() const;
+
+		// Ex10
+		Matrix<K,WIDTH,HEIGHT>	row_echelon() const;
 	};
 
 	template<class K, int W, int H>
@@ -268,5 +271,14 @@ namespace ft
 			result[y][x] = (*this)[x][y];
 
 		return result;
+	}
+
+/******************************************************************************/
+/* ## Exercice 10                                                             */
+/******************************************************************************/
+
+	template <class K, int W, int H> 
+	Matrix<K,W,H>	Matrix<K,W,H>::row_echelon() const {
+		return *this;
 	}
 }

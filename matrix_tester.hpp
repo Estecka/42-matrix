@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/24 17:34:43 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/24 17:54:06 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ namespace ft
 		static int	vec_mul(const Matrix&, const Vector<K,N>&);
 		static int	trace(const Matrix&);
 		static int	transpose(const Matrix&);
+		static int	rowech(const Matrix&);
 	};
 }
 
@@ -55,6 +56,7 @@ namespace ft
 		std::string subcmd = argv[0];
 		if (subcmd == "trans")	return transpose(Matrix::StrToMx(argv[1]));
 		if (subcmd == "trace")	return trace(Matrix::StrToMx(argv[1]));
+		if (subcmd == "rowech")	return rowech(Matrix::StrToMx(argv[1]));
 
 		if (argc < 3){
 			std::cerr << "Not enough arguments" << std::endl;
@@ -149,7 +151,17 @@ namespace ft
 /* ************************************************************************** */
 	template <class K, int N, int M>
 	int	MatrixTestSuit<K,N,M>::transpose(const Matrix& m){
-		PrintTrans(m, m.transpose());
+		PrintMM(m, m.transpose());
+		return EXIT_SUCCESS;
+	}
+
+
+/* ************************************************************************** */
+/* ## Ex10                                                                    */
+/* ************************************************************************** */
+	template <class K, int N, int M>
+	int	MatrixTestSuit<K,N,M>::rowech(const Matrix& m){
+		PrintMM(m, m.row_echelon());
 		return EXIT_SUCCESS;
 	}
 }
