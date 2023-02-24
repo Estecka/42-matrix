@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/23 19:38:45 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/24 14:57:47 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ namespace ft
 					else
 						throw std::invalid_argument("Argument matrix is invalid");
 				}
-				result[y][x] = std::strtof(str, (char**)&str);
+				result[x][y] = std::strtof(str, (char**)&str);
 			}
 		}
 
@@ -158,11 +158,11 @@ namespace ft
 
 	template<class K, int W, int H>
 	std::ostream&	operator<<(std::ostream& cout, const ft::Matrix<K,W,H>& mx){
-		for (int x=0; x<W; x++) {
-			if (x)
+		for (int y=0; y<H; y++) {
+			if (y)
 				cout << ';';
-			for (int y=0; y<H; y++) {
-				if (y)
+			for (int x=0; x<W; x++) {
+				if (x)
 					cout << ',';
 				cout << mx[x][y];
 			}

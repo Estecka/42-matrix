@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/23 19:46:43 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/24 14:31:18 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,17 +317,17 @@ namespace ft
 	template<class K, int IN, int OUT, int P>
 	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Matrix<K,P,IN>& i, const Matrix<K,P,OUT>& o){
 		std::string strf[OUT][IN];
-		std::string stri[IN] [P] ;
+		std::string stri[P][IN];
 		std::string stro[OUT][P] ;
 
 		int lmax = 0;
 		lmax = ft::max(lmax, Preformat<K,IN,OUT>(f, strf));
-		lmax = ft::max(lmax, Preformat<K,P,IN>  (i, stri));
+		lmax = ft::max(lmax, Preformat<K,IN,P>  (i.transpose(), stri));
 		lmax = ft::max(lmax, Preformat<K,P,OUT> (o, stro));
 
-		for (int y=0; y<IN; y++){
+		for (int x=0; x<P; x++){
 			std::cout << LOG_BOLD_YELLOW;
-			PrintV(stri[y], lmax);
+			PrintV(stri[x], lmax);
 			std::cout << LOG_CLEAR << std::endl;
 		}
 
@@ -336,12 +336,7 @@ namespace ft
 		for (int y=0; y<OUT; y++){
 			std::cout << LOG_BOLD_CLEAR;
 			PrintV(strf[y], lmax);
-			std::cout << LOG_CLEAR << std::endl;
-		}
-
-		std::cout << " = " << std::endl;
-
-		for (int y=0; y<OUT; y++){
+			std::cout << LOG_CLEAR << ((y==OUT/2) ? " = " : "   ");
 			std::cout << LOG_BOLD_CYAN;
 			PrintV(stro[y], lmax);
 			std::cout << LOG_CLEAR << std::endl;
@@ -350,8 +345,6 @@ namespace ft
 
 	template<class K, int IN, int OUT>
 	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o){
-		std::cout << "Not Implemented" << std::endl;
-		return;
 		std::string strf[OUT][IN];
 		std::string stri[IN];
 		std::string stro[OUT];
@@ -361,15 +354,16 @@ namespace ft
 		lmax = ft::max(lmax, Preformat<K,IN>  (i, stri));
 		lmax = ft::max(lmax, Preformat<K,OUT> (o, stro));
 
-		for (int x=0; x<IN; x++){
-			std::cout << LOG_BOLD_CLEAR; PrintV(strf[x], lmax);
-			std::cout << LOG_CLEAR << ((x==OUT/2) ? " * " : "   ");
-			std::cout << LOG_BOLD_CLEAR << "[ " << std::setw(lmax) << stri[x] << " ]";
+		std::cout << LOG_BOLD_CLEAR; PrintV(stri, lmax); std::cout << LOG_CLEAR << std::endl;
+		std::cout << LOG_CLEAR << " * " << std::endl;
+
+		for (int y=0; y<OUT; y++){
+			std::cout << LOG_BOLD_CLEAR; PrintV(strf[y], lmax);
+			std::cout << LOG_CLEAR << ((y==OUT/2) ? " = " : "   ");
+			std::cout << LOG_BOLD_CYAN << "[ " << std::setw(lmax) << stro[y] << " ]";
 			std::cout << LOG_CLEAR << std::endl;
 		}
 
-		std::cout << LOG_CLEAR << " = " << std::endl;
-		std::cout << LOG_BOLD_CYAN; PrintV(stro, lmax); std::cout << LOG_CLEAR << std::endl;
 	}
 
 /******************************************************************************/
