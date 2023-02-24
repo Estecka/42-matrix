@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/24 14:31:18 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/24 17:34:10 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,30 +54,19 @@ namespace ft
 	 * Specialized formatting methods, based on an operation's input and output types.
 	 * @param op	The string to use to represent the operation's name.
 	 */
-	template <class K, int S>
-	extern void	PrintVVV(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const Vector<K,S>& r);
-	template <class K, int S>
-	extern void	PrintVKV(const std::string& op, const Vector<K,S>& a, const K& b, const Vector<K,S>& r);
-	template<class K, int W, int H>
-	extern void	PrintMMM(const std::string& op, const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const Matrix<K,W,H>& r);
-	template<class K, int W, int H>
-	extern void	PrintMKM(const std::string& op, const Matrix<K,W,H>& a, const K& b, const Matrix<K,W,H>& r);
-	template <class K, int S>
-	extern void	PrintFMA(const std::vector<Vector<K,S>>& a, const std::vector<K>& b, const Vector<K,S>& r);
-	template <class K>
-	extern void	PrintKLerp(const K& a, const K& b, const K& t, const K& r);
-	template <class K, int W, int H>
-	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r);
-	template <class K, int S>
-	extern void	PrintVVK(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const K& r);
-	template <class K, int S>
-	extern void	PrintVNorm(const Vector<K,S>& v, float n1, float n2, float ni);
-	template<class K, int IN, int OUT, int P>
-	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Matrix<K,P,IN>& i, const Matrix<K,P,OUT>& o);
-	template<class K, int IN, int OUT>
-	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o);
-	template<class K, int W, int H>
-	extern void	PrintTrans(const Matrix<K,W,H>& m, const Matrix<K,H,W>& t);
+	template <class K, int S>	extern void	PrintVVV(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const Vector<K,S>& r);
+	template <class K, int S>	extern void	PrintVKV(const std::string& op, const Vector<K,S>& a, const K& b, const Vector<K,S>& r);
+	template <class K, int W, int H>	extern void	PrintMMM(const std::string& op, const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const Matrix<K,W,H>& r);
+	template <class K, int W, int H>	extern void	PrintMKM(const std::string& op, const Matrix<K,W,H>& a, const K& b, const Matrix<K,W,H>& r);
+	template <class K, int S>	extern void	PrintFMA(const std::vector<Vector<K,S>>& a, const std::vector<K>& b, const Vector<K,S>& r);
+	template <class K>	extern void	PrintKLerp(const K& a, const K& b, const K& t, const K& r);
+	template <class K, int W, int H>	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r);
+	template <class K, int S>	extern void	PrintVVK(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const K& r);
+	template <class K, int S>	extern void	PrintVNorm(const Vector<K,S>& v, float n1, float n2, float ni);
+	template <class K, int IN, int OUT, int P>	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Matrix<K,P,IN>& i, const Matrix<K,P,OUT>& o);
+	template <class K, int IN, int OUT>	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o);
+	template <class K, int W, int H>	extern void	PrintTrans(const Matrix<K,W,H>& m, const Matrix<K,H,W>& t);
+	template <class K, int W, int H>	extern void	PrintMK(const Matrix<K,W,H>& m, const K& k);
 }
 
 
@@ -364,6 +353,23 @@ namespace ft
 			std::cout << LOG_CLEAR << std::endl;
 		}
 
+	}
+
+/******************************************************************************/
+/* ## Ex08                                                                    */
+/******************************************************************************/
+
+	template<class K, int W, int H>
+	extern void	PrintMK(const Matrix<K,W,H>& m, const K& k){
+		std::string strm[H][W];
+		int lmax = Preformat<K,W,H>(m, strm);
+
+		for (int y=0; y<H; y++) {
+			std::cout << LOG_BOLD_CLEAR;
+			PrintV(strm[y], lmax);
+			std::cout << std::endl;
+		}
+		std::cout << LOG_BOLD_CYAN << k << LOG_CLEAR << std::endl;
 	}
 
 /******************************************************************************/

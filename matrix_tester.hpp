@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/23 18:47:09 by abaur            ###   ########.fr       */
+/*   Updated: 2023/02/24 17:34:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ namespace ft
 		static int	Scl(const Matrix&, K);
 		static int	lerp(const Matrix&, const Matrix&, float);
 		static int	vec_mul(const Matrix&, const Vector<K,N>&);
+		static int	trace(const Matrix&);
 		static int	transpose(const Matrix&);
 	};
 }
@@ -53,6 +54,7 @@ namespace ft
 
 		std::string subcmd = argv[0];
 		if (subcmd == "trans")	return transpose(Matrix::StrToMx(argv[1]));
+		if (subcmd == "trace")	return trace(Matrix::StrToMx(argv[1]));
 
 		if (argc < 3){
 			std::cerr << "Not enough arguments" << std::endl;
@@ -128,6 +130,16 @@ namespace ft
 	int	MatrixTestSuit<K,N,M>::vec_mul(const Matrix& m, const Vector<K,N>& v){
 		Vector<K,M> r = m.mul_vec(v);
 		PrintNMP(m, v, r);
+		return EXIT_SUCCESS;
+	}
+
+
+/* ************************************************************************** */
+/* ## Ex08                                                                    */
+/* ************************************************************************** */
+	template <class K, int N, int M>
+	int	MatrixTestSuit<K,N,M>::trace(const Matrix& m){
+		PrintMK(m, m.trace());
 		return EXIT_SUCCESS;
 	}
 
