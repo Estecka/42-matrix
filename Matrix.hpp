@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/02 15:47:10 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/02 20:02:04 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,15 +81,15 @@ namespace ft
 		// Ex11
 		/**
 		 * Computes the determinant of a submatrix of this (root) matrix.
-		 * @param x	The X offset of the submatrix, relative to the root matrix.
 		 * @param y	The y offset of the submatrix, relative to the root matrix.
 		 * @param w	The width of the submatrix
 		 * @param h	The height of the submatrix
-		 * @param yMap	Array of size `w+1`. It maps a Y coordinate from the 
+		 * @param slice	The X coordinate of the slice within the submatrix, relative to the submatrix.
+		 * @param xMap	Array of size `w+1`. It maps a Y coordinate from the 
 		 * submatrix's parent to the corresponding Y coordinate in the root 
 		 * matrix.
 		 */
-		K	subdet(int x, int y, int w, int h, const int* yMap) const;
+		K	subdet(int y, int w, int h, int slice, const int* xMap) const;
 		K	determinant() const;
 	};
 
@@ -302,16 +302,31 @@ namespace ft
 
 	template <class K, int W, int H> 
 	K	Matrix<K,W,H>::determinant() const {
-		return 0;
+		int xMap[W];
+		for (int i=0; i<W; i++)
+			xMap[i] = i;
+
+		return subdet(0, W, H, W, xMap);
 	}
 
 	template <class K, int W, int H> 
-	K	Matrix<K,W,H>::subdet(int x, int y, int w, int h, const int* yMap) const {
-		(void)x;
-		(void)y;
-		(void)w;
-		(void)h;
-		(void)yMap;
-		return 0;
+	K	Matrix<K,W,H>::subdet(int y, int w, int h, int slice, const int* xMap) const {
+		K result = 0;
+		int subXMap[w];
+		for (int i=0; i<slice; i++)
+			subXMap[i] = xMap[i];
+		for (int i=slice; i<w; i++)
+			subXMap[i] = xMap[i+1];
+
+		if (w==1 || h==1)
+			return (*this)[subXMap[0]][y];
+
+		for (int i=0; i<w; i++){
+			K sub = subdet(y+1, w-1, h-1, i, subXMap);
+			K factor = (*this)[subXMap[i]][y];
+			result += factor * (i%2 ? -sub : sub);
+		}
+
+		return result;
 	}
 }
