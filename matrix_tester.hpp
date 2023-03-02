@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/24 17:54:06 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/02 15:45:38 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ namespace ft
 		static int	trace(const Matrix&);
 		static int	transpose(const Matrix&);
 		static int	rowech(const Matrix&);
+		static int	det(const Matrix&);
 	};
 }
 
@@ -57,6 +58,7 @@ namespace ft
 		if (subcmd == "trans")	return transpose(Matrix::StrToMx(argv[1]));
 		if (subcmd == "trace")	return trace(Matrix::StrToMx(argv[1]));
 		if (subcmd == "rowech")	return rowech(Matrix::StrToMx(argv[1]));
+		if (subcmd == "det")	return det(Matrix::StrToMx(argv[1]));
 
 		if (argc < 3){
 			std::cerr << "Not enough arguments" << std::endl;
@@ -162,6 +164,16 @@ namespace ft
 	template <class K, int N, int M>
 	int	MatrixTestSuit<K,N,M>::rowech(const Matrix& m){
 		PrintMM(m, m.row_echelon());
+		return EXIT_SUCCESS;
+	}
+
+
+/* ************************************************************************** */
+/* ## Ex11                                                                    */
+/* ************************************************************************** */
+	template <class K, int N, int M>
+	int	MatrixTestSuit<K,N,M>::det(const Matrix& m){
+		PrintMK(m, m.determinant());
 		return EXIT_SUCCESS;
 	}
 }

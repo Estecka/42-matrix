@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/24 17:52:48 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/02 15:47:10 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,20 @@ namespace ft
 
 		// Ex10
 		Matrix<K,WIDTH,HEIGHT>	row_echelon() const;
+
+		// Ex11
+		/**
+		 * Computes the determinant of a submatrix of this (root) matrix.
+		 * @param x	The X offset of the submatrix, relative to the root matrix.
+		 * @param y	The y offset of the submatrix, relative to the root matrix.
+		 * @param w	The width of the submatrix
+		 * @param h	The height of the submatrix
+		 * @param yMap	Array of size `w+1`. It maps a Y coordinate from the 
+		 * submatrix's parent to the corresponding Y coordinate in the root 
+		 * matrix.
+		 */
+		K	subdet(int x, int y, int w, int h, const int* yMap) const;
+		K	determinant() const;
 	};
 
 	template<class K, int W, int H>
@@ -280,5 +294,24 @@ namespace ft
 	template <class K, int W, int H> 
 	Matrix<K,W,H>	Matrix<K,W,H>::row_echelon() const {
 		return *this;
+	}
+
+/******************************************************************************/
+/* ## Exercice 11                                                             */
+/******************************************************************************/
+
+	template <class K, int W, int H> 
+	K	Matrix<K,W,H>::determinant() const {
+		return 0;
+	}
+
+	template <class K, int W, int H> 
+	K	Matrix<K,W,H>::subdet(int x, int y, int w, int h, const int* yMap) const {
+		(void)x;
+		(void)y;
+		(void)w;
+		(void)h;
+		(void)yMap;
+		return 0;
 	}
 }
