@@ -1,5 +1,6 @@
 HDRS = \
 	Format.hpp \
+	Imaginary.hpp \
 	Matrix.hpp \
 	Vector.hpp \
 
