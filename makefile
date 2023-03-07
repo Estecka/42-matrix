@@ -3,6 +3,8 @@ HDRS = \
 	Imaginary.hpp \
 	Matrix.hpp \
 	Vector.hpp \
+	atok.hpp \
+	lerp.hpp \
 
 SRCS = \
 	Format.cpp \
