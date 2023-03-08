@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:25:23 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/08 15:23:44 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 16:05:38 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,34 +45,24 @@ namespace ft
 	template <class K>
 	Imaginary<K>	strtoik(const char* __restrict__ cursor, char** __restrict__ outEnd){
 		Imaginary<K>	result = 0;
-		const char*	endPtr = cursor;
-		bool negI = false;
-
-		//r
-		result.r = ft::strtok<K>(cursor, (char**)&endPtr);
-		cursor = endPtr;
-
-		//+
-		if (*cursor == '-')
-			negI = true;
-		else if (*cursor != '+')
-			goto stop;
-		cursor++;
-
-		//i
-		result.i = ft::strtok<K>(cursor, (char**)&cursor);
-		if (*cursor == 'i')
-			endPtr = ++cursor;
-		else {
-			result.i = 0;
-			goto stop;
+		char*	endPtr;
+		
+		do {
+			K n = ft::strtok<K>(cursor, &endPtr);
+			if (*endPtr == 'i'){
+				result.i += (endPtr==cursor) ? 1 : n; // "i" alone shall be interpreted as 1*i, not 0*i
+				endPtr++;
+			}
+			else
+				result.r += n;
 		}
-		if (negI)
-			result.i *= -1;
-
-		stop:
+		while ((endPtr != cursor)
+			&& (cursor = endPtr)
+			&& (*endPtr=='-' || *endPtr=='+')
+		);
+		
 		if (outEnd)
-			*outEnd = (char*)endPtr;
+			*outEnd = endPtr;
 		return result;
 	}
 } 

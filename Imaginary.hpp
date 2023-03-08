@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:48:49 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/08 14:44:53 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 15:57:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,8 +254,10 @@ namespace ft
 			cout << n.r;
 		if (n.r && n.i)
 			cout << " + ";
+		if (n.i && n.i!=1) // "1*i" shall be displayed as simply "i"
+			cout << n.i;
 		if (n.i)
-			cout << n.i << "i";
+			cout << "i";
 		if (!n.r && !n.i)
 			cout << '0';
 
