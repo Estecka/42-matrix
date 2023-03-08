@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:48:49 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/08 15:57:08 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 16:15:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ namespace ft
 	Imaginary<K>	Imaginary<K>::operator*(const Imaginary& other) const {
 		return {
 			this->r * other.r + this->i * other.i,
-			2 * other.r * this->r,
+			this->r * other.i + this->i * other.r,
 		};
 	}
 	template<class K>
