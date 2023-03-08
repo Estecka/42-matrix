@@ -6,10 +6,11 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:44:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/24 17:57:35 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 14:16:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Imaginary.hpp"
 #include "Vector.hpp"
 #include "Matrix.hpp"
 #include "TestFactory.hpp"
@@ -43,18 +44,19 @@ static void	GetDimensions(const char* str, int& outn, int& outm, int& outp){
 
 }
 
+template <class K>
 static ft::TesterType	GetTest(std::string mode, const char* dimensions){
 	int n, m, p;
 	GetDimensions(dimensions, n, m, p);
 
 	if (mode == "num")
-		return ft::NumberTestSuit<float>::main;
+		return ft::NumberTestSuit<K>::main;
 	if (mode == "vec")
-		return ft::TestFactoryN<ft::VectorTestSuit, float, N_MAX>::GetTest(n);
+		return ft::TestFactoryN<ft::VectorTestSuit, K, N_MAX>::GetTest(n);
 	if (mode == "mx")
-		return ft::TestFactoryNM<ft::MatrixTestSuit, float, N_MAX, M_MAX>::GetTest(n, m);
+		return ft::TestFactoryNM<ft::MatrixTestSuit, K, N_MAX, M_MAX>::GetTest(n, m);
 	if (mode == "nmp")
-		return ft::TestFactoryNMP<ft::NMPTestSuit, float, N_MAX, M_MAX, P_MAX>::GetTest(n, m, p);
+		return ft::TestFactoryNMP<ft::NMPTestSuit, K, N_MAX, M_MAX, P_MAX>::GetTest(n, m, p);
 
 	return NULL;
 }
@@ -82,15 +84,31 @@ extern int main(int argc, char** argv){
 	if (argc <= 1){
 		return UnionTest();
 	}
+	argc--, argv++;
 
-	if (argc < 3){
+	bool isImaginary = false;
+	if (argc < 1){
+		std::cerr << "Not enough arguments" << std::endl;
+		return EXIT_FAILURE;
+	}
+	if (!std::strcmp(argv[0], "i")){
+		isImaginary = true;
+		argc--, argv++;
+	}
+
+
+	if (argc < 2){
 		std::cerr << "Not enough arguments" << std::endl;
 		return EXIT_FAILURE;
 	}
 
-	ft::TesterType	tester = GetTest(argv[1], argv[2]);
-	argc -= 3;
-	argv += 3;
+	ft::TesterType	tester;
+	if (isImaginary)
+		tester = GetTest<ft::Imaginary<float>>(argv[0], argv[1]);
+	else
+		tester = GetTest<float>(argv[0], argv[1]);
+	argc -= 2;
+	argv += 2;
 
 	if (tester == NULL){
 		std::cerr << "Test not implemented" << std::endl;
