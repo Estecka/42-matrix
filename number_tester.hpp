@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:00:22 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/18 18:00:27 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 15:29:32 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "lerp.hpp"
 #include "Format.hpp"
+#include "atok.hpp"
 
 #include <cstdlib>
 
@@ -43,7 +44,7 @@ namespace ft
 			return EXIT_FAILURE;
 		}
 		std::string subcmd = argv[0];
-		if (subcmd == "lerp")	return lerp(std::atof(argv[1]), std::atof(argv[2]), std::atof(argv[3]));
+		if (subcmd == "lerp")	return lerp(ft::atok<K>(argv[1]), ft::atok<K>(argv[2]), std::atof(argv[3]));
 
 		std::cerr << "Unsupported command: " << subcmd << std::endl;
 		return EXIT_FAILURE;

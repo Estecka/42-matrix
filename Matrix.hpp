@@ -6,12 +6,13 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/02 20:02:04 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 15:17:47 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+#include "atok.hpp"
 #include "lerp.hpp"
 #include "Vector.hpp"
 
@@ -160,7 +161,7 @@ namespace ft
 					else
 						throw std::invalid_argument("Argument matrix is invalid");
 				}
-				result[x][y] = std::strtof(str, (char**)&str);
+				result[x][y] = ft::strtok<K>(str, (char**)&str);
 			}
 		}
 

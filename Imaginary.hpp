@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:48:49 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/05 16:49:11 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 14:44:53 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,32 @@ namespace ft
 		bool	operator!=(const Imaginary&) const;
 
 
+		Imaginary&	operator+() const;
+		Imaginary 	operator-() const;
+
 		Imaginary	operator+(const Imaginary&) const;
 		Imaginary	operator-(const Imaginary&) const;
-		Imaginary	operator/(const Imaginary&) const;
 		Imaginary	operator*(const Imaginary&) const;
+		Imaginary	operator/(const Imaginary&) const;
+		Imaginary	operator+(const K&) const;
+		Imaginary	operator-(const K&) const;
+		Imaginary	operator*(const K&) const;
+		Imaginary	operator/(const K&) const;
 
 		Imaginary&	operator+=(const Imaginary&);
 		Imaginary&	operator-=(const Imaginary&);
 		Imaginary&	operator*=(const Imaginary&);
 		Imaginary&	operator/=(const Imaginary&);
+		Imaginary&	operator+=(const K&);
+		Imaginary&	operator-=(const K&);
+		Imaginary&	operator*=(const K&);
+		Imaginary&	operator/=(const K&);
 
 		std::string	ToString() const;
 	};
 
 	template <class K>
-	std::ostream&	operator<<(std::ostream, const Imaginary<K>&);
+	std::ostream&	operator<<(std::ostream&, const Imaginary<K>&);
 }
 
 
@@ -146,6 +157,18 @@ namespace ft
 /******************************************************************************/
 
 	template<class K>
+	Imaginary<K>&	Imaginary<K>::operator+() const {
+		return *this;
+	}
+	template<class K>
+	Imaginary<K>	Imaginary<K>::operator-() const {
+		return {
+			-this->r,
+			-this->i,
+		};
+	}
+
+	template<class K>
 	Imaginary<K>	Imaginary<K>::operator+(const Imaginary& other) const { 
 		return {
 			this->r + other.r,
@@ -175,10 +198,43 @@ namespace ft
 		};
 	}
 
-	template<class K> Imaginary<K>&	Imaginary<K>::operator+=(const Imaginary& other) { *this = *this + other; }
-	template<class K> Imaginary<K>&	Imaginary<K>::operator-=(const Imaginary& other) { *this = *this - other; }
-	template<class K> Imaginary<K>&	Imaginary<K>::operator*=(const Imaginary& other) { *this = *this * other; }
-	template<class K> Imaginary<K>&	Imaginary<K>::operator/=(const Imaginary& other) { *this = *this / other; }
+	template<class K>
+	Imaginary<K>	Imaginary<K>::operator+(const K& other) const { 
+		return {
+			this->r + other,
+			this->i,
+		};
+	}
+	template<class K>
+	Imaginary<K>	Imaginary<K>::operator-(const K& other) const {
+		return {
+			this->r - other,
+			this->i,
+		};
+	}
+	template<class K>
+	Imaginary<K>	Imaginary<K>::operator*(const K& other) const {
+		return {
+			this->r * other,
+			this->i * other,
+		};
+	}
+	template<class K>
+	Imaginary<K>	Imaginary<K>::operator/(const K& other) const {
+		return {
+			this->r / other,
+			this->i / other,
+		};
+	}
+
+	template<class K> Imaginary<K>&	Imaginary<K>::operator+=(const Imaginary& other) { return *this = *this + other; }
+	template<class K> Imaginary<K>&	Imaginary<K>::operator-=(const Imaginary& other) { return *this = *this - other; }
+	template<class K> Imaginary<K>&	Imaginary<K>::operator*=(const Imaginary& other) { return *this = *this * other; }
+	template<class K> Imaginary<K>&	Imaginary<K>::operator/=(const Imaginary& other) { return *this = *this / other; }
+	template<class K> Imaginary<K>&	Imaginary<K>::operator+=(const K& other) { return *this = *this + other; }
+	template<class K> Imaginary<K>&	Imaginary<K>::operator-=(const K& other) { return *this = *this - other; }
+	template<class K> Imaginary<K>&	Imaginary<K>::operator*=(const K& other) { return *this = *this * other; }
+	template<class K> Imaginary<K>&	Imaginary<K>::operator/=(const K& other) { return *this = *this / other; }
 
 
 /******************************************************************************/

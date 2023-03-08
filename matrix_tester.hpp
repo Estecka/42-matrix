@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/02 15:45:38 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 15:03:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "Matrix.hpp"
 #include "Vector.hpp"
 #include "Format.hpp"
+#include "atok.hpp"
 
 #include <cstdlib>
 
@@ -67,7 +68,7 @@ namespace ft
 
 		if (subcmd == "add")	return Add(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
 		if (subcmd == "sub")	return Sub(Matrix::StrToMx(argv[1]), Matrix::StrToMx(argv[2]));
-		if (subcmd == "scl")	return Scl(Matrix::StrToMx(argv[1]), std::atof(argv[2]));
+		if (subcmd == "scl")	return Scl(Matrix::StrToMx(argv[1]), ft::atok<K>(argv[2]));
 		if (subcmd == "mxv")	return vec_mul(Matrix::StrToMx(argv[1]), Vector<K,N>::StrToVec(argv[2]));
 
 		if (argc < 4){

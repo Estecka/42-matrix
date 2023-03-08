@@ -6,13 +6,14 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/21 00:15:32 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 15:16:52 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include "lerp.hpp"
+#include "atok.hpp"
 
 #include <cmath>
 #include <cstring>
@@ -137,7 +138,7 @@ namespace ft
 				else
 					throw std::invalid_argument("Argument vector is invalid");
 			}
-			result[i] = std::strtof(str, (char**)&str);
+			result[i] = ft::strtok<K>(str, (char**)&str);
 		}
 
 		if (outEnd != NULL)

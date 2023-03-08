@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/21 00:31:08 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 15:02:29 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "Vector.hpp"
 #include "Format.hpp"
+#include "atok.hpp"
 
 #include <cstdlib>
 
@@ -54,8 +55,8 @@ namespace ft
 		}
 
 		std::string subcmd = argv[0];
-		if (subcmd == "norm")
-			return norm(Vector::StrToVec(argv[1]));
+		// if (subcmd == "norm") // To reimplement for Imaginary numbers
+		// 	return norm(Vector::StrToVec(argv[1]));
 
 		if (argc < 3){
 			std::cerr << "Not enough arguments" << std::endl;
@@ -67,7 +68,7 @@ namespace ft
 		if (subcmd == "sub")
 			return Sub(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 		if (subcmd == "scl")
-			return Scl(Vector::StrToVec(argv[1]), std::atof(argv[2]));
+			return Scl(Vector::StrToVec(argv[1]), ft::atok<K>(argv[2]));
 		if (subcmd == "fma")
 			return linear_combination(argv[1], argv[2]);
 		if (subcmd == "dot")

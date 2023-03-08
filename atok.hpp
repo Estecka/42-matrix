@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:25:23 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/07 16:24:41 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 15:23:44 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace ft
 namespace ft
 {
 	template <class K>
-	Imaginary<K>	atoik(const char* nptr){
+	inline Imaginary<K>	atoik(const char* nptr){
 		return ft::strtoik<K>(nptr, NULL);
 	}
 
@@ -49,7 +49,7 @@ namespace ft
 		bool negI = false;
 
 		//r
-		result.r = ft::strtok<K>(cursor, endPtr);
+		result.r = ft::strtok<K>(cursor, (char**)&endPtr);
 		cursor = endPtr;
 
 		//+
@@ -60,9 +60,9 @@ namespace ft
 		cursor++;
 
 		//i
-		result.i = ft::strtok<K>(cursor, cursor);
+		result.i = ft::strtok<K>(cursor, (char**)&cursor);
 		if (*cursor == 'i')
-			endPtr = cursor++;
+			endPtr = ++cursor;
 		else {
 			result.i = 0;
 			goto stop;
@@ -84,9 +84,9 @@ namespace ft
 
 namespace ft
 {
-	template<> float	atok<float>  (const char* nptr){ return std::atof(nptr); }
-	template<> float	strtok<float>(const char* nptr, char** endptr){ return std::strtof(nptr, endptr); }
+	template<> inline float	atok<float>  (const char* nptr){ return std::atof(nptr); }
+	template<> inline float	strtok<float>(const char* nptr, char** endptr){ return std::strtof(nptr, endptr); }
 
-	template<> Imaginary<float>	atok<Imaginary<float>>(const char* nptr){ return ft::strtoik<float>(nptr, NULL); }
-	template<> Imaginary<float>	strtok<Imaginary<float>>(const char* nptr, char** endptr){ return ft::strtoik<float>(nptr, endptr); }
+	template<> inline Imaginary<float>	atok<Imaginary<float>>(const char* nptr){ return ft::strtoik<float>(nptr, NULL); }
+	template<> inline Imaginary<float>	strtok<Imaginary<float>>(const char* nptr, char** endptr){ return ft::strtoik<float>(nptr, endptr); }
 }

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/02/24 17:55:35 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/08 14:46:35 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ namespace ft
 	template <class K, int W, int H>	extern void	PrintMMM(const std::string& op, const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const Matrix<K,W,H>& r);
 	template <class K, int W, int H>	extern void	PrintMKM(const std::string& op, const Matrix<K,W,H>& a, const K& b, const Matrix<K,W,H>& r);
 	template <class K, int S>	extern void	PrintFMA(const std::vector<Vector<K,S>>& a, const std::vector<K>& b, const Vector<K,S>& r);
-	template <class K>	extern void	PrintKLerp(const K& a, const K& b, const K& t, const K& r);
-	template <class K, int W, int H>	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r);
+	template <class K>	extern void	PrintKLerp(const K& a, const K& b, float t, const K& r);
+	template <class K, int W, int H>	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, float t, const Matrix<K,W,H>& r);
 	template <class K, int S>	extern void	PrintVVK(const std::string& op, const Vector<K,S>& a, const Vector<K,S>& b, const K& r);
 	template <class K, int S>	extern void	PrintVNorm(const Vector<K,S>& v, float n1, float n2, float ni);
 	template <class K, int IN, int OUT, int P>	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Matrix<K,P,IN>& i, const Matrix<K,P,OUT>& o);
@@ -228,7 +228,7 @@ namespace ft
 /******************************************************************************/
 
 	template <class K>
-	extern void	PrintKLerp(const K& a, const K& b, const K& t, const K& r) {
+	extern void	PrintKLerp(const K& a, const K& b, float t, const K& r) {
 		std::string stra, strb, strr;
 		int lmax = 0;
 
@@ -244,7 +244,7 @@ namespace ft
 	}
 
 	template <class K, int W, int H>
-	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, const K& t, const Matrix<K,W,H>& r) {
+	extern void	PrintMLerp(const Matrix<K,W,H>& a, const Matrix<K,W,H>& b, float t, const Matrix<K,W,H>& r) {
 		std::string stra[H][W], strb[H][W], strr[H][W];
 		std::string strt;
 		int lmax = 0;
