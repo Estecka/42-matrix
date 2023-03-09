@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:48:49 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/08 16:15:43 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/09 14:41:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,15 +185,15 @@ namespace ft
 	template<class K>
 	Imaginary<K>	Imaginary<K>::operator*(const Imaginary& other) const {
 		return {
-			this->r * other.r + this->i * other.i,
+			this->r * other.r - this->i * other.i,
 			this->r * other.i + this->i * other.r,
 		};
 	}
 	template<class K>
 	Imaginary<K>	Imaginary<K>::operator/(const Imaginary& other) const {
-		K divisor = 1 / (other.r * other.r - other.i * other.i);
+		K divisor = 1 / (other.r * other.r + other.i * other.i);
 		return {
-			divisor * (this->r * other.r - this->i * other.i),
+			divisor * (this->r * other.r + this->i * other.i),
 			divisor * (this->i * other.r - this->r * other.i),
 		};
 	}
@@ -250,16 +250,19 @@ namespace ft
 
 	template<class K>
 	std::ostream&	operator<<(std::ostream& cout, const ft::Imaginary<K>& n) {
+		if (!n.r && !n.i)
+			return cout << '0';
+
 		if (n.r)
 			cout << n.r;
-		if (n.r && n.i)
-			cout << " + ";
-		if (n.i && n.i!=1) // "1*i" shall be displayed as simply "i"
+		if (n.i == -1)
+			cout << '-';
+		else if (n.r && (n.i > 0))
+			cout << '+';
+		if (n.i && n.i!=1 && n.i!=-1) // "1*i" shall be displayed as simply "i"
 			cout << n.i;
 		if (n.i)
-			cout << "i";
-		if (!n.r && !n.i)
-			cout << '0';
+			cout << 'i';
 
 		return cout;
 	}

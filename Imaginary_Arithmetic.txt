@@ -1,0 +1,12 @@
+  (a+bi) * (c+di)
+= ac + adi + cbi + bdii
+= ac - bd + adi + cbi
+= (ac-bd) + (ad+cb)i
+
+  (a+bi) / (c+di)
+= (a+bi)(c-di) / (c+di)(c-di)
+= (ac - adi + cbi - bdii) / (cc - cdi + cdi - ddii)
+= (ac - adi + cbi - bdii) / (cc + dd)
+= (ac - adi + cbi + bd) / (cc + dd)
+= (ac + bd + cbi - adi) / (cc + dd)
+= ((ac + bd) + (cb - ad)i) / (cc + dd)

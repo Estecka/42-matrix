@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 15:25:23 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/08 16:05:38 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/09 15:37:31 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,18 @@ namespace ft
 		
 		do {
 			K n = ft::strtok<K>(cursor, &endPtr);
-			if (*endPtr == 'i'){
-				result.i += (endPtr==cursor) ? 1 : n; // "i" alone shall be interpreted as 1*i, not 0*i
-				endPtr++;
+			if (cursor != endPtr) {
+				if (*endPtr == 'i')
+					result.i += n, endPtr++;
+				else
+					result.r += n;
 			}
-			else
-				result.r += n;
+			else if (*cursor == 'i')
+				result.i += 1, endPtr++;
+			else if (cursor[0]=='+' && cursor[1]=='i')
+				result.i += 1, endPtr+=2;
+			else if (cursor[0]=='-' && cursor[1]=='i')
+				result.i -= 1, endPtr+=2;
 		}
 		while ((endPtr != cursor)
 			&& (cursor = endPtr)
