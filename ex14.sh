@@ -15,5 +15,8 @@
 && echo && ./ft_matrix.out i mx 2,2 scl "1,i;3i,4-5i" "2" \
 && echo && ./ft_matrix.out i mx 2,2 scl "1,i;3i,4-5i" "3i" \
 && echo && ./ft_matrix.out i mx 2,2 scl "1,i;3i,4-5i" "2+3i" \
+&& echo -e "\n\n		# EX14-01" \
+&& echo -e "\n	## Linear Combination" \
+&& echo && ./ft_matrix.out i vec 2 fma "1,-i;-3i,4-i;5-9i,6;7,-8" "0;i;2;2+3i" \
 || echo "Test Failed" \
 ;

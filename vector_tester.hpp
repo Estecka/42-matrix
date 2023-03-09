@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/08 15:02:29 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/09 19:50:26 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ namespace ft
 			throw std::invalid_argument("Invalid vector array argument");
 
 		do {
-			coefs.push_back(std::strtof(argvCoef, (char**)&argvCoef));
+			coefs.push_back(ft::strtok<K>(argvCoef, (char**)&argvCoef));
 		} while(*argvCoef == ';' && *(++argvCoef));
 		if (*argvCoef)
 			throw std::invalid_argument("Invalid coefficient array argument");
