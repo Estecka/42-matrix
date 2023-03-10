@@ -9,4 +9,8 @@
 = (ac - adi + cbi - bdii) / (cc + dd)
 = (ac - adi + cbi + bd) / (cc + dd)
 = (ac + bd + cbi - adi) / (cc + dd)
-= ((ac + bd) + (cb - ad)i) / (cc + dd)
+= ((ac+bd) + (cb-ad)i) / (cc+dd)
+
+  (a+bi)²
+= (aa + 2abi + bb)
+= (aa+bb) + (2ab)i

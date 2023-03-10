@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/05 15:48:49 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/09 14:41:50 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/10 14:51:03 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ namespace ft
 		Imaginary&	operator=(const Imaginary&);
 
 		explicit operator K() const;
-		operator bool()const;
+		explicit operator bool()const;
 		bool	operator !()const;
 
 		bool	operator==(const K&) const;

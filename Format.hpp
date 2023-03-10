@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/08 14:46:35 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/09 20:36:35 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,8 +239,7 @@ namespace ft
 
 		std::cout << "  " LOG_BOLD_CLEAR << std::setw(lmax) << stra << LOG_CLEAR " * " << 1-t << std::endl;
 		std::cout << "+ " LOG_BOLD_CLEAR << std::setw(lmax) << strb << LOG_CLEAR " * " << t << std::endl;
-		std::cout << "= " LOG_BOLD_CYAN  << std::setw(lmax) << strr << std::endl;
-		std::cout << LOG_CLEAR << std::endl;
+		std::cout << "= " LOG_BOLD_CYAN  << std::setw(lmax) << strr << LOG_CLEAR << std::endl;
 	}
 
 	template <class K, int W, int H>

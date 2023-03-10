@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/09 19:50:26 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/10 14:57:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,9 @@ namespace ft
 		}
 
 		std::string subcmd = argv[0];
-		// if (subcmd == "norm") // To reimplement for Imaginary numbers
+		if (subcmd == "norm") // To reimplement for Imaginary numbers
 		// 	return norm(Vector::StrToVec(argv[1]));
+			return EXIT_SUCCESS	;
 
 		if (argc < 3){
 			std::cerr << "Not enough arguments" << std::endl;
@@ -74,7 +75,8 @@ namespace ft
 		if (subcmd == "dot")
 			return dot(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 		if (subcmd == "cos")
-			return cos(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
+			// return cos(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
+			return EXIT_SUCCESS;
 		if (subcmd == "cross")
 			return cross(ft::Vector<K,3>::StrToVec(argv[1]), ft::Vector<K,3>::StrToVec(argv[2]));
 
