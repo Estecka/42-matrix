@@ -3,6 +3,7 @@ HDRS = \
 	Imaginary.hpp \
 	Matrix.hpp \
 	Vector.hpp \
+	abs.hpp \
 	atok.hpp \
 	lerp.hpp \
 

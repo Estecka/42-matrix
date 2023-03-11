@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/08 15:16:52 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/11 16:04:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "lerp.hpp"
 #include "atok.hpp"
+#include "abs.hpp"
 
 #include <cmath>
 #include <cstring>
@@ -246,7 +247,7 @@ namespace ft
 	float	Vector<K,S>::norm_1() const {
 		float r = 0;
 		for (int i=0; i<S; i++)
-			r += std::max(+(*this)[i], -(*this)[i]);
+			r += ft::abs((*this)[i]);
 		return r;
 	};
 
@@ -254,17 +255,15 @@ namespace ft
 	float	Vector<K,S>::norm() const {
 		float r = 0;
 		for (int i=0; i<S; i++)
-			r += ((*this)[i] * (*this)[i]);
+			r += ft::abssqr((*this)[i]);
 		return std::pow(r, 0.5);
 	};
 
 	template <class K, int S> 
 	float	Vector<K,S>::norm_inf() const {
 		float r = 0;
-		for (int i=0; i<S; i++){
-			r = std::max(r, +(*this)[i]);
-			r = std::max(r, -(*this)[i]);
-		}
+		for (int i=0; i<S; i++)
+			r = std::max(r, ft::abs((*this)[i]));
 		return r;
 	};
 

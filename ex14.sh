@@ -24,7 +24,7 @@
 && echo -e "\n\n		# EX14-04" \
 && echo -e "\n	## Vector Norm" \
 && echo && ./ft_matrix.out i vec 2 norm "0,0" \
-&& echo && ./ft_matrix.out i vec 2 norm "i,2i" \
+&& echo && ./ft_matrix.out i vec 3 norm "i,2i,3i" \
 && echo && ./ft_matrix.out i vec 2 norm "-1i,-2i" \
 && echo && ./ft_matrix.out i vec 2 norm "2-3i,4+5i" \
 && echo -e "\n\n		# EX14-05" \
