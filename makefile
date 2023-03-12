@@ -5,6 +5,7 @@ HDRS = \
 	Vector.hpp \
 	abs.hpp \
 	atok.hpp \
+	conjugate.hpp \
 	lerp.hpp \
 
 SRCS = \

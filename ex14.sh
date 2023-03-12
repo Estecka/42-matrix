@@ -29,9 +29,10 @@
 && echo && ./ft_matrix.out i vec 2 norm "2-3i,4+5i" \
 && echo -e "\n\n		# EX14-05" \
 && echo -e "\n	## Vector Angle Cosine" \
-&& echo && ./ft_matrix.out i vec 2 cos "1,0", "i,0" \
-&& echo && ./ft_matrix.out i vec 2 cos "1,0", "0,i" \
 && echo && ./ft_matrix.out i vec 2 cos "1,1", "-i,i" \
+&& echo && ./ft_matrix.out i vec 2 cos "1,1", "1-i,i" \
+&& echo && ./ft_matrix.out i vec 2 cos "1,1", "1-i,100i" \
+&& echo && ./ft_matrix.out i vec 2 cos "1,1", "1-i,1e-15i" \
 && echo && ./ft_matrix.out i vec 2 cos "-1,6i", "3+i,2-5i" \
 && echo -e "\n\n		# EX14-06" \
 && echo -e "\n	## Vector3 Cross Product" \

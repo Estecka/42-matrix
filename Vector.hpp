@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/11 16:04:19 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/12 12:12:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "lerp.hpp"
 #include "atok.hpp"
+#include "conjugate.hpp"
 #include "abs.hpp"
 
 #include <cmath>
@@ -233,7 +234,7 @@ namespace ft
 		K result = 0;
 
 		for (int i=0; i<S; i++)
-			result += ((*this)[i] * b[i]);
+			result += ((*this)[i] * ft::conjugate(b[i]));
 
 		return result;
 	};
@@ -274,7 +275,7 @@ namespace ft
 
 	template <class K, int S> 
 	float	Vector<K,S>::angle_cos(const Vector& a, const Vector& b){
-		return a.dot(b) / (a.norm() * b.norm());
+		return ((float)a.dot(b)) / (a.norm() * b.norm());
 	};
 
 

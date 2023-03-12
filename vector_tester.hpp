@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/11 14:47:46 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/11 16:55:05 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,7 @@ namespace ft
 		if (subcmd == "dot")
 			return dot(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 		if (subcmd == "cos")
-			// return cos(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
-			return EXIT_SUCCESS;
+			return cos(Vector::StrToVec(argv[1]), Vector::StrToVec(argv[2]));
 		if (subcmd == "cross")
 			return cross(ft::Vector<K,3>::StrToVec(argv[1]), ft::Vector<K,3>::StrToVec(argv[2]));
 
