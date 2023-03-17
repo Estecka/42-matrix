@@ -2,6 +2,7 @@ HDRS = \
 	Format.hpp \
 	Imaginary.hpp \
 	Matrix.hpp \
+	Matrix_RowEchelon.hpp \
 	Vector.hpp \
 	abs.hpp \
 	atok.hpp \
