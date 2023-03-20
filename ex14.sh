@@ -63,7 +63,7 @@
 && echo && ./ft_matrix.out i mx 3,3 rowech "i,0,0;0,i,0;0,0,i" \
 && echo && ./ft_matrix.out i mx 2,2 rowech "1,2i;3+i,4" \
 && echo && ./ft_matrix.out i mx 2,2 rowech "1,2i;4,2+i" \
-&& echo && ./ft_matrix.out i mx 5,3 rowech "8,5i,i-2,4+5i,28;4,2.5i,20+7.8i,4,-4;8,5,1,4,17" \
+&& echo && ./ft_matrix.out i mx 4,3 rowech "0,1,1.5,6.5-6.5i;0,2,6,22-28i;0,3i,6.5i,29.5+25.5i" \
 && echo -e "\n\n		# EX14-11" \
 && echo -e "\n	## Determinant" \
 && echo && ./ft_matrix.out i mx 1,1 det "i" \

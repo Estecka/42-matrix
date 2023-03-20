@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:14:44 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/17 16:11:19 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/19 15:24:37 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,24 @@ namespace ft
 	}
 
 	template <class K, int W, int H>
-	static inline void	RowSwap(Matrix<K,W,H>& mx, int dstY, int srcY, K dstScalar){
+	static inline void	RowSwap(Matrix<K,W,H>& mx, int srcY, int pivX, int pivY){
+		const K scalar = (K)1/mx[pivX][pivY];
 		K _swp;
 
-		for (int x=0; x<W; x++){
-				_swp = mx[x][srcY];
-				mx[x][srcY] = mx[x][dstY];
-				mx[x][dstY] = _swp * dstScalar;
+		for (int x=0; x<pivX; x++) {
+			mx[x][srcY] = mx[x][pivY];
+			mx[x][pivY] = 0;
+		}
+
+		if (pivX < W){
+			mx[pivX][srcY] = mx[pivX][pivY];
+			mx[pivX][pivY] = 1;
+		}
+
+		for (int x=pivX+1; x<W; x++){
+			_swp = mx[x][pivY];
+			mx[x][srcY] = _swp;
+			mx[x][pivY] = mx[x][srcY] * scalar;
 		}
 	}
 
@@ -69,7 +80,7 @@ namespace ft
 				continue;
 			}
 			else {
-				RowSwap(result, pivY, candidate, (K)1/result[pivX][pivY]);
+				RowSwap(result, candidate, pivX, pivY);
 				Reduce(result, pivX, pivY);
 				pivX++; pivY++;
 			}
