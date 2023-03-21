@@ -71,5 +71,11 @@
 && echo && ./ft_matrix.out i mx 2,2 det "i,0;0,i" \
 && echo && ./ft_matrix.out i mx 3,3 det "8,5i,i-2;4+5i,7,20-8i;7,6,1" \
 && echo && ./ft_matrix.out i mx 5,5 det "1,0,0,0,0;0,2i,0,0,0;0,0,3i,0,0;0,0,0,4i,0;0,0,0,0,5" \
+&& echo -e "\n\n		# EX14-13" \
+&& echo -e "\n	## Rank" \
+&& echo && ./ft_matrix.out i mx 3,3 rank "i,0,0;0,i,0;0,0,i" \
+&& echo && ./ft_matrix.out i mx 2,2 rank "1,2i;3+i,4" \
+&& echo && ./ft_matrix.out i mx 2,2 rank "1,2i;4,2+i" \
+&& echo && ./ft_matrix.out i mx 4,3 rank "0,1,1.5,6.5-6.5i;0,2,6,22-28i;0,3i,6.5i,29.5+25.5i" \
 || echo "Test Failed" \
 ;

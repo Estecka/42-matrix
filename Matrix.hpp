@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/17 16:20:22 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/21 15:16:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,9 @@ namespace ft
 		 */
 		K	subdet(int y, int w, int h, int slice, const int* xMap) const;
 		K	determinant() const;
+
+		//Ex13
+		size_t	rank() const;
 	};
 
 	template<class K, int W, int H>
@@ -320,6 +323,22 @@ namespace ft
 		}
 
 		return result;
+	}
+
+/******************************************************************************/
+/* ## Exercice 13                                                             */
+/******************************************************************************/
+
+	template <class K, int W, int H> 
+	size_t	Matrix<K,W,H>::rank() const {
+		Matrix ech = this->row_echelon();
+
+		int y = 0;
+		for (int x=0; x<W && y<H; x++)
+			if (ech[x][y])
+				y++;
+
+		return y;
 	}
 }
 

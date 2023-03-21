@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/08 15:03:13 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/21 13:59:19 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ namespace ft
 		static int	transpose(const Matrix&);
 		static int	rowech(const Matrix&);
 		static int	det(const Matrix&);
+		static int	rank(const Matrix&);
 	};
 }
 
@@ -60,6 +61,7 @@ namespace ft
 		if (subcmd == "trace")	return trace(Matrix::StrToMx(argv[1]));
 		if (subcmd == "rowech")	return rowech(Matrix::StrToMx(argv[1]));
 		if (subcmd == "det")	return det(Matrix::StrToMx(argv[1]));
+		if (subcmd == "rank")	return rank(Matrix::StrToMx(argv[1]));
 
 		if (argc < 3){
 			std::cerr << "Not enough arguments" << std::endl;
@@ -175,6 +177,16 @@ namespace ft
 	template <class K, int N, int M>
 	int	MatrixTestSuit<K,N,M>::det(const Matrix& m){
 		PrintMK(m, m.determinant());
+		return EXIT_SUCCESS;
+	}
+
+
+/* ************************************************************************** */
+/* ## Ex13                                                                    */
+/* ************************************************************************** */
+	template <class K, int N, int M>
+	int	MatrixTestSuit<K,N,M>::rank(const Matrix& m){
+		PrintMK(m, (K)m.rank());
 		return EXIT_SUCCESS;
 	}
 }
