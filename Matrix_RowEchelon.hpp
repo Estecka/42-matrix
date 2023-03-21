@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:14:44 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/21 14:27:24 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/21 16:10:45 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,24 +68,29 @@ namespace ft
 	}
 
 	template <class K, int W, int H> 
-	Matrix<K,W,H>	Matrix<K,W,H>::row_echelon() const {
-		Matrix<K,W,H>	result = *this;
+	Matrix<K,W,H>&	Matrix<K,W,H>::to_row_echelon(){
 		int pivX = 0;
 		int pivY = 0;
 
 		while (pivY<H && pivX<W) {
-			int candidate = FindPivotCandidate(result, pivX, pivY);
+			int candidate = FindPivotCandidate(*this, pivX, pivY);
 			if (candidate < 0){
 				pivX++;
 				continue;
 			}
 			else {
-				RowSwap(result, candidate, pivX, pivY);
-				Reduce(result, pivX, pivY);
+				RowSwap(*this, candidate, pivX, pivY);
+				Reduce(*this, pivX, pivY);
 				pivX++; pivY++;
 			}
 		}
 
-		return result;
+		return *this;
+	}
+
+	template <class K, int W, int H> 
+	Matrix<K,W,H>	Matrix<K,W,H>::row_echelon() const {
+		Matrix<K,W,H>	result = *this;
+		return result.to_row_echelon();
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/21 15:16:19 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/21 16:08:36 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ namespace ft
 		Matrix<K,HEIGHT,WIDTH>	transpose() const;
 
 		// Ex10
-		Matrix<K,WIDTH,HEIGHT>	row_echelon() const;
+		Matrix<K,WIDTH,HEIGHT> 	row_echelon() const;
+		Matrix<K,WIDTH,HEIGHT>&	to_row_echelon();
 
 		// Ex11
 		/**
