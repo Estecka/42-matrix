@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 15:14:44 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/19 15:24:37 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/21 14:27:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ namespace ft
 
 	template <class K, int W, int H>
 	static inline void	RowSwap(Matrix<K,W,H>& mx, int srcY, int pivX, int pivY){
-		const K scalar = (K)1/mx[pivX][pivY];
+		const K scalar = (K)1/mx[pivX][srcY];
 		K _swp;
 
 		for (int x=0; x<pivX; x++) {
@@ -46,9 +46,9 @@ namespace ft
 		}
 
 		for (int x=pivX+1; x<W; x++){
-			_swp = mx[x][pivY];
-			mx[x][srcY] = _swp;
-			mx[x][pivY] = mx[x][srcY] * scalar;
+			_swp = mx[x][srcY];
+			mx[x][srcY] = mx[x][pivY];
+			mx[x][pivY] = _swp * scalar;
 		}
 	}
 
