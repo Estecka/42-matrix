@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/23 15:01:20 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/23 16:03:08 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,15 +200,17 @@ namespace ft
 /* ************************************************************************** */
 	template <class K, int N, int M>
 	int	MatrixTestSuit<K,N,M>::inverse(const Matrix& m){
-		if (N != M){
-			std::cerr << "Non-quare matrix is not invertible." << std::endl;
-			return EXIT_FAILURE;
+		Matrix inv;
+		try {
+			inv = m.inverse();
+		}
+		catch (std::domain_error& e) {
+			PrintMK(m, (K)0);
+			std::cout << LOG_BOLD_CYAN << e.what() << std::endl << LOG_CLEAR << std::endl;
+			return EXIT_SUCCESS;
 		}
 
-		Matrix inv = m.inverse();
 		PrintMM(m, inv);
-
-
 		ft::Matrix<K,M,M> id = inv.mul_mat(*(ft::Matrix<K,M,N>*)&m);
 
 		for (int x=0; x<N; x++)

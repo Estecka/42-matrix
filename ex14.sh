@@ -71,6 +71,12 @@
 && echo && ./ft_matrix.out i mx 2,2 det "i,0;0,i" \
 && echo && ./ft_matrix.out i mx 3,3 det "8,5i,i-2;4+5i,7,20-8i;7,6,1" \
 && echo && ./ft_matrix.out i mx 5,5 det "1,0,0,0,0;0,2i,0,0,0;0,0,3i,0,0;0,0,0,4i,0;0,0,0,0,5" \
+&& echo -e "\n\n		# EX14-12" \
+&& echo -e "\n	## Inverse" \
+&& echo && ./ft_matrix.out i mx 3,3 inv "i,0,0;0,i,0;0,0,i" \
+&& echo && ./ft_matrix.out i mx 3,3 inv "2i,0,0;0,2i,0;0,0,2i" \
+&& echo && ./ft_matrix.out i mx 3,3 inv "8i,5i,-2;4,7i,20i;7i,6,1i" \
+&& echo && ./ft_matrix.out i mx 3,3 inv "1,0,0;0,i,0;0,0,0" \
 && echo -e "\n\n		# EX14-13" \
 && echo -e "\n	## Rank" \
 && echo && ./ft_matrix.out i mx 3,3 rank "i,0,0;0,i,0;0,0,i" \

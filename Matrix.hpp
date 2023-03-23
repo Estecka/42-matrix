@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/21 16:16:13 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/23 15:46:02 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ namespace ft
 		operator raw_type&();
 
 		/**
-		 * Parse a matrix formatted as "m00,m01;m10,m11;..."
+		 * Parse a matrix formatted as "m00,m10;m01,m11;..."
 		 * @param str	The string to Parse
 		 * @param outEnd	Outputs the character following the parsed text
 		 * @throw	The string does not contain a valid matrix.
@@ -129,11 +129,11 @@ namespace ft
 
 	template <class K, int W, int H>
 	Matrix<K,W,H>&	Matrix<K,W,H>::operator=(const Matrix& other) {
-		new (this) Matrix(other.array);
+		return *new(this) Matrix(other.array);
 	};
 	template <class K, int W, int H>
 	Matrix<K,W,H>&	Matrix<K,W,H>::operator=(const array_type& other) {
-		new (this) Matrix(other.array);
+		return *new(this) Matrix(other.array);
 	};
 
 
@@ -338,6 +338,9 @@ namespace ft
 		Matrix result;
 		Matrix <K,2*W,H> augmented;
 
+		if (W!=H)
+			throw std::domain_error("Non-square matrix is not invertible");
+
 		for (int x=0; x<W; x++)
 		for (int y=0; y<H; y++) {
 			augmented[x][y] = (*this)[x][y];
@@ -346,7 +349,9 @@ namespace ft
 
 		augmented.to_row_echelon();
 
-		// error checking to do
+		for (int i=0; i<W && i<H; i++)
+		if (augmented[i][i] != 1)
+			throw std::domain_error("Degenerate matrix is not invertible");
 
 		for (int x=0; x<W; x++)
 		for (int y=0; y<W; y++)
