@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/21 16:08:36 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/21 16:16:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ namespace ft
 		 */
 		K	subdet(int y, int w, int h, int slice, const int* xMap) const;
 		K	determinant() const;
+
+		//Ex12
+		Matrix	inverse() const;
 
 		//Ex13
 		size_t	rank() const;
@@ -323,6 +326,31 @@ namespace ft
 			result += factor * (i%2 ? -sub : sub);
 		}
 
+		return result;
+	}
+
+/******************************************************************************/
+/* ## Exercice 12                                                             */
+/******************************************************************************/
+
+	template <class K, int W, int H> 
+	Matrix<K,W,H>	Matrix<K,W,H>::inverse() const {
+		Matrix result;
+		Matrix <K,2*W,H> augmented;
+
+		for (int x=0; x<W; x++)
+		for (int y=0; y<H; y++) {
+			augmented[x][y] = (*this)[x][y];
+			augmented[W+x][y] = (x==y) ? 1 : 0;
+		}
+
+		augmented.to_row_echelon();
+
+		// error checking to do
+
+		for (int x=0; x<W; x++)
+		for (int y=0; y<W; y++)
+			result[x][y] = augmented[W+x][y];
 		return result;
 	}
 

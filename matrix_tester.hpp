@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/21 13:59:19 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/23 15:01:20 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "Matrix.hpp"
 #include "Vector.hpp"
 #include "Format.hpp"
+#include "Imaginary.hpp"
 #include "atok.hpp"
 
 #include <cstdlib>
@@ -22,6 +23,17 @@
 
 namespace ft
 {
+
+	template <class K>
+	static inline bool	approximate(const K& a, const K& b, const K& deltaMax){
+		return (a+deltaMax) > b && b > (a - deltaMax);
+	}
+
+	template <class K>
+	static inline bool	approximate(const Imaginary<K>& a, const Imaginary<K>& b, const K& deltaMax){
+		return approximate(a.r, b.r, deltaMax) && approximate(a.i, b.i, deltaMax);
+	}
+
 	template <class K, int N, int M>
 	class	MatrixTestSuit {
 	public:
@@ -38,6 +50,7 @@ namespace ft
 		static int	transpose(const Matrix&);
 		static int	rowech(const Matrix&);
 		static int	det(const Matrix&);
+		static int	inverse(const Matrix&);
 		static int	rank(const Matrix&);
 	};
 }
@@ -61,6 +74,7 @@ namespace ft
 		if (subcmd == "trace")	return trace(Matrix::StrToMx(argv[1]));
 		if (subcmd == "rowech")	return rowech(Matrix::StrToMx(argv[1]));
 		if (subcmd == "det")	return det(Matrix::StrToMx(argv[1]));
+		if (subcmd == "inv")	return inverse(Matrix::StrToMx(argv[1]));
 		if (subcmd == "rank")	return rank(Matrix::StrToMx(argv[1]));
 
 		if (argc < 3){
@@ -177,6 +191,35 @@ namespace ft
 	template <class K, int N, int M>
 	int	MatrixTestSuit<K,N,M>::det(const Matrix& m){
 		PrintMK(m, m.determinant());
+		return EXIT_SUCCESS;
+	}
+
+
+/* ************************************************************************** */
+/* ## Ex12                                                                    */
+/* ************************************************************************** */
+	template <class K, int N, int M>
+	int	MatrixTestSuit<K,N,M>::inverse(const Matrix& m){
+		if (N != M){
+			std::cerr << "Non-quare matrix is not invertible." << std::endl;
+			return EXIT_FAILURE;
+		}
+
+		Matrix inv = m.inverse();
+		PrintMM(m, inv);
+
+
+		ft::Matrix<K,M,M> id = inv.mul_mat(*(ft::Matrix<K,M,N>*)&m);
+
+		for (int x=0; x<N; x++)
+		for (int y=0; y<M; y++)
+		if (!ft::approximate(id[x][y], (K)(x==y), 1e-06f)){
+			std::cout << LOG_RED << id <<  LOG_CLEAR << std::endl;
+			std::cout << LOG_BOLD_RED "KO" LOG_CLEAR << std::endl;
+			return EXIT_SUCCESS;
+		}
+		
+		std::cout << LOG_BOLD_GREEN "OK" LOG_CLEAR << std::endl;
 		return EXIT_SUCCESS;
 	}
 
