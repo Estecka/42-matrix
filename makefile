@@ -11,6 +11,7 @@ HDRS = \
 
 SRCS = \
 	Format.cpp \
+	proj.cpp \
 
 TEST_HDRS = \
 	TestFactory.hpp \
@@ -19,17 +20,17 @@ TEST_HDRS = \
 	number_tester.hpp \
 	vector_tester.hpp \
 
-TEST_SRCS = \
+MAIN_SRCS = \
 	main.cpp \
 
 LIBS = \
 	logutil/logutil.a \
 
 OBJS      = ${SRCS:.cpp=.o}
-TEST_OBJS = ${TEST_SRCS:.cpp=.o}
+MAIN_OBJS = ${MAIN_SRCS:.cpp=.o}
 
 NAME = ft_matrix.a
-TEST = ft_matrix.out
+TEST = ft_matrix.out proj.out
 CXX = clang++
 CPPFLAGS = -Wall -Wextra
 
@@ -40,13 +41,16 @@ all: headers_test ${NAME} ${TEST}
 ${NAME}: ${LIBS} ${HDRS} ${OBJS}
 	ar rcs ${NAME} ${OBJS}
 
-${TEST}: ${NAME} ${TEST_OBJS}
-	${CXX} ${TEST_OBJS} ${NAME} ${LIBS} -o ${TEST} ${CPPFLAGS}
+ft_matrix.out: ${NAME} main.o
+	${CXX} main.o ${NAME} ${LIBS} -o ${TEST} ${CPPFLAGS}
+
+proj.out: ${NAME} main.proj.o
+	${CXX} main.proj.o ${NAME} ${LIBS} -o $(@F) ${CPPFLAGS}
 
 
 ${OBJS}: ${LIBS} ${HDRS}
 
-${TEST_OBJS}: ${LIBS} ${HDRS} ${TEST_HDRS}
+${MAIN_OBJS}: ${LIBS} ${HDRS} ${TEST_HDRS}
 
 %.a: lib
 	make $(@F) -C $(@D)
