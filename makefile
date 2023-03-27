@@ -42,7 +42,7 @@ ${NAME}: ${LIBS} ${HDRS} ${OBJS}
 	ar rcs ${NAME} ${OBJS}
 
 ft_matrix.out: ${NAME} main.o
-	${CXX} main.o ${NAME} ${LIBS} -o ${TEST} ${CPPFLAGS}
+	${CXX} main.o ${NAME} ${LIBS} -o $(@F) ${CPPFLAGS}
 
 proj.out: ${NAME} main.proj.o
 	${CXX} main.proj.o ${NAME} ${LIBS} -o $(@F) ${CPPFLAGS}
