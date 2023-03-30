@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:39:17 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/24 18:07:20 by abaur            ###   ########.fr       */
+/*   Updated: 2023/03/30 16:28:14 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ extern int	main(int argc, char** argv){
 
 	ft::Matrix<float,4,4> mx = ft::projection(fov, ratio, near, far);
 
+	mx = mx.transpose();
+	
 	for (int y=0; y<4; y++){
 		for (int x=0; x<4; x++)
 		{
