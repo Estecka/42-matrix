@@ -1,5 +1,7 @@
 HDRS = \
+	BoundingBox.hpp \
 	Format.hpp \
+	Frustrum.hpp \
 	Imaginary.hpp \
 	Matrix.hpp \
 	Matrix_RowEchelon.hpp \
@@ -11,6 +13,7 @@ HDRS = \
 
 SRCS = \
 	Format.cpp \
+	Frustrum.cpp \
 	proj.cpp \
 
 TEST_HDRS = \
