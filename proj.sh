@@ -2,7 +2,7 @@
 
 make proj.out \
 && cd matrix_display \
-&& ../proj.out $1 $2 $3 $4 > proj \
+&& ../proj.out $@ > proj \
 && cat -e proj \
 && ./display \
 ;

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:07:12 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/01 13:16:49 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/01 13:30:29 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ namespace ft
 		});
 	}
 
-	Matrix4	Frustrum::projection() const {
+	Matrix4f	Frustrum::projection() const {
 		float	width  = right - left;
 		float	height = top - bottom;
 		float	depth  = far - near;
@@ -66,7 +66,7 @@ namespace ft
 		});
 	}
 
-	Matrix4	Frustrum::projection(const BBox3f& ndc) const {
+	Matrix4f	Frustrum::projection(const BBox3f& ndc) const {
 		return Remap(default_NDC, ndc).mul_mat(this->projection());
 	}
 

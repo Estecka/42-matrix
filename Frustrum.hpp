@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:02:06 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/01 13:08:40 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/01 13:30:31 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ namespace ft
 	typedef	Vector<float, 3>	Vector3f;
 	typedef	Vector<float, 4>	Vector4f;
 	typedef	BoundingBox<float, 3>	BBox3f;
-	typedef	Matrix<float, 4,4>	Matrix4;
+	typedef	Matrix<float, 4,4>	Matrix4f;
 
 	struct	Frustrum 
 	{
@@ -57,11 +57,11 @@ namespace ft
 		 * @brief Computes the projection matrix for this frustrum.
 		 * 	The NDC for this projection is [-1,-1,-1][ 1, 1, 1]
 		 */
-		Matrix4	projection() const;
+		Matrix4f	projection() const;
 		/**
 		 * @brief Computes the projection matrix for this frustrum, adapted to
 		 * 	a specific NDC
 		 */
-		Matrix4	projection(const BBox3f& ndc) const;
+		Matrix4f	projection(const BBox3f& ndc) const;
 	};
 }

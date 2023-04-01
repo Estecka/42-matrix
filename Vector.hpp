@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/12 12:12:24 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/01 14:49:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ namespace ft
 
 		operator const array_type&() const;
 
+		template <int N>
+		operator	Vector<K,N>() const;
+
 		/**
 		 * Parse a vector formatted as "x,y,z,..."
 		 * @param str	The string to Parse
@@ -57,6 +60,7 @@ namespace ft
 		Vector&	operator+=(const Vector&);
 		Vector&	operator-=(const Vector&);
 		Vector&	operator*=(K);
+		Vector&	operator/=(K);
 		Vector&	add(const Vector&);
 		Vector&	sub(const Vector&);
 		Vector&	scl(K);
@@ -130,6 +134,20 @@ namespace ft
 	}
 
 	template <class K, int S>
+	template <int N>
+	Vector<K,S>::operator Vector<K,N>() const {
+		Vector<K,N> result;
+
+		int i = 0;
+		for (; i<S && i<N; i++)
+			result[i] = (*this)[i];
+		for (; i<N; i++)
+			result[i] = 0;
+
+		return result;
+	}
+
+	template <class K, int S>
 	Vector<K,S>	Vector<K,S>::StrToVec(const char* str, const char** outEnd){
 		Vector result;
 
@@ -188,6 +206,12 @@ namespace ft
 	Vector<K,S>&	Vector<K,S>::operator*=(K scalar) {
 		for (int i=0; i<S; i++)
 			this->array[i] *= scalar;
+		return *this;
+	};
+	template <class K, int S> 
+	Vector<K,S>&	Vector<K,S>::operator/=(K scalar) {
+		for (int i=0; i<S; i++)
+			this->array[i] /= scalar;
 		return *this;
 	};
 
