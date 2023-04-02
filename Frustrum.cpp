@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:07:12 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/01 13:30:29 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/01 15:48:17 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ namespace ft
 	Frustrum	Frustrum::FromPinhole(float fov, float aspect, float near, float far){
 		Frustrum	r;
 
-		r.near = near;
-		r.far  = far;
+		r.near = -near;
+		r.far  = -far;
 
 		r.right = std::tan(fov/2);
 		r.left  = -r.right;

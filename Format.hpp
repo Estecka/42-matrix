@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/09 20:36:35 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/02 13:05:28 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ namespace ft
 	template <class K, int IN, int OUT>	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o);
 	template <class K, int W, int H, int w, int h>	extern void	PrintMM(const Matrix<K,W,H>& m, const Matrix<K,w,h>& t);
 	template <class K, int W, int H>	extern void	PrintMK(const Matrix<K,W,H>& m, const K& k);
+	template <class K, int W, int H>	extern void	PrintM(const Matrix<K,W,H>& m);
 }
 
 
@@ -359,15 +360,20 @@ namespace ft
 /******************************************************************************/
 
 	template<class K, int W, int H>
-	extern void	PrintMK(const Matrix<K,W,H>& m, const K& k){
+	extern void	PrintM(const Matrix<K,W,H>& m){
 		std::string strm[H][W];
 		int lmax = Preformat<K,W,H>(m, strm);
 
 		for (int y=0; y<H; y++) {
 			std::cout << LOG_BOLD_CLEAR;
 			PrintV(strm[y], lmax);
-			std::cout << std::endl;
+			std::cout << LOG_CLEAR << std::endl;
 		}
+	}
+
+	template<class K, int W, int H>
+	extern void	PrintMK(const Matrix<K,W,H>& m, const K& k){
+		PrintM(m);
 		std::cout << LOG_BOLD_CYAN << k << LOG_CLEAR << std::endl;
 	}
 

@@ -1,0 +1,170 @@
+#	Analysis of a projection matrix
+
+Assuming a right-handed coordinate system: X+ = right, Y+ = up, Z- = forward
+
+The frustrum's bounding box is [l,b,n] to [r,t,f]
+l = left   (expected negative)
+r = right  (expected positive)
+t = top    (expected positive)
+b = bottom (expected negative)
+n = near   (expected negative)
+f = far    (expected negative!, expected f < n!)
+
+Additionally,
+w = width  = r - l (expected positive)
+h = height = t - b (expected positive)
+d = depth  = f - n (expected negative!, due to f < n)
+
+A point a the "max" corner of the frustrum has for coordinates: [    r,     t, f]
+A point a the "min" corner of the frustrum has for coordinates: [l*n/f, b*n/f, n]
+
+For the sake of simplicity, we'll assume r = -l = w/2 and t = -b = h/2
+
+[-2f/w,    0,        0,     0] * [l*n/f] [r]
+[   0, -2f/h,        0,     0] * [b*n/f] [t]
+[   0,     0, -(f+n)/d, 2nf/d] * [    n] [f]
+[   0,     0,       -1,     0] * [    1] [1]
+= 
+[ l`] [ r`]
+[ b`] [ t`]
+[ n`] [ f`]
+[-n ] [-f ]
+
+f` = -f(f+n)/d + 2nf/d
+   = -(f+n)*f/d + 2n*f/d
+   = (-(f+n) + 2n) * f/d
+   = (-f - n + 2n) * f/d
+   = (-f + n) * f/d
+   = -(f - n) * f/(f - n)
+   = -f
+
+n` = -n(f+n)/d + 2nf/d
+   = -(f+n)*n/d + 2f*n/d
+   = (-(f+n) + 2f) * n/d
+   = (-f - n + 2f) * n/d
+   = (f - n) * n/d
+   = -(n - f) * n/d
+   = +(f - n) * n/(f - n)
+   = n
+
+The matrix thus remaps [n,f] to [n,-f]
+
+r` = -2f(r)/w
+   = -2fr/2r
+   = -f * 2r/2r
+   = -f
+
+l` = -2f(ln/f)/w
+   = -2fln/fw
+   = -2fln/f(-2l)
+   = -2lfn/-2lf
+   = n * -2lf/-2lf
+   = n
+
+The matrix thus remaps [l, r] to [n,-f]
+
+Sames vertically, but swap l for b, and r for t
+For the sake of completeness:
+t` = -2f(t)/h
+   = -2ft/2t
+   = -f
+
+b` = -2f(bn/f)/h
+   = -2fbn/fh
+   = -2bfn/-2bf
+   = n
+
+The matrix thus remaps [b, t] to [n,-f]
+
+
+Conclusion:
+The matrix's clip space is: [ n, n, n] to [-f,-f,-f]
+Thus, the matrix's NDC is:  [-1,-1,-1] to [ 1, 1, 1]
+
+
+
+#	Correcting the NDC
+
+We want a NDC of [-1,-1, 0] to [ 1, 1, 1]
+We thus to remap the clip space's Z dimension from [n,-f] to [0, -f] :
+f(z) = (z-iMin)/(iMax-iMin) * (oMax-oMin) + oMin
+     = (z-n)/(-f-n) * (-f - 0) + 0
+     = (z-n)/(-f-n) * -f
+     = -f(z-n)/(-f-n)
+     = -f(z)/(-f-n) + -f(-n)/(-f-n)
+     = -fz/(-f-n) + fn/(-f-n)
+     = -fz/-(f+n) + fn/-(f+n)
+     = fz/(f+n) - fn/(f+n)
+
+The affine transformation matrix that performs this operation is: 
+[1, 0,       0, 0,         0]
+[0, 1,       0, 0,         0]
+[0, 0, f/(f+n), 0, -fn/(f+n)]
+[0, 0,       0, 1,         0]
+[0, 0,       0, 0,         1]
+We're using a 5x5 matrix because we'll be transforming the vector4's that come out of the projection matrix. Their W components will be different from 1, so we require an extra 5th dimension to handle the affine part of the transformation.
+
+Test:
+  n * f/(f+n) - fn/(f+n)
+= fn/(f+n) - fn/(f+n)
+= 0
+OK
+
+  -f * f/(f+n) - fn/(f+n)
+= -ff/(f+n) - fn/(f+n)
+= (-ff - fn)/(f+n)
+= -f(f+n)/(f+n)
+= -f
+OK
+
+We can use this matrix to correct our projection matrix: 
+[1, 0,       0, 0,         0] * [-2f/w,     0,        0,     0]
+[0, 1,       0, 0,         0] * [    0, -2f/h,        0,     0]
+[0, 0, f/(f+n), 0, -fn/(f+n)] * [    0,     0, -(f+n)/d, 2nf/d]
+[0, 0,       0, 1,         0] * [    0,     0,       -1,     0]
+[0, 0,       0, 0,         1] * [    0,     0,        0,     1] // Expand the projection matrix with a 5th row [0,0,0,0,1]
+=
+[-2f/w,    0,   0,   0]
+[   0, -2f/h,   0,   0]
+[   0,     0, m22, m32]
+[   0,     0,  -1,   0]
+[   0,     0,   0,   1]
+
+m22 = -(f+n)/d * f/(f+n)
+    = -f(f+n)/d(f+n)
+    = -f/d
+
+m32 = 2nf/d*f/(f+n) - fn/(f+n)
+    = 2nff/d(f+n) - fnd/d(f+n)
+    = (2nff - fnd) / d(f+n)
+    = nf(2f - d) / d(f+n)
+    = nf(2f - (f-n)) / d(f+n)
+    = nf(2f - f + n) / d(f+n)
+    = nf(f+n) / d(f+n)
+    = nf/d
+
+Test:
+[-2f/w,    0,    0,    0] * [l*n/f] [r]
+[   0, -2f/h,    0,    0] * [b*n/f] [t]
+[   0,     0, -f/d, nf/d] * [    n] [f]
+[   0,     0,   -1,    0] * [    1] [1]
+= 
+[ l`] [ r`] = [ n ] [-f ]
+[ b`] [ t`] = [ n ] [-f ]
+[ n`] [ f'] = [ n`] [ f']
+[-n ] [-f ] = [-n ] [-f ]
+For l`, b`, r` and f`, the formula is the same as for the uncorrected matrix, so we already now their results are correct.
+
+n` = n * -f/d + nf/d
+   = -nf/d + nf/d
+   = 0
+OK
+
+f` = f * -f/d + nf/d
+   = -f*f/d + n*f/d
+   = (-f + n) * f/d
+   = -(f - n) * f/d
+   = -d * f/d
+   = -f * d/d
+   = -f
+OK

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/23 16:03:08 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/02 13:02:28 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ namespace ft
 			inv = m.inverse();
 		}
 		catch (std::domain_error& e) {
-			PrintMK(m, (K)0);
+			PrintM(m);
 			std::cout << LOG_BOLD_CYAN << e.what() << std::endl << LOG_CLEAR << std::endl;
 			return EXIT_SUCCESS;
 		}

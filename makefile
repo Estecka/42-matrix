@@ -5,11 +5,13 @@ HDRS = \
 	Imaginary.hpp \
 	Matrix.hpp \
 	Matrix_RowEchelon.hpp \
+	Remap.hpp \
 	Vector.hpp \
 	abs.hpp \
 	atok.hpp \
 	conjugate.hpp \
 	lerp.hpp \
+	proj.hpp \
 
 SRCS = \
 	Format.cpp \

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 20:36:26 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/23 15:46:02 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/01 18:09:43 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ namespace ft
 		operator const raw_type&() const;
 		operator array_type&();
 		operator raw_type&();
+
+		template <int N,int M>
+		explicit operator Matrix<K,N,M>() const;
 
 		/**
 		 * Parse a matrix formatted as "m00,m10;m01,m11;..."
@@ -149,6 +152,18 @@ namespace ft
 	template <class K, int W, int H> Matrix<K,W,H>::operator       array_type&()       { return this->array; }
 	template <class K, int W, int H> Matrix<K,W,H>::operator const raw_type&  () const { return (raw_type&)this->array; }
 	template <class K, int W, int H> Matrix<K,W,H>::operator       raw_type&  ()       { return (raw_type&)this->array; }
+
+	template <class K, int W,int H>
+	template <int N,int M>
+	Matrix<K,W,H>::operator Matrix<K,N,M>() const {
+		Matrix<K,N,M> result;
+
+		for (int x=0; x<W && x<N; x++)
+		for (int y=0; y<H && y<M; y++)
+			result[x][y] = (*this)[x][y];
+
+		return result;
+	}
 
 	template <class K, int W, int H>
 	Matrix<K,W,H>	Matrix<K,W,H>::StrToMx(const char* str, char** outEnd){

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 19:24:46 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/01 14:49:12 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/01 18:08:46 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ namespace ft
 		operator const array_type&() const;
 
 		template <int N>
-		operator	Vector<K,N>() const;
+		explicit operator	Vector<K,N>() const;
 
 		/**
 		 * Parse a vector formatted as "x,y,z,..."
@@ -138,11 +138,8 @@ namespace ft
 	Vector<K,S>::operator Vector<K,N>() const {
 		Vector<K,N> result;
 
-		int i = 0;
-		for (; i<S && i<N; i++)
+		for (int i=0; i<S && i<N; i++)
 			result[i] = (*this)[i];
-		for (; i<N; i++)
-			result[i] = 0;
 
 		return result;
 	}

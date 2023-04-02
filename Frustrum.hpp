@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:02:06 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/01 13:30:31 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/01 17:33:54 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ namespace ft
 	typedef	Vector<float, 3>	Vector3f;
 	typedef	Vector<float, 4>	Vector4f;
 	typedef	BoundingBox<float, 3>	BBox3f;
+	typedef	BoundingBox<float, 4>	BBox4f;
 	typedef	Matrix<float, 4,4>	Matrix4f;
 
 	struct	Frustrum 

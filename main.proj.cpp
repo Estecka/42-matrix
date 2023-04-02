@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:39:17 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/01 15:10:18 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/02 16:14:50 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,54 @@
 #include "Frustrum.hpp"
 #include "BoundingBox.hpp"
 #include "Remap.hpp"
+#include "Format.hpp"
 
 #include <iostream>
 
-static ft::BBox3f	AnalyseMx(const ft::Matrix4f& pmx, const ft::Frustrum& frus){
-	ft::BBox3f clip;
-	ft::Vector4f min = (ft::Vector4f)frus.getMin();
-	ft::Vector4f max = (ft::Vector4f)frus.getMax();
-	min[3] = 1;
-	max[3] = 1;
+static ft::BBox4f	AnalyseMx(const ft::Matrix4f& pmx, const ft::Frustrum& frus){
+	ft::BBox4f clip = {
+		.min = (ft::Vector4f)frus.getMin(),
+		.max = (ft::Vector4f)frus.getMax(),
+	};
+	clip.min[3] = 1;
+	clip.max[3] = 1;
 
-	min = pmx.mul_vec(min);
-	max = pmx.mul_vec(max);
+	clip.min = pmx.mul_vec(clip.min);
+	clip.max = pmx.mul_vec(clip.max);
 
-	clip.min = (ft::Vector3f)min;
-	clip.max = (ft::Vector3f)max;
+	// std::cerr << LOG_BLUE << pmx << LOG_CLEAR << std::endl;
+	std::cerr << "The matrix's clip space is "
+	             LOG_BOLD_MAGENTA "[" << clip.min << "] to [" << clip.max << "]"
+	             LOG_CLEAR << std::endl;
 
-	min /= min[3];
-	max /= max[3];
-
-	std::cerr << "The matrix's clip space is [" << clip.min << "] to [" << clip.max << "]" << std::endl;
-	std::cerr << "The matrix's NDC is        [" << (ft::Vector3f)min << "] to [" << (ft::Vector3f)max << "]" << std::endl;
+	ft::BBox4f ndc = clip;
+	ndc.min /= ndc.min[3];
+	ndc.max /= ndc.max[3];
+	std::cerr << "The matrix's NDC is        "
+	             LOG_BOLD_YELLOW "[" << (ft::Vector3f)ndc.min << "] to [" << (ft::Vector3f)ndc.max << "]"
+	             LOG_CLEAR << std::endl;
 
 	return clip;
+}
+
+static ft::Matrix4f	CorrectNDC(const ft::Matrix4f& projMx, const ft::BBox4f& srcClip, const ft::BBox3f& dstNDC){
+	ft::BBox4f dstClip;
+	dstClip.min = (ft::Vector4f)dstNDC.min;
+	dstClip.max = (ft::Vector4f)dstNDC.max;
+	dstClip.min *= srcClip.min[3];
+	dstClip.max *= srcClip.max[3];
+	dstClip.min[3] = srcClip.min[3];
+	dstClip.max[3] = srcClip.max[3];
+
+	ft::Matrix<float,5,4> correctionMx = (ft::Matrix<float,5,4>)ft::Remap(srcClip, dstClip);
+	std::cerr << "\nNDC correction matrix:" << std::endl;
+	// std::cerr << LOG_BLUE << correctionMx << LOG_CLEAR << std::endl;
+	ft::PrintM(correctionMx);
+	
+	ft::Matrix<float,4,5> proj5 = (ft::Matrix<float,4,5>)projMx;
+	proj5[3][4] = 1; // Bottom right cell
+		
+	return correctionMx.mul_mat(proj5);
 }
 
 static ft::BBox3f	GetNDC(const char* argv){
@@ -88,12 +113,14 @@ extern int	main(int argc, char** argv){
 	std::cerr << "The frustrum dimensions are [" << fAsBbox.min << "] to [" << fAsBbox.max << "]" << std::endl;
 
 	projMx = frustrum.projection();
-	ft::BBox3f srcClip = AnalyseMx(projMx, frustrum);
+	ft::BBox4f srcClip = AnalyseMx(projMx, frustrum);
+	ft::PrintM(projMx);
 
 	if (hasCustomNDC){
-		std::cerr << "Changing the matrix NDC." << std::endl;
-		projMx = ft::Remap(srcClip, ndc).mul_mat(projMx);
+		projMx = CorrectNDC(projMx, srcClip, ndc);
+		std::cerr << "\nCorrected matrix:" << std::endl;
 		AnalyseMx(projMx, frustrum);
+		ft::PrintM(projMx);
 	}
 
 	projMx = projMx.transpose();

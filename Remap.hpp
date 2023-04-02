@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 10:14:28 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/01 13:15:41 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/01 15:26:12 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ y = x*scalar - iMin*scalar + oMin
 
 f(x) = ax + b
 a = scalar
-b = iMin*scalar + oMin
+b = -iMin*scalar + oMin
 */
 
 namespace ft
@@ -59,7 +59,7 @@ namespace ft
 		{
 			float scalar = (o.max[n] - o.min[n]) / (i.max[n] - i.min[n]);
 			result[n][n] = scalar;
-			result[N][n] = i.min[n]*scalar + o.min[n];
+			result[N][n] = -i.min[n]*scalar + o.min[n];
 		}
 
 		result[N][N] = 1;
