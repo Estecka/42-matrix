@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:39:17 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/02 16:14:50 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/04 15:23:27 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static float	GetArgF(const char* argv){
 }
 
 extern int	main(int argc, char** argv){
-	if (argc < 5){
+	if (argc < 6){
 		std::cerr << "Not enough arguments" << std::endl;
 		return EXIT_FAILURE;
 	}
@@ -101,27 +101,15 @@ extern int	main(int argc, char** argv){
 	float aspect = GetArgF(argv[2]);
 	float near   = GetArgF(argv[3]);
 	float far    = GetArgF(argv[4]);
-	bool  hasCustomNDC = false;
-	ft::BBox3f ndc;
-	if (argc >= 6 ){
-		hasCustomNDC = true;
-		ndc = GetNDC(argv[5]);
-	}
+	ft::BBox3f ndc = GetNDC(argv[5]);
  
 	frustrum = ft::Frustrum::FromPinhole(fov, aspect, near, far);
 	ft::BBox3f& fAsBbox = *(ft::BBox3f*)&frustrum;
 	std::cerr << "The frustrum dimensions are [" << fAsBbox.min << "] to [" << fAsBbox.max << "]" << std::endl;
 
-	projMx = frustrum.projection();
-	ft::BBox4f srcClip = AnalyseMx(projMx, frustrum);
+	projMx = frustrum.projection(ndc);
+	AnalyseMx(projMx, frustrum);
 	ft::PrintM(projMx);
-
-	if (hasCustomNDC){
-		projMx = CorrectNDC(projMx, srcClip, ndc);
-		std::cerr << "\nCorrected matrix:" << std::endl;
-		AnalyseMx(projMx, frustrum);
-		ft::PrintM(projMx);
-	}
 
 	projMx = projMx.transpose();
 	for (int y=0; y<4; y++){

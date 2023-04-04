@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:07:12 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/01 15:48:17 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/04 15:15:30 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,20 @@ namespace ft
 		});
 	}
 
-	Matrix4f	Frustrum::projection() const {
-		float	width  = right - left;
-		float	height = top - bottom;
-		float	depth  = far - near;
-
-		// The matrix here appear as transposed
-		return Matrix<float,4,4>({
-			{ 2*-far/width,                   0,  (left+right)/width,  0 },
-			{            0,       2*-far/height,                   0,  0 },
-			{            0, (bottom+top)/height,   -(near+far)/depth, -1 },
-			{            0,                   0,    2*near*far/depth,  0 },
-		});
-	}
-
 	Matrix4f	Frustrum::projection(const BBox3f& ndc) const {
-		return Remap(default_NDC, ndc).mul_mat(this->projection());
+		Matrix<float,4,4> m;
+
+		m[0][0] = far * (near*ndc.min[0] - far*ndc.max[0]) / (far*right - near*left  );
+		m[1][1] = far * (near*ndc.min[1] - far*ndc.max[1]) / (far*top   - near*bottom);
+		m[2][2] =       (near*ndc.min[2] - far*ndc.max[2]) / (far       - near       );
+
+		m[3][0] = near*far * (  left*ndc.max[0] - right*ndc.min[0]) / (far*right - near*left  );
+		m[3][1] = near*far * (bottom*ndc.max[1] -   top*ndc.min[1]) / (far*top   - near*bottom);
+		m[3][2] = near*far * (       ndc.max[2] -       ndc.min[2]) / (far       - near       );
+
+		m[2][3] = -1;
+
+		return m;
 	}
 
 }
