@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:39:35 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/02 13:05:28 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/05 09:45:16 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ namespace ft
 	 * @param padWith	Padding to be applied to each component.
 	 */
 	template <int S>
-	extern void	PrintV(const std::string (&v)[S], int padwidth = 0);
+	extern void	PrintV(const std::string (&v)[S], int padwidth = 0, std::ostream& cout = std::cout);
 
 	/**
 	 * Specialized formatting methods, based on an operation's input and output types.
@@ -67,7 +67,7 @@ namespace ft
 	template <class K, int IN, int OUT>	extern void	PrintNMP(const Matrix<K,IN,OUT>& f, const Vector<K,IN>& i, const Vector<K,OUT>& o);
 	template <class K, int W, int H, int w, int h>	extern void	PrintMM(const Matrix<K,W,H>& m, const Matrix<K,w,h>& t);
 	template <class K, int W, int H>	extern void	PrintMK(const Matrix<K,W,H>& m, const K& k);
-	template <class K, int W, int H>	extern void	PrintM(const Matrix<K,W,H>& m);
+	template <class K, int W, int H>	extern void	PrintM(const Matrix<K,W,H>& m, std::ostream& cout = std::cout);
 }
 
 
@@ -111,14 +111,14 @@ namespace ft
 
 
 	template <int S>
-	extern void	PrintV(const std::string (&strVec)[S], int padwidth){
-		std::cout << "[ ";
+	extern void	PrintV(const std::string (&strVec)[S], int padwidth, std::ostream& cout){
+		cout << "[ ";
 		for (int i=0; i<S; i++){
 			if (i)
-				std::cout << ", ";
-			std::cout << std::setw(padwidth) << strVec[i];
+				cout << ", ";
+			cout << std::setw(padwidth) << strVec[i];
 		}
-		std::cout << " ]";
+		cout << " ]";
 	}
 
 
@@ -360,14 +360,14 @@ namespace ft
 /******************************************************************************/
 
 	template<class K, int W, int H>
-	extern void	PrintM(const Matrix<K,W,H>& m){
+	extern void	PrintM(const Matrix<K,W,H>& m, std::ostream& cout){
 		std::string strm[H][W];
 		int lmax = Preformat<K,W,H>(m, strm);
 
 		for (int y=0; y<H; y++) {
-			std::cout << LOG_BOLD_CLEAR;
-			PrintV(strm[y], lmax);
-			std::cout << LOG_CLEAR << std::endl;
+			cout << LOG_BOLD_CLEAR;
+			PrintV(strm[y], lmax, cout);
+			cout << LOG_CLEAR << std::endl;
 		}
 	}
 

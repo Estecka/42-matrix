@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:39:17 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/04 15:23:27 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/05 09:52:24 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static ft::Matrix4f	CorrectNDC(const ft::Matrix4f& projMx, const ft::BBox4f& src
 	ft::Matrix<float,5,4> correctionMx = (ft::Matrix<float,5,4>)ft::Remap(srcClip, dstClip);
 	std::cerr << "\nNDC correction matrix:" << std::endl;
 	// std::cerr << LOG_BLUE << correctionMx << LOG_CLEAR << std::endl;
-	ft::PrintM(correctionMx);
+	ft::PrintM(correctionMx, std::cerr);	
 	
 	ft::Matrix<float,4,5> proj5 = (ft::Matrix<float,4,5>)projMx;
 	proj5[3][4] = 1; // Bottom right cell
@@ -109,7 +109,7 @@ extern int	main(int argc, char** argv){
 
 	projMx = frustrum.projection(ndc);
 	AnalyseMx(projMx, frustrum);
-	ft::PrintM(projMx);
+	ft::PrintM(projMx, std::cerr);
 
 	projMx = projMx.transpose();
 	for (int y=0; y<4; y++){
