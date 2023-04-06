@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:39:17 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/06 16:54:31 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/06 17:35:32 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,15 @@ static bool	doTranspose = false;
 static float	scalar = 1;
 
 
-static int	Help(){
+static int	Help(const char* argv0){
 	std::cout <<
-"usage: proj <fov> <aspect> <near> <far> [-t] [-ndc=<ndc>] [-s=<scalar>]"
-	<< std::endl;
+"usage: "<<argv0<<" <fov> <aspect> <near> <far> [-t] [-ndc=<ndc>] [-s=<scalar>]\n"
+"\n"
+"	-t	Transposes the matrix written on stdout\n"
+"	-ndc	Generates a matrix with for a specific NDC. Default: \"-1,-1,0;1,1,1\"\n"
+"	-s	Scales the matrix. Default: 1\n"
+"		This shouldn't really change the result of the projection.\n"
+	<< std::flush;
 
 	return EXIT_SUCCESS;
 }
@@ -148,7 +153,7 @@ static ft::Matrix4f	CorrectNDC(const ft::Matrix4f& projMx, const ft::BBox4f& src
 
 extern int	main(int argc, char** argv){
 	if (argc < 2)
-		return Help();
+		return Help(argv[0]);
 
 	ft::Matrix4f	projMx;
 	ft::Frustrum	frustrum;
