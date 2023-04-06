@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:39:17 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/06 11:28:49 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/06 15:43:01 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,9 +109,9 @@ extern int	main(int argc, char** argv){
 		transpose = true;
  
 	frustrum = ft::Frustrum::FromPinhole(fov, aspect, near, far);
-	ft::BBox3f& fAsBbox = *(ft::BBox3f*)&frustrum;
-	std::cerr << "The frustrum dimensions are [" << fAsBbox.min << "] to [" << fAsBbox.max << "]" << std::endl;
-	std::cerr << "The frustrum's corners are  [" << frustrum.getMin() << "] to [" << frustrum.getMax() << "]" << std::endl;
+	ft::BBox3f& fAsBbox = (ft::BBox3f&)frustrum;
+	std::cerr << "The frustrum's bouding box is       [" << fAsBbox.min << "] to [" << fAsBbox.max << "]" << std::endl;
+	std::cerr << "The frustrum's extreme corners are  [" << frustrum.getMin() << "] and [" << frustrum.getMax() << "]" << std::endl;
 
 	projMx = frustrum.projection(ndc);
 	AnalyseMx(projMx, frustrum);

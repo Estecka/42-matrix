@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:07:12 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/06 13:47:44 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/06 15:51:58 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@
 
 namespace ft
 {
-	static const BBox3f	default_NDC = {
-		{{ -1.0f, -1.0f, -1.0f }},
-		{{  1.0f,  1.0f,  1.0f }},
-	};
-
 	Frustrum	Frustrum::FromPinhole(float fov, float aspect, float _near, float _far){
 		Frustrum	r;
 
