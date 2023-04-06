@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 17:39:17 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/05 09:52:24 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/06 11:28:49 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,32 @@
 
 #include <iostream>
 
-static ft::BBox4f	AnalyseMx(const ft::Matrix4f& pmx, const ft::Frustrum& frus){
-	ft::BBox4f clip = {
-		.min = (ft::Vector4f)frus.getMin(),
-		.max = (ft::Vector4f)frus.getMax(),
-	};
-	clip.min[3] = 1;
-	clip.max[3] = 1;
+static void	AnalyseMx(const ft::Matrix4f& pmx, const ft::Frustrum& frus){
+	ft::Vector4f	vertices[2][2][2];
+	ft::Vector4f	ndc[2][2][2];
 
-	clip.min = pmx.mul_vec(clip.min);
-	clip.max = pmx.mul_vec(clip.max);
+	ft::Vector3f& min = (ft::Vector3f&)ndc[0][0][0];
+	ft::Vector3f& max = (ft::Vector3f&)ndc[1][1][1];
 
-	// std::cerr << LOG_BLUE << pmx << LOG_CLEAR << std::endl;
-	std::cerr << "The matrix's clip space is "
-	             LOG_BOLD_MAGENTA "[" << clip.min << "] to [" << clip.max << "]"
-	             LOG_CLEAR << std::endl;
+	for (int x=0; x<2; x++)
+	for (int y=0; y<2; y++)
+	for (int z=0; z<2; z++){
+		vertices[x][y][z] = (ft::Vector4f)frus.getPoint({{(float)x, (float)y, (float)z}});
+		vertices[x][y][z][3] = 1;
 
-	ft::BBox4f ndc = clip;
-	ndc.min /= ndc.min[3];
-	ndc.max /= ndc.max[3];
+		ndc[x][y][z] = pmx.mul_vec(vertices[x][y][z]);
+		ndc[x][y][z] /= ndc[x][y][z][3];
+
+		std::cerr << LOG_CYAN "ndc"<<x<<y<<z << " = " << (ft::Vector3f)ndc[x][y][z] << LOG_CLEAR;
+		if (z)
+			std::cerr << std::endl;
+		else
+			std::cerr << '\t';
+	}
+
 	std::cerr << "The matrix's NDC is        "
-	             LOG_BOLD_YELLOW "[" << (ft::Vector3f)ndc.min << "] to [" << (ft::Vector3f)ndc.max << "]"
+	             LOG_BOLD_YELLOW "[" << (ft::Vector3f)min << "] to [" << (ft::Vector3f)max << "]"
 	             LOG_CLEAR << std::endl;
-
-	return clip;
 }
 
 static ft::Matrix4f	CorrectNDC(const ft::Matrix4f& projMx, const ft::BBox4f& srcClip, const ft::BBox3f& dstNDC){
@@ -102,16 +104,21 @@ extern int	main(int argc, char** argv){
 	float near   = GetArgF(argv[3]);
 	float far    = GetArgF(argv[4]);
 	ft::BBox3f ndc = GetNDC(argv[5]);
+	bool transpose = false;
+	if (argc >= 7 && !std::strcmp(argv[6], "-t"))
+		transpose = true;
  
 	frustrum = ft::Frustrum::FromPinhole(fov, aspect, near, far);
 	ft::BBox3f& fAsBbox = *(ft::BBox3f*)&frustrum;
 	std::cerr << "The frustrum dimensions are [" << fAsBbox.min << "] to [" << fAsBbox.max << "]" << std::endl;
+	std::cerr << "The frustrum's corners are  [" << frustrum.getMin() << "] to [" << frustrum.getMax() << "]" << std::endl;
 
 	projMx = frustrum.projection(ndc);
 	AnalyseMx(projMx, frustrum);
 	ft::PrintM(projMx, std::cerr);
 
-	projMx = projMx.transpose();
+	if (transpose)
+		projMx = projMx.transpose();
 	for (int y=0; y<4; y++){
 		for (int x=0; x<4; x++)
 		{

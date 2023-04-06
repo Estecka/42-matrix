@@ -1,0 +1,261 @@
+Let there be an arbitrary frustrum F whose bounding box is [l,b,n][r,t,f].
+l = left
+r = right
+t = top
+b = bottom
+n = near
+f = far
+Because we use a bounding box, the definition of these components differ slightly from the traditional ones.
+Near and Far are the coordinates of their respective planes, not their distance to the observer; therefore, if the frustrum is facing toward Z-, then `n` and `f` should both have negative values.
+Additionally, left, right, top and bottom are scaled proportionally to the far plane.
+
+The point in the top-right-far    corner of the frustrum is [    r,     t, f]
+The point in the bottom-left-near corner of the frustrum is [l*n/f, b*n/f, n]
+
+We desire a NDC of [u,v,w][x,y,z]
+
+For starters, we need a matrix that stores the depth information into the w component, in order to perform the perspective divide: 
+[ 1, 0, 0, 0]
+[ 0, 1, 0, 0]
+[ 0, 0, 1, 0]
+[ 0, 0, 1, 0]
+
+
+We need that matrix to remaps [n,f] to [nw,fz] : 
+M(pZ) = (pZ-iMin)/(iMax-iMin) * (oMax-oMin) + oMin
+      = (pZ-n)/(f-n) * (fz-nw) + nw
+      = pZ(fz-nw)/(f-n) - n(fz-nw)/(f-n) + nw
+      = pZ(fz-nw)/(f-n) - n(fz-nw)/(f-n) + nw(f-n)/(f-n)
+      = pZ(fz-nw)/(f-n) - (n(fz-nw) - nw(f-n))/(f-n)
+      = pZ(fz-nw)/(f-n) - (nfz - nnw - nwf + nwn)/(f-n)
+      = pZ(fz-nw)/(f-n) - (nfz - nwf)/(f-n)
+      = pZ(fz-nw)/(f-n) - nf(z-w)/(f-n)
+      = pZ(fz-nw)/(f-n) + nf(w-z)/(f-n)
+
+As a matrix:
+[ 1, 0,             0,             0]
+[ 0, 1,             0,             0]
+[ 0, 0, (fz-nw)/(f-n), nf(w-z)/(f-n)]
+[ 0, 0,             1,             0]
+
+We need the matrix to remap [l,r] to [fu,fx] for points on the far planes, and remaps [ln/f, rn/f] to [nu,nx] for points on the near planes. We can then linearly interpolate between the two plans based on the point's z coordinate.
+
+For the far plan:
+F(pX) = (pX-iMin)/(iMax-iMin) * (oMax-oMin) + oMin
+      = (pX-l)/(r-l) * (fx-fu) + fu
+      = pX(fx-fu)/(r-l) - l(fx-fu)/(r-l) + fu
+      = pX*f(x-u)/(r-l) - l(fx-fu)/(r-l) + fu(r-l)/(r-l)
+      = pX*f(x-u)/(r-l) - (l(fx-fu) - fu(r-l))/(r-l)
+      = pX*f(x-u)/(r-l) - (lfx - lfu - fur + ful)/(r-l)
+      = pX*f(x-u)/(r-l) - (lfx - fur)/(r-l)
+      = pX*f(x-u)/(r-l) - f(lx-ur)/(r-l)
+
+For the near plan:
+N(pX) = (pX-iMin)/(iMax-iMin) * (oMax-oMin) + oMin
+      = (pX-ln/f)/(rn/f-ln/f) * (nx-nu) + nu
+      = (pX-ln/f)/((rn-ln)/f) * (nx-nu) + nu
+      = f(pX-ln/f)/f((rn-ln)/f) * (nx-nu) + nu
+      = (fpX-ln)/(rn-ln) * (nx-nu) + nu
+      = (fpX-ln)/n(r-l) * n(x-u) + nu
+      = (fpX-ln)/(r-l) * (x-u) + nu
+      = fpX(x-u)/(r-l) - ln(x-u)/(r-l) + nu
+      = pX*f(x-u)/(r-l) - ln(x-u)/(r-l) + nu(r-l)/(r-l)
+      = pX*f(x-u)/(r-l) - (ln(x-u) - nu(r-l))/(r-l)
+      = pX*f(x-u)/(r-l) - (lnx - lnu - nur + nul)/(r-l)
+      = pX*f(x-u)/(r-l) - (lnx - nur)/(r-l)
+      = pX*f(x-u)/(r-l) - n(lx-ur)/(r-l)
+
+Test:
+F(l) = l*f(x-u)/(r-l) - f(lx-ur)/(r-l)
+     = (lf(x-u) - f(lx-ur)) / (r-l)
+     = (lfx - lfu - flx - fur) / (r-l)
+     = (-lfu -fur) / (r-l)
+     = -fu(l-r) / (r-l)
+     = fu(r-l) / (r-l)
+     = fu
+     OK
+F(r) = r*f(x-u)/(r-l) - f(lx-ur)/(r-l)
+     = (rf(x-u) - f(lx-ur)) / (r-l)
+     = (rfx - rfu - flx + fur) / (r-l)
+     = (rfx - flx) / (r-l)
+     = fx(r - l) / (r-l)
+     = fx
+     OK
+N(ln/f) = (ln/f)*f(x-u)/(r-l) - n(lx-ur)/(r-l)
+        = ln(x-u)/(r-l) - n(lx-ur)/(r-l)
+        = (ln(x-u) - n(lx-ur)) / (r-l)
+        = (lnx - lnu - nlx + nur) / (r-l)
+        = (-lnu + nur) / (r-l)
+        = nu(r - l) / (r-l)
+        = nu
+        OK
+N(rn/f) = (rn/f)*f(x-u)/(r-l) - n(lx-ur)/(r-l)
+        = rn(x-u)/(r-l) - n(lx-ur)/(r-l)
+        = (rn(x-u) - n(lx-ur)) / (r-l)
+        = (rnx - rnu - nlx + nur) / (r-l)
+        = (rnx - nlx) / (r-l)
+        = nx(r - l) / (r-l)
+        = nx
+        OK
+
+
+We can condense those functions into:
+F(pX) = pX*a + b
+N(pX) = pX*a + c
+where:
+a = f(x-u)/(r-l)
+b = -f(lx-ur)/(r-l)
+c = -n(lx-ur)/(r-l)
+
+The interpolation factor from N to F, is a remap from [n,f] to [0,1]
+T(pZ) = (pZ-iMin)/(iMax-iMin) * (oMax-oMin) + oMin
+      = (pZ-n)/(f-n) * (1-0) + 0
+      = (pZ-n)/(f-n) * 1
+      = (pZ-n)/(f-n)
+
+A value of pZ close to n will lean toward 0, and must favorize N. Thus, the interpolation will be: 
+R(pX,pZ) = (1-T(pZ)) * N(pX) + T(pZ)*F(pX)
+         = N(pX) - T(pZ)*N(pX) + T(pZ)*F(pX)
+         = (pX*a+c) - T(pZ)*(pX*a+c) + T(pZ)*(pX*a+b)
+         = (pX*a+c) - T(pZ)*pX*a-T(pZ)*c + T(pZ)*pX*a+T(pZ)*b 
+         = (pX*a+c) - T(pZ)*c + T(pZ)*b 
+         = pX*a + c + T(pZ)*(b - c)
+         = pX*a + T(pZ)*(b-c) + c
+         = pX*a + T(pZ)*(-f(lx-ur)/(r-l) - -n(lx-ur)/(r-l)) + c
+         = pX*a + (pZ-n)/(f-n)*(n-f)(lx-ur)/(r-l) + c
+         = pX*a - (pZ-n)/(n-f)*(n-f)(lx-ur)/(r-l) + c
+         = pX*a - (pZ-n)(lx-ur)/(r-l) + c
+         = pX*a - pZ*(lx-ur)/(r-l) + n(lx-ur)/(r-l) + c
+         = pX*a - pZ*(lx-ur)/(r-l) + n(lx-ur)/(r-l) + -n(lx-ur)/(r-l)
+         = pX*a - pZ*(lx-ur)/(r-l)
+         = pX*a + pZ*(ur-lx)/(r-l)
+         = pX*f(x-u)/(r-l) + pZ*(ur-lx)/(r-l)
+
+Remaping on the vertical axis is the same process as for horizontal, but swap u,x,r,l with v,y,t,l, respectively.
+
+Test:
+R(l,f) = l*f(x-u)/(r-l) + f*(ur-lx)/(r-l)
+       = (lf(x-u) + f(ur-lx)) / (r-l)
+       = (lfx - lfu + fur - flx) / (r-l)
+       = (-lfu + fur) / (r-l)
+       = fu(r - l) / (r-l)
+       = fu
+       OK
+R(r,f) = r*f(x-u)/(r-l) + f*(ur-lx)/(r-l)
+       = (rf(x-u) + f(ur-lx)) / (r-l)
+       = (rfx - rfu + fur - flx) / (r-l)
+       = (rfx - flx) / (r-l)
+       = fx(r - l) / (r-l)
+       = fx
+       OK
+R(ln/f,n) = ln/f*f(x-u)/(r-l) + n*(ur-lx)/(r-l)
+          = ln(x-u)/(r-l) + n*(ur-lx)/(r-l)
+          = (ln(x-u) + n(ur-lx)) / (r-l)
+          = (lnx - lnu + nur - nlx) / (r-l)
+          = (-lnu + nur) / (r-l)
+          = nu(-l + r) / (r-l)
+          = nu
+          OK
+R(rn/f,n) = rn/f*f(x-u)/(r-l) + n*(ur-lx)/(r-l)
+          = rn(x-u)/(r-l) + n*(ur-lx)/(r-l)
+          = (rn(x-u) + n(ur-lx)) / (r-l)
+          = (rnx - rnu + nur - nlx) / (r-l)
+          = (rnx - nlx) / (r-l)
+          = nx(r - l) / (r-l)
+          = nx
+          OK
+R(b,f) = b*f(y-v)/(t-b) + f*(vt-by)/(t-b)
+       = (bf(y-v) + f(vt-by)) / (t-b)
+       = (bfy - bfv + fvt - fby) / (t-b)
+       = (-bfv + fvt) / (t-b)
+       = fv(-b + t) / (t-b)
+       = fv
+       OK
+R(t,f) = t*f(y-v)/(t-b) + f*(vt-by)/(t-b)
+       = (tf(y-v) + f(vt-by)) / (t-b)
+       = (tfy - tfv + fvt - fby) / (t-b)
+       = (tfy - fby) / (t-b)
+       = fy(t - b) / (t-b)
+       = fy
+       OK
+R(bn/f,n) = bn/f*f(y-v)/(t-b) + n*(vt-by)/(t-b)
+          = bn(y-v)/(t-b) + n*(vt-by)/(t-b)
+          = (bn(y-v) + n(vt-by)) / (t-b)
+          = (bny - bnv + nvt - nby) / (t-b)
+          = (-bnv + nvt) / (t-b)
+          = nv(-b + t) / (t-b)
+          = nv
+          OK
+R(tn/f,n) = tn/f*f(y-v)/(t-b) + n*(vt-by)/(t-b)
+          = tn(y-v)/(t-b) + n*(vt-by)/(t-b)
+          = (tn(y-v) + n(vt-by)) / (t-b)
+          = (tny - tnv + nvt - nby) / (t-b)
+          = (tny - nby) / (t-b)
+          = ny(t - b) / (t-b)
+          = ny
+          OK
+
+
+As a matrix:
+
+[ f(x-u)/(r-l),            0, (ur-lx)/(r-l),             0]
+[            0, f(y-v)/(t-b), (vt-by)/(t-b),             0]
+[            0,            0, (fz-nw)/(f-n), nf(w-z)/(f-n)]
+[            0,            0,             1,             0]
+
+
+Assuming a symmetrical frustrum, (l=-r and b=-t), and specific NDCs, the matrix can be simplified:
+
+### [u,v,w][x,y,z] = [-1,-1,0][1,1,1]
+
+m00 = f(x-u)/(r-l)
+    = f(1 - -1) / (r - -r)
+    = f(2) / (2r)
+    = f/r
+
+m11 = f(y-v)/(t-b)
+    = f(1 - -1)/(t - -t)
+    = f(2)/(2t)
+    = f/t
+
+m22 = (fz-nw)/(f-n)
+    = (1f-0n)/(f-n)
+    = f/(f-n)
+
+m20 = (ur-lx)/(r-l)
+    = (ur+rx)/(r-l)
+    = (-1r+1r)/(r-l)
+    = 0 / (r-l)
+    = 0
+
+m21 = (vt-by)/(t-b)
+    = (vt+ty)/(t-b)
+    = (-1t+1t)/(t-b)
+    = 0 /(t-b)
+    = 0
+
+m32 = nf(w-z)/(f-n)
+    = nf(0-1)/(f-n)
+    = -nf/(f-n)
+
+
+[ f/r,   0,       0,         0]
+[   0, f/t,       0,         0]
+[   0,   0, f/(f-n), -nf/(f-n)]
+[   0,   0,       1,         0]
+
+
+### [u,v,w][x,y,z] = [-1,-1,-1][1,1,1]
+
+m22 = (fz-nw)/(f-n)
+    = (1f - -1n)/(f-n)
+    = (f+n)/(f-n)
+
+m32 = nf(w-z)/(f-n)
+    = nf(-1-1)/(f-n)
+    = -2nf/(f-n)
+
+[ f/r,   0,           0,          0]
+[   0, f/t,           0,          0]
+[   0,   0, (f+n)/(f-n), -2nf/(f-n)]
+[   0,   0,           1,          0]

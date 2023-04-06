@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 11:02:06 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/01 17:33:54 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/06 12:12:31 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ namespace ft
 
 	struct	Frustrum 
 	{
-		// Left, right, top and bottom represent the bounds of the far plane.
+		// Near and far are the coordinates of the respective planes.
+		// Left, right, top and bottom are the bounds of the far plane.
 		float	left;
 		float	bottom;
 		float	near;
@@ -42,6 +43,10 @@ namespace ft
 		 */
 		static Frustrum	FromPinhole(float fov, float aspect, float near, float far);
 
+		/**
+		 * @brief Get a point in the frustrum, based on its normalized coordinates.
+		 */
+		Vector3f	getPoint(const Vector3f& normalized) const;
 		/**
 		 * @brief Computes the point on the near plane in the bottom left corner
 		 * 	of the screen.

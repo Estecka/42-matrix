@@ -1,0 +1,49 @@
+For a symmetrical frustrum (r=-l and  t=-b):
+M = [n/r,   0,            0,          0]
+    [  0, n/t,            0,          0]
+    [  0,   0, -(f+n)/(f-n), -2fn/(f-n)]
+    [  0,   0,           -1,          0]
+
+Let PMax be the point in the top-right-far corner of the frustrum, and PMin be the point in the bottom-left-near corner.
+
+Pmax = [fr, ft, -f]
+Pmin = [ln, bn, -n]
+
+
+For [x,y,z,w] = M*PMax :
+
+w = f
+x = fr * n/r = fn
+y = ft * n/t = fn
+z = -f * -(f+n)/(f-n) - 2fn/(f-n)
+  = (f(f+n) - 2fn)/(f-n)
+  = (ff + fn - 2fn)/(f-n)
+  = (ff - fn)/(f-n)
+  = f(f-n)/(f-n)
+  = f
+
+After perspective divide:
+w' = f/f = 1
+x' = fn/f = n
+y' = fn/f = n
+z' = f/f = 1
+
+
+For [x,y,z,w] = M*PMin :
+
+w = n
+x = ln * n/r = -rnn/r = -nn
+y = bn * n/t = -tnn/r = -nn 
+z = -n * -(f+n)/(f-n) - 2fn/(f-n)
+  = (n(f+n) - 2fn) / (f-n)
+  = (nf + nn - 2fn) / (f-n)
+  = (nn - fn) / (f-n)
+  = n(n - f) / (f-n)
+  = -n(f - n) / (f-n)
+  = -n
+
+After perspective divide:
+w = n/n = 1
+x = -nn/n = -n
+y = -nn/n = -n
+z = -n/n = -1
