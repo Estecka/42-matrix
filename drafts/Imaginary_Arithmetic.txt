@@ -12,5 +12,11 @@
 = ((ac+bd) + (cb-ad)i) / (cc+dd)
 
   (a+bi)²
-= (aa + 2abi + bb)
-= (aa+bb) + (2ab)i
+= (aa + 2abi + bbii)
+= (aa + 2abi - bb)
+= (aa-bb) + (2ab)i
+
+  1/i
+= i/ii
+= i/-1
+= -i
