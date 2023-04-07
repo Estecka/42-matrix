@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:01:54 by abaur             #+#    #+#             */
-/*   Updated: 2023/03/11 16:55:05 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/07 14:15:29 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ namespace ft
 	template <class K, int N>
 	class	VectorTestSuit {
 	public:
-		typedef Vector<K,N>	Vector;
+		typedef ft::Vector<K,N>	Vector;
 
 		static int	main(int argc, char** argv);
 

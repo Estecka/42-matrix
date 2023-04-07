@@ -31,19 +31,19 @@ MAIN_SRCS = \
 LIBS = \
 	logutil/logutil.a \
 
+DEPS      = ${SRCS:.cpp=.d} ${MAIN_SRCS:.cpp=.d}
 OBJS      = ${SRCS:.cpp=.o}
 MAIN_OBJS = ${MAIN_SRCS:.cpp=.o}
 
 NAME = ft_matrix.a
 TEST = ft_matrix.out proj.out
-CXX = clang++
+CXX = g++
 CPPFLAGS = -Wall -Wextra
 
 
 all: headers_test ${NAME} ${TEST}
 
-
-${NAME}: ${LIBS} ${HDRS} ${OBJS}
+${NAME}: ${LIBS} ${OBJS}
 	ar rcs ${NAME} ${OBJS}
 
 ft_matrix.out: ${NAME} main.o
@@ -53,21 +53,29 @@ proj.out: ${NAME} main.proj.o
 	${CXX} main.proj.o ${NAME} ${LIBS} -o $(@F) ${CPPFLAGS}
 
 
-${OBJS}: ${LIBS} ${HDRS}
-
-${MAIN_OBJS}: ${LIBS} ${HDRS} ${TEST_HDRS}
-
 %.a: lib
 	make $(@F) -C $(@D)
 
+%.o : %.cpp %.d
+	$(COMPILE.cpp) ${@:.o=.cpp} -MMD -MP -MF $(@:.o=.d.tmp)
+	@mv $(@:.o=.d.tmp) $(@:.o=.d)
+	@touch $@
 
-headers_test: ${HDRS:.hpp=.hpp.o} ${TEST_HDRS:.hpp=.hpp.o}
-%.hpp.o: ${HDRS} ${TEST_HDRS}
-	${CXX} ${CPPFLAGS} ${@:.o=} -c -o $@
+${DEPS}:
+
+include $(wildcard ${DEPS})
+
+
+headers_test: ${HDRS:.hpp=.hpp.gch} ${TEST_HDRS:.hpp=.hpp.gch}
+%.hpp.gch: ${HDRS} ${TEST_HDRS}
+	${CXX} ${CPPFLAGS} ${@:.gch=} -c -o $@
 %.hpp:
+
 
 clean:
 	rm -f *.o
+	rm -f *.gch
+	rm -f *.d
 	rm -f *.a
 	rm -f *.out
 

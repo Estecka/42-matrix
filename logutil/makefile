@@ -18,7 +18,7 @@ TEST_NAME = logutil.out
 TEST_SRCS = main.cpp
 TEST_OBJS = ${TEST_SRCS:.cpp=.o}
 
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98
+CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -fPIC
 CXX = clang++
 
 all: ${NAME} ${TEST_NAME}

@@ -6,7 +6,7 @@
 /*   By: abaur <abaur@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:05:01 by abaur             #+#    #+#             */
-/*   Updated: 2023/04/02 13:02:28 by abaur            ###   ########.fr       */
+/*   Updated: 2023/04/07 14:15:13 by abaur            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ namespace ft
 	template <class K, int N, int M>
 	class	MatrixTestSuit {
 	public:
-		typedef Matrix<K,N,M>	Matrix;
+		typedef ft::Matrix<K,N,M>	Matrix;
 
 		static int	main(int argc, char** argv);
 
